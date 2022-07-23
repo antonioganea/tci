@@ -41,10 +41,19 @@ Register preservation instructions:
 
 */
 
+BYTE* DLL_BRIDGE = NULL;
 
 volatile void OnGetControl() {
 
-    // ...
+    if (DLL_BRIDGE == NULL) {
+        return;
+    }
+
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+
+    if (bridge[5] == 54) {
+        bridge[6] += 1;
+    }
 
 }
   
@@ -113,6 +122,9 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     
 
     char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB0, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
+    // NOTE : There was a lea instruction that doesn't get rewritten in the retour function
+    // because the address used by it is relative so it wouldn't copy well over.
+    // and it is 32 bit so it wouldn't work anyway ( because the jump is over too big of a distance )
 
     //memset(ourFunct, 0x90, retourLen);
     //memcpy(ourFunct, dayzStolenBytes, dzStolenBytesCount);
@@ -312,8 +324,6 @@ union TConv {
     unsigned long long int big;
 };
 
-BYTE* DLL_BRIDGE = NULL;
-
 void SetupDLLBridge() {
 
     std::ifstream MyReadFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt");
@@ -388,7 +398,12 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 
     //17 bytes
     Detour((void*)hookAddress, (void*)ourFunctLocation, 17);
-    
+    // NOTE : Maybe it would be better to detour a DayZ Server VM operation of
+    // assigning a value to an array member, because the instruction count might be smaller
+    // than function calls - WHICH ARE A LOT
+
+
+
     return 0;
 }
 
@@ -429,6 +444,7 @@ DWORD WINAPI HackThreadInjectionVictim(HMODULE hModule) {
 
     return 0;
 }
+
 
 
 BOOL APIENTRY DllMain(HMODULE hModule,
