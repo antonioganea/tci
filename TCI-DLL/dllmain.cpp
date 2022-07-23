@@ -2,6 +2,7 @@
 #include "pch.h"
 
 #include <iostream>
+#include <fstream>
 #include <Windows.h>
 
 /*
@@ -41,6 +42,11 @@ Register preservation instructions:
 */
 
 
+volatile void OnGetControl() {
+
+    // ...
+
+}
   
 
 bool Detour(void* toHook, void* ourFunct, int len) {
@@ -69,17 +75,54 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     VirtualProtect(toHook, len, curProtection, &temp);
 
     // Retour
-    const int dzStolenBytesCount = 10;
-    int retourLen = 14 + dzStolenBytesCount;
-    VirtualProtect(ourFunct, retourLen, PAGE_EXECUTE_READWRITE, &curProtection);
 
-    char dayzStolenBytes[dzStolenBytesCount] = { 0x49, 0x8B, 0x8E, 0xB0, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
+    //
 
-    memset(ourFunct, 0x90, retourLen);
-    memcpy(ourFunct, dayzStolenBytes, dzStolenBytesCount);
+    BYTE pushing[] = { 0x50, 0x53, 0x51, 0x52, 0x56, 0x57, 0x55, 0x54, 0x41, 0x50, 0x41, 0x51, 0x41, 0x52, 0x41, 0x53, 0x41, 0x54, 0x41, 0x55, 0x41, 0x56, 0x41, 0x57, 0x9C };
+    
+    BYTE popping[] = { 0x9D, 0x41, 0x5F, 0x41, 0x5E, 0x41, 0x5D, 0x41, 0x5C, 0x41, 0x5B, 0x41, 0x5A, 0x41, 0x59, 0x41, 0x58, 0x5C, 0x5D, 0x5F, 0x5E, 0x5A, 0x59, 0x5B, 0x58 };
+
+
+    BYTE writingBuffer[1024];
+
+    BYTE call[] = { 0xE8, 0x12, 0x23, 0x34, 0x45 };
+
+    int index = 0;
+
+    memcpy(writingBuffer + index, pushing, sizeof(pushing));
+    index += sizeof(pushing);
+
+    
+    memcpy(writingBuffer + index, call, 5);
+    index += 5;
+
+    uint64_t here = (uint64_t)ourFunct + (uint64_t)index - (uint64_t)5;
+
+    DWORD OnGetControlAdressJump = *((DWORD*)((BYTE*)OnGetControl + 1)); // jump to the actual func code
+    uint64_t there = (uint64_t)OnGetControl + (uint64_t)OnGetControlAdressJump + 5;
+
+    
+    uint64_t relJump = there-here-5;
+    DWORD relJump32 = relJump;
+
+    *((DWORD*)(writingBuffer + index - 5 + 1)) = relJump32;
+    
+
+    memcpy(writingBuffer + index, popping, sizeof(popping));
+    index += sizeof(popping);
+    
+
+    char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB0, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
+
+    //memset(ourFunct, 0x90, retourLen);
+    //memcpy(ourFunct, dayzStolenBytes, dzStolenBytesCount);
+
+    memcpy(writingBuffer + index, dayzStolenBytes, sizeof(dayzStolenBytes));
+    index += sizeof(dayzStolenBytes);
 
     // ourFunctRetour
-    void* ofRetour = (BYTE*)ourFunct + dzStolenBytesCount;
+    //void* ofRetour = (BYTE*)ourFunct + dzStolenBytesCount;
+    void* ofRetour = writingBuffer + index;
 
     *(BYTE*)ofRetour = 0xFF;
     *(((BYTE*)ofRetour) + 1) = 0x25;
@@ -88,8 +131,12 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     *(((BYTE*)ofRetour) + 4) = 0x0;
     *(((BYTE*)ofRetour) + 5) = 0x0;
     *(uint64_t*)((uint64_t)ofRetour + 6) = (uint64_t)toHook + 14;
+    index += 14;
 
-    VirtualProtect(ourFunct, retourLen, curProtection, &temp);
+
+    VirtualProtect(ourFunct, index, PAGE_EXECUTE_READWRITE, &curProtection);
+    memcpy(ourFunct, writingBuffer, index);
+    VirtualProtect(ourFunct, index, curProtection, &temp);
 
     return true;
 }
@@ -143,6 +190,7 @@ bool DetourGeneric(void* toHook, void* ourFunct, int len) {
     return true;
 }
 
+
 // dummy function
 volatile void ourFunct() {
     std::cout << "DLL ourfunct" << std::endl;
@@ -151,17 +199,186 @@ volatile void ourFunct() {
     for (int i = 0; i < 5; i++) {
         std::cout << "Extra spam in a for loop" << std::endl;
     }
+
+    OnGetControl();
+    // TCI-DLL.ourFunct+9D - E8 1A E6 FF FF           - call TCI-DLL.dll+112BC
+    // TCI - DLL.dll + 112BC - E9 7F 17 00 00         - jmp TCI - DLL.OnGetControl
+    // push rbp
+    // push rdi
+    // {intermediate calls}
+    // pop rdi
+    // pop rbp
+
+    std::cout << "Some more junk" << std::endl;
 }
 
-volatile void OnGetControl() {
+/*
+struct TTT {
+    unsigned int low, high;
+};
+
+union TConv {
+    TTT t;
+    unsigned long long int big;
+};
+
+BYTE* DLL_BRIDGE = NULL;
+
+void SetupDLLBridge() {
+    std::ifstream MyReadFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt");
+
+    unsigned int temp;
+
+    MyReadFile >> temp;
+
+    MyReadFile.close();
+
+    TConv t;
+    t.big = 0;
+    t.t.low = temp;
+
+    std::ofstream MyOutputFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile-response.txt");
+    MyOutputFile << std::hex << temp << std::dec << std::endl;
+
+    // 01 3B AB E1 B3 BC AF F2 E3 1B 26 98 73 72 BC AD
+    BYTE watermark[] = { 0x01, 0x3B, 0xAB, 0xE1, 0xB3, 0xBC, 0xAF, 0xF2, 0xE3, 0x1B, 0x26, 0x98, 0x73, 0x72, 0xBC, 0xAD };
+
+    MyOutputFile << "X" << std::flush;
+
+    MEMORY_BASIC_INFORMATION bas_inf[1024];
+
+    //SYSTEM_INFO sysInfo;
+    //GetSystemInfo(&sysInfo);
+    //std::cout << "Page size : " << sysInfo.dwPageSize << std::endl;
+
+    for (int i = 0; i < 1000; i++) {
+        MyOutputFile << std::endl;
+
+        MyOutputFile << "Y " << i << std::hex << t.big << std::dec << std::flush;
+        DWORD returnVal = VirtualQuery(
+            (LPCVOID)t.big,
+            bas_inf,
+            1024
+        );
+        MyOutputFile << "Z" << std::flush;
+
+        // PAGE_NOACCESS 0x01
+        // PAGE_READONLY 0x02
+        // PAGE_READWRITE 0x04
+        // ...
+        // PAGE_EXECUTE_READWRITE 0x40
+
+        //std::cout << returnVal << std::endl;
+        //std::cout << bas_inf[0].Protect << std::endl;
+
+        if (returnVal == 0) {
+            continue;
+        }
+        MyOutputFile << "W " << returnVal << " " << std::hex << bas_inf[0].Protect << std::dec << " " << std::flush;
+
+        if (bas_inf[0].Protect != PAGE_READWRITE) {
+            continue;
+        }
+        MyOutputFile << "O" << std::flush;
+
+        if (memcmp((void*)t.big, watermark, sizeof(watermark)) == 0) {
+            DLL_BRIDGE = (BYTE*)t.big;
+            MyOutputFile << "Worked. Hooked." << DLL_BRIDGE << std::flush;
+            break;
+        }
+        MyOutputFile << "T";
+        t.t.high++;
+    }
+
+    //DWORD procID = GetProcessId(GetCurrentProcess());
+    //bool success = ReadProcessMemory(GetCurrentProcess(), (LPCVOID)100, &readingBuffer, 4, &BYTES_READ);
+
+    MyOutputFile << "-END OF FUNC-" << (long long)DLL_BRIDGE << std::flush;
+    //                                   ^^^^^^^ this was necessary
+
+    MyOutputFile.close();
+}
+*/
+
+
+
+
+struct TTT {
+    unsigned int low, high;
+};
+
+union TConv {
+    TTT t;
+    unsigned long long int big;
+};
+
+BYTE* DLL_BRIDGE = NULL;
+
+void SetupDLLBridge() {
+
+    std::ifstream MyReadFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt");
+            ////std::ifstream MyReadFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile.txt");
+
+    unsigned int temp;
+
+    MyReadFile >> temp;
+
+    MyReadFile.close();
+
+    TConv t;
+    t.big = 0;
+    t.t.low = temp;
+
+
+            ////std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile-response.txt");
+    //std::ofstream MyOutputFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile-response.txt");
+    // MyOutputFile << std::hex << temp << std::dec << std::endl;
     
-    // ...
 
+    // 01 3B AB E1 B3 BC AF F2 E3 1B 26 98 73 72 BC AD
+    BYTE watermark[] = { 0x01, 0x3B, 0xAB, 0xE1, 0xB3, 0xBC, 0xAF, 0xF2, 0xE3, 0x1B, 0x26, 0x98, 0x73, 0x72, 0xBC, 0xAD };
+
+    //MyOutputFile << "X" << std::flush;
+
+    BYTE readBuffer[1000];
+    SIZE_T bytesRead;
+
+    HANDLE currentProcess = GetCurrentProcess();
+
+    for (unsigned int i = 0; i <= 0xFFFFFFFF; i++) { // unsigned int ??? - might not work 
+
+        bool success = ReadProcessMemory(currentProcess, (LPCVOID)t.big, &readBuffer, sizeof(watermark), &bytesRead);
+
+        if (success) {
+            //MyOutputFile << " Success : ";
+            if (memcmp((void*)t.big, watermark, sizeof(watermark)) == 0) {
+                DLL_BRIDGE = (BYTE*)t.big;
+                //MyOutputFile << "Worked. Hooked." << std::hex << (long long) DLL_BRIDGE << std::dec << std::flush;
+                break;
+            }
+        }
+
+        t.t.high++;
+    }
+
+    //MyOutputFile << "-END OF FUNC-" << (long long)DLL_BRIDGE << std::flush;
+    //                                     ^^^^^^ this was necessary
+
+    //MyOutputFile.close();
 }
+
+
+
+
+
+
 
 DWORD WINAPI HackThread(HMODULE hModule) {
     //std::cout << "Hello World from DLL!" << std::endl;
     //std::cout << ourFunct << std::endl;
+
+    SetupDLLBridge();
+
     DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct +1));
     uint64_t ourFunctLocation = (uint64_t)ourFunct + (uint64_t)hookAddressJump + 5;
 
