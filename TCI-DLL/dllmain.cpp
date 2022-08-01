@@ -4,6 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <Windows.h>
+#include <thread>
+
+#include <lua.hpp>
 
 /*
 
@@ -43,6 +46,10 @@ Register preservation instructions:
 
 BYTE* DLL_BRIDGE = NULL;
 
+void goInLua();
+
+void LuaexecuteLine(const char* s);
+
 volatile void OnGetControl() {
 
     if (DLL_BRIDGE == NULL) {
@@ -51,9 +58,62 @@ volatile void OnGetControl() {
 
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
-    if (bridge[5] == 54) {
-        bridge[6] += 1;
+    if (bridge[5] != 54) {
+        return;
     }
+
+    
+
+    if (bridge[6] == 2103) {
+        // CURRENT STATUS PROBLEM
+        // This breaks execution :
+        //LuaexecuteLine("function smecherie() local a = 10; a = a + 10; return a; end local b = smecherie()");
+        //It might be because the Lua has to be invoked from another DLL - possible solution - try to compile as included lib...
+        // Another TEST solution - inject the Lua.DLL BEFORE injecting the TCI dll // Tested - Not working
+
+
+        /*
+        //This snippet doesn't work either :
+        lua_State* newLuaState = luaL_newstate(); // <- this is where it crashes. apparently it's all about running code from other DLL
+
+        luaL_openlibs(newLuaState);
+        luaopen_math(newLuaState);
+
+        int result = luaL_loadstring(newLuaState, "a = 10");
+        switch (result) {
+            case LUA_ERRSYNTAX:
+                //puts("[Lua] Error executing line ( syntax ) !");
+                break;
+            case LUA_ERRMEM:
+                //puts("[Lua] Error executing line ( memory ) !");
+                break;
+            default: {
+                int res = lua_pcall(newLuaState, 0, LUA_MULTRET, 0);
+                if (res != LUA_OK) {
+                    //print_error(state);
+                    return;
+                }
+            }
+        }
+        */
+
+
+
+        //https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking?redirectedfrom=MSDN
+        bridge[6] = 1002;
+    }
+    else {
+        bridge[6] = 0;
+    }
+
+    //goInLua();
+
+    /*
+    
+    goInLua();
+    
+    */
+
 
 }
   
@@ -381,13 +441,17 @@ void SetupDLLBridge() {
 
 
 
-
+extern std::thread* LUA_THREAD;
+std::thread* setup();
+void cleanup();
 
 DWORD WINAPI HackThread(HMODULE hModule) {
     //std::cout << "Hello World from DLL!" << std::endl;
     //std::cout << ourFunct << std::endl;
 
     SetupDLLBridge();
+
+    //LUA_THREAD = setup();
 
     DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct +1));
     uint64_t ourFunctLocation = (uint64_t)ourFunct + (uint64_t)hookAddressJump + 5;
@@ -456,9 +520,14 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH:
         CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)HackThread, hModule, 0, nullptr));
+        break;
     case DLL_THREAD_ATTACH:
+        break;
     case DLL_THREAD_DETACH:
+        break;
     case DLL_PROCESS_DETACH:
+        // Unsure if this is needed.
+        //cleanup();
         break;
     }
     return TRUE;

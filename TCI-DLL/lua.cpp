@@ -9,7 +9,9 @@
 #include <condition_variable>
 
 
-int simBridge[1024];
+//int simBridge[1024];
+
+extern BYTE* DLL_BRIDGE;
 
 
 std::mutex m;
@@ -41,6 +43,11 @@ void goOutOfLua() {
     }
 }
 
+void AnnounceAll() {
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    bridge[6] = 1002;
+    goOutOfLua();
+}
 
 //Call from Lua to Cpp
 void SpawnOlga() {
@@ -133,6 +140,12 @@ int l_SpawnVolga(lua_State* L) {
     return 0;
 }
 
+int l_AnnounceAll(lua_State* L) {
+    AnnounceAll();
+
+    return 0;
+}
+
 lua_State* state;
 
 void initLua() {
@@ -147,6 +160,9 @@ void initLua() {
 
     lua_pushcfunction(state, l_SpawnVolga);
     lua_setglobal(state, "SpawnOlga");
+
+    lua_pushcfunction(state, l_AnnounceAll);
+    lua_setglobal(state, "AnnounceAll");
 }
 
 void print_error(lua_State* state) {
@@ -180,7 +196,7 @@ enum class DayZServerCommands {
     Nothing,
     OnUpdate,
     OnKilled,
-    OnCommand
+    OnCommand = 2103
 };
 
 
@@ -188,7 +204,10 @@ void LUA_INTERPRETER_UNEDITABLE() {
 
 
     while (isLuaPowered) {
-        switch (simBridge[0])
+
+        DWORD* bridge = (DWORD*)DLL_BRIDGE;
+
+        switch (bridge[6])
         {
 
         case (int)DayZServerCommands::OnUpdate:
@@ -200,7 +219,9 @@ void LUA_INTERPRETER_UNEDITABLE() {
             break;
 
         case (int)DayZServerCommands::OnCommand:
-            LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
+            //LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
+            LuaexecuteLine("AnnounceAll()");
+
             break;
 
 
@@ -210,6 +231,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
 
         }
 
+        bridge[6] = 0;
         goOutOfLua();
     }
 
@@ -220,13 +242,15 @@ void LUA_INTERPRETER_UNEDITABLE() {
 std::thread* LUA_THREAD = NULL;
 
 std::thread* setup() {
-    for (int i = 0; i < 500; i++) { simBridge[i] = 0; }
+    for (int i = 0; i < 500; i++) { DLL_BRIDGE[i] = 0; }
 
 
     initLua();
 
     inLua = true;
-    simBridge[0] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
+
+    // todo : this needs to be set to the actual (4byte_word) ...  = 0
+    DLL_BRIDGE[0] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
     std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
 
     {
@@ -256,7 +280,7 @@ int main2()
     //std::this_thread::sleep_for(std::chrono::seconds(1));
 
 
-    simBridge[0] = (int)DayZServerCommands::OnCommand;
+    DLL_BRIDGE[0] = (int)DayZServerCommands::OnCommand;
     goInLua();
 
     std::cout << "SKIB" << std::endl;
