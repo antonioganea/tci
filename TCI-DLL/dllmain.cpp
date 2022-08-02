@@ -50,7 +50,11 @@ void goInLua();
 
 void LuaexecuteLine(const char* s);
 
+std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\DLL-Log-debugging.txt");
+
 volatile void OnGetControl() {
+
+    //MyOutputFile << "Something" << std::flush;
 
     if (DLL_BRIDGE == NULL) {
         return;
@@ -61,7 +65,6 @@ volatile void OnGetControl() {
     if (bridge[5] != 54) {
         return;
     }
-
     
 
     if (bridge[6] == 2103) {
@@ -117,19 +120,27 @@ volatile void OnGetControl() {
 
 }
   
-
+// CURRENT STATUS TODO :
+// OnGetControl - place a fout call in it, with a flush, see if it enters the function ... etc
+// in Detour, make sure the RETOUR is written before the DETOUR ( so the IP doesn't fly away in NOP's )
 bool Detour(void* toHook, void* ourFunct, int len) {
     if (len < 14) {
         return false;
     }
 
+    //MyOutputFile << "Detour 1\n" << std::flush;
+
     DWORD curProtection;
     VirtualProtect(toHook, len, PAGE_EXECUTE_READWRITE, &curProtection);
+
+    //MyOutputFile << "Detour 2\n" << std::flush;
 
     char stolenBytes[128];
 
     memcpy(stolenBytes, toHook, len);
     memset(toHook, 0x90, len);
+
+    //MyOutputFile << "Detour 3\n" << std::flush;
 
     // Detour
     *(BYTE*)toHook = 0xFF;
@@ -143,6 +154,8 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     DWORD temp;
     VirtualProtect(toHook, len, curProtection, &temp);
 
+    //MyOutputFile << "Detour 4\n" << std::flush;
+
     // Retour
 
     //
@@ -151,6 +164,8 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     
     BYTE popping[] = { 0x9D, 0x41, 0x5F, 0x41, 0x5E, 0x41, 0x5D, 0x41, 0x5C, 0x41, 0x5B, 0x41, 0x5A, 0x41, 0x59, 0x41, 0x58, 0x5C, 0x5D, 0x5F, 0x5E, 0x5A, 0x59, 0x5B, 0x58 };
 
+
+    //MyOutputFile << "Detour 5\n" << std::flush;
 
     BYTE writingBuffer[1024];
 
@@ -162,8 +177,12 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     index += sizeof(pushing);
 
     
+    //MyOutputFile << "Detour 6\n" << std::flush;
+
     memcpy(writingBuffer + index, call, 5);
     index += 5;
+
+    //MyOutputFile << "Detour 7\n" << std::flush;
 
     uint64_t here = (uint64_t)ourFunct + (uint64_t)index - (uint64_t)5;
 
@@ -180,6 +199,7 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     memcpy(writingBuffer + index, popping, sizeof(popping));
     index += sizeof(popping);
     
+    //MyOutputFile << "Detour 8\n" << std::flush;
 
     char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB0, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
     // NOTE : There was a lea instruction that doesn't get rewritten in the retour function
@@ -191,6 +211,8 @@ bool Detour(void* toHook, void* ourFunct, int len) {
 
     memcpy(writingBuffer + index, dayzStolenBytes, sizeof(dayzStolenBytes));
     index += sizeof(dayzStolenBytes);
+
+    //MyOutputFile << "Detour 9\n" << std::flush;
 
     // ourFunctRetour
     //void* ofRetour = (BYTE*)ourFunct + dzStolenBytesCount;
@@ -206,9 +228,18 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     index += 14;
 
 
+    //MyOutputFile << "Detour 10\n" << std::flush;
+
     VirtualProtect(ourFunct, index, PAGE_EXECUTE_READWRITE, &curProtection);
+    //MyOutputFile << "Detour 10.5\n" << std::flush;
+    // Crashes here :
     memcpy(ourFunct, writingBuffer, index);
+
+    //MyOutputFile << "Detour 11\n" << std::flush;
+
     VirtualProtect(ourFunct, index, curProtection, &temp);
+
+    //MyOutputFile << "Detour 12\n" << std::flush;
 
     return true;
 }
@@ -460,13 +491,29 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     const uint64_t relativeAddrFuncA = 0x2A8130;
     uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
 
+
+    MyOutputFile << "Hello - before detour\n" << std::flush;
+
+    MyOutputFile << "-- " << (long long)ourFunct << '\n'  << std::flush;
+    MyOutputFile << "-- " << hookAddressJump << '\n' << std::flush;
+    MyOutputFile << "-- " << ourFunctLocation << '\n' << std::flush;
+
     //17 bytes
-    Detour((void*)hookAddress, (void*)ourFunctLocation, 17);
+    //Detour((void*)hookAddress, (void*)ourFunctLocation, 17);
+    Detour((void*)hookAddress, (void*)ourFunct, 17);
     // NOTE : Maybe it would be better to detour a DayZ Server VM operation of
     // assigning a value to an array member, because the instruction count might be smaller
     // than function calls - WHICH ARE A LOT
 
+    // Note - when compiling with Lua Static instead of Lua DLL, having Detour being called here crashes the injection
+    // (without calling the lua setup() and without calling any lua on OnGetControl)
+    // If we don't call it.. the server doesn't crash
+    // THE CULPRIT : if we compile with static lua instead of the dll version, the compiler somehow no longer makes that
+    // ourFunct -> jmp -> actual code jump. Instead it goes directly into the ourFunct code ( to be overwritten )
+    // TODO : Write some code that auto-detects if the function location reported by c++ is the real thing or a jump
+    // and act accordingly.
 
+    MyOutputFile << "Hello - post detour\n" << std::flush;
 
     return 0;
 }
