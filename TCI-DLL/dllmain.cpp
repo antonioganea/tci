@@ -6,7 +6,9 @@
 #include <Windows.h>
 #include <thread>
 
-#include <lua.hpp>
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 
 /*
 
@@ -52,6 +54,19 @@ void LuaexecuteLine(const char* s);
 
 std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\DLL-Log-debugging.txt");
 
+
+void AnnounceAll2() {
+    MyOutputFile << "annoncer2\n" << std::flush;
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    bridge[6] = 1002;
+}
+
+int l_AnnounceAll2(lua_State* L) {
+    AnnounceAll2();
+
+    return 0;
+}
+
 volatile void OnGetControl() {
 
     //MyOutputFile << "Something" << std::flush;
@@ -73,6 +88,45 @@ volatile void OnGetControl() {
         //LuaexecuteLine("function smecherie() local a = 10; a = a + 10; return a; end local b = smecherie()");
         //It might be because the Lua has to be invoked from another DLL - possible solution - try to compile as included lib...
         // Another TEST solution - inject the Lua.DLL BEFORE injecting the TCI dll // Tested - Not working
+
+
+        MyOutputFile << "/lua executed\n" << std::flush;
+
+        lua_State* newLuaState = luaL_newstate(); // <- this is where it crashes. apparently it's all about running code from other DLL
+        MyOutputFile << "made new state\n" << std::flush;
+
+        //luaL_openlibs(newLuaState); // <-- this crashed, probably because of the I/O lib trying to open stdout stdin stderr
+        //MyOutputFile << "opened libs\n" << std::flush;
+
+        luaopen_math(newLuaState); // <-- this worked
+        MyOutputFile << "math lib\n" << std::flush; 
+
+        lua_pushcfunction(newLuaState, l_AnnounceAll2);
+        lua_setglobal(newLuaState, "annoncer");
+
+        MyOutputFile << "annoncer - registered\n" << std::flush;
+
+        bridge[6] = 0;
+
+        int result = luaL_loadstring(newLuaState, "a = 10; annoncer();");
+        MyOutputFile << "loadstring worked\n" << std::flush;
+
+        switch (result) {
+        case LUA_ERRSYNTAX:
+            //puts("[Lua] Error executing line ( syntax ) !");
+            break;
+        case LUA_ERRMEM:
+            //puts("[Lua] Error executing line ( memory ) !");
+            break;
+        default: {
+            int res = lua_pcall(newLuaState, 0, LUA_MULTRET, 0);
+            if (res != LUA_OK) {
+                //print_error(state);
+                return;
+            }
+        }
+        }
+
 
 
         /*
@@ -103,7 +157,7 @@ volatile void OnGetControl() {
 
 
         //https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking?redirectedfrom=MSDN
-        bridge[6] = 1002;
+        //bridge[6] = 1002;
     }
     else {
         bridge[6] = 0;
@@ -499,8 +553,8 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     MyOutputFile << "-- " << ourFunctLocation << '\n' << std::flush;
 
     //17 bytes
-    //Detour((void*)hookAddress, (void*)ourFunctLocation, 17);
-    Detour((void*)hookAddress, (void*)ourFunct, 17);
+    Detour((void*)hookAddress, (void*)ourFunctLocation, 17);
+    //Detour((void*)hookAddress, (void*)ourFunct, 17);
     // NOTE : Maybe it would be better to detour a DayZ Server VM operation of
     // assigning a value to an array member, because the instruction count might be smaller
     // than function calls - WHICH ARE A LOT

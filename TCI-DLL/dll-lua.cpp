@@ -3,7 +3,9 @@
 
 
 
-#include <lua.hpp>
+#include "lua.h"
+#include "lualib.h"
+#include "lauxlib.h"
 
 #include <thread>
 #include <condition_variable>
