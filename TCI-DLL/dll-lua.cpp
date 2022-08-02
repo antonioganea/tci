@@ -7,6 +7,8 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+#include <fstream>
+
 #include <thread>
 #include <condition_variable>
 
@@ -45,9 +47,12 @@ void goOutOfLua() {
     }
 }
 
+extern std::ofstream MyOutputFile;
+
 void AnnounceAll() {
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
     bridge[6] = 1002;
+    MyOutputFile << "AnnounceAll -internally\n" << std::flush;
     goOutOfLua();
 }
 
@@ -150,21 +155,28 @@ int l_AnnounceAll(lua_State* L) {
 
 lua_State* state;
 
+
+
 void initLua() {
+    MyOutputFile << "new state\n" << std::flush;
     state = luaL_newstate();
+    MyOutputFile << "new state done\n" << std::flush;
 
     // Make standard libraries available in the Lua object
-    luaL_openlibs(state);
+    //luaL_openlibs(state); <--- this crashes (maybe bcs of stdout stdin stderr - i/o lib )
     luaopen_math(state);
+    MyOutputFile << "lua math done\n" << std::flush;
 
-    lua_pushcfunction(state, l_RegisterAsServerObject);
-    lua_setglobal(state, "RegisterAsServerObject");
+    //lua_pushcfunction(state, l_RegisterAsServerObject);
+    //lua_setglobal(state, "RegisterAsServerObject");
 
-    lua_pushcfunction(state, l_SpawnVolga);
-    lua_setglobal(state, "SpawnOlga");
+    //lua_pushcfunction(state, l_SpawnVolga);
+    //lua_setglobal(state, "SpawnOlga");
 
     lua_pushcfunction(state, l_AnnounceAll);
     lua_setglobal(state, "AnnounceAll");
+
+    MyOutputFile << "initLua done\n" << std::flush;
 }
 
 void print_error(lua_State* state) {
@@ -201,9 +213,9 @@ enum class DayZServerCommands {
     OnCommand = 2103
 };
 
-
 void LUA_INTERPRETER_UNEDITABLE() {
 
+    MyOutputFile << "booting lua interpreter thread\n" << std::flush;
 
     while (isLuaPowered) {
 
@@ -228,11 +240,12 @@ void LUA_INTERPRETER_UNEDITABLE() {
 
 
         default:
-
+            MyOutputFile << "hit default\n" << std::flush;
             break;
 
         }
 
+        MyOutputFile << "exiting\n" << std::flush;
         bridge[6] = 0;
         goOutOfLua();
     }
@@ -243,21 +256,32 @@ void LUA_INTERPRETER_UNEDITABLE() {
 
 std::thread* LUA_THREAD = NULL;
 
-std::thread* setup() {
-    for (int i = 0; i < 500; i++) { DLL_BRIDGE[i] = 0; }
 
+
+
+std::thread* setup() {
+    //for (int i = 0; i < 500; i++) { DLL_BRIDGE[i] = 0; }
+    MyOutputFile << "setup\n" << std::flush;
 
     initLua();
 
+    MyOutputFile << "setup2\n" << std::flush;
+
     inLua = true;
 
-    // todo : this needs to be set to the actual (4byte_word) ...  = 0
-    DLL_BRIDGE[0] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
-    std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
+    MyOutputFile << "setup3\n" << std::flush;
+    bridge[6] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
+    MyOutputFile << "setup4\n" << std::flush;
+    std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
+    MyOutputFile << "setup5\n" << std::flush;
     {
         std::unique_lock<std::mutex> lk(m);
+        MyOutputFile << "setup6\n" << std::flush;
+        // ^^^ LAST THING TO BE PRINTED
         cv.wait(lk, [] {return (inLua == false); });
+        MyOutputFile << "setup7\n" << std::flush;
     }
 
     return ThreadA;

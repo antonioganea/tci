@@ -48,6 +48,9 @@ Register preservation instructions:
 
 BYTE* DLL_BRIDGE = NULL;
 
+extern std::thread* LUA_THREAD;
+std::thread* setup();
+void cleanup();
 void goInLua();
 
 void LuaexecuteLine(const char* s);
@@ -67,6 +70,11 @@ int l_AnnounceAll2(lua_State* L) {
     return 0;
 }
 
+void simpleThread() {
+    int a = 10;
+    a = 50 + 1;
+}
+
 volatile void OnGetControl() {
 
     //MyOutputFile << "Something" << std::flush;
@@ -80,8 +88,21 @@ volatile void OnGetControl() {
     if (bridge[5] != 54) {
         return;
     }
-    
 
+    MyOutputFile << "pre-thread\n" << std::flush;
+    std::thread newFunnyThread(simpleThread);
+    newFunnyThread.join();
+    MyOutputFile << "post-thread\n" << std::flush;
+
+    /*
+    if (LUA_THREAD == NULL) {
+        MyOutputFile << "Lua thread first time setup from server control\n" << std::flush;
+        LUA_THREAD = setup(); // <--- as this doesn't work, THE LAUNCHING OF A THREAD SHOULD BE TESTED.
+        MyOutputFile << "Lua thread first time setup done\n" << std::flush;
+    }
+    */
+
+    /*
     if (bridge[6] == 2103) {
         // CURRENT STATUS PROBLEM
         // This breaks execution :
@@ -127,43 +148,27 @@ volatile void OnGetControl() {
         }
         }
 
-
-
-        /*
-        //This snippet doesn't work either :
-        lua_State* newLuaState = luaL_newstate(); // <- this is where it crashes. apparently it's all about running code from other DLL
-
-        luaL_openlibs(newLuaState);
-        luaopen_math(newLuaState);
-
-        int result = luaL_loadstring(newLuaState, "a = 10");
-        switch (result) {
-            case LUA_ERRSYNTAX:
-                //puts("[Lua] Error executing line ( syntax ) !");
-                break;
-            case LUA_ERRMEM:
-                //puts("[Lua] Error executing line ( memory ) !");
-                break;
-            default: {
-                int res = lua_pcall(newLuaState, 0, LUA_MULTRET, 0);
-                if (res != LUA_OK) {
-                    //print_error(state);
-                    return;
-                }
-            }
-        }
-        */
-
-
-
         //https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking?redirectedfrom=MSDN
         //bridge[6] = 1002;
     }
     else {
         bridge[6] = 0;
     }
+    */
 
-    //goInLua();
+    /*
+    MyOutputFile << "before goInLua\n" << std::flush;
+    // Current status problem : execution jams when calling /lua
+    goInLua();
+    MyOutputFile << "after goInLua\n" << std::flush;
+    */
+
+    if (bridge[6] == 2103) {
+        bridge[6] = 1002;
+    }
+    else {
+        bridge[6] = 0;
+    }
 
     /*
     
@@ -526,9 +531,7 @@ void SetupDLLBridge() {
 
 
 
-extern std::thread* LUA_THREAD;
-std::thread* setup();
-void cleanup();
+
 
 DWORD WINAPI HackThread(HMODULE hModule) {
     //std::cout << "Hello World from DLL!" << std::endl;
