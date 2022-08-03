@@ -27,10 +27,11 @@ int currentCommand = 0;
 
 void goInLua() {
     inLua = true;
-    cv.notify_one();
+    //cv.notify_one();
     {
-        std::unique_lock<std::mutex> lk(m);
-        cv.wait(lk, [] {return (inLua == false); });
+        //std::unique_lock<std::mutex> lk(m);
+        //cv.wait(lk, [] {return (inLua == false); });
+        while (inLua == true) {/* spinlock */ }
     }
 }
 
@@ -39,11 +40,12 @@ bool isLuaPowered = true;
 
 void goOutOfLua() {
     inLua = false;
-    cv.notify_one();
+    //cv.notify_one();
     if (isLuaPowered) // This here is meant to be a condition for the thread to skip Lua demanding data ( to end the LUA THREAD fast on final cleanup )
     {
-        std::unique_lock<std::mutex> lk(m);
-        cv.wait(lk, [] {return (inLua == true); });
+        //std::unique_lock<std::mutex> lk(m);
+        //cv.wait(lk, [] {return (inLua == true); });
+        while (inLua == false) {/* spinlock */}
     }
 }
 
@@ -278,10 +280,11 @@ std::thread* setup() {
             //ThreadA->detach(); // TESTING - not working either..
     MyOutputFile << "setup5\n" << std::flush;
     {
-        std::unique_lock<std::mutex> lk(m);
+        //std::unique_lock<std::mutex> lk(m);
         MyOutputFile << "setup6\n" << std::flush;
         // ^^^ LAST THING TO BE PRINTED
-        cv.wait(lk, [] {return (inLua == false); });
+        //cv.wait(lk, [] {return (inLua == false); });
+        while(inLua==true){}
         MyOutputFile << "setup7\n" << std::flush;
     }
 

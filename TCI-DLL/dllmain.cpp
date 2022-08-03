@@ -84,6 +84,8 @@ void simpleThread() {
     // QUESTION : Does THIS thread crash if put to sleep with a cv? ( very important )
 }
 
+bool initializedLua = false;
+
 volatile void OnGetControl() {
 
     //MyOutputFile << "Something" << std::flush;
@@ -98,8 +100,19 @@ volatile void OnGetControl() {
         return;
     }
 
+    if (!initializedLua && bridge[6] == 2103) {
 
-    
+        LUA_THREAD = setup();
+
+        initializedLua = true;
+
+        bridge[6] = 2103;
+
+    }
+
+    goInLua();
+
+    /*
     if (bridge[6] == 2103) {
         MockThreadSupport = false;
         MyOutputFile << "pre-thread\n" << std::flush;
@@ -116,11 +129,13 @@ volatile void OnGetControl() {
 
         //mockcv.wait(lk); // <--- the wait crashes the execution
 
-        while(MockThreadSupport==false){/*busy waiting - spin lock*/ }
+        while(MockThreadSupport==false){//busy waiting - spin lock
+        }
 
         MyOutputFile << "post-thread - post wait\n" << std::flush;
     }
-    
+    */
+
 
     
     // CURRENT PROBLEM *LATEST* : chekc if CV's work in threads .. and so on ..
@@ -195,13 +210,14 @@ volatile void OnGetControl() {
     MyOutputFile << "after goInLua\n" << std::flush;
     */
 
-    
+    /*
     if (bridge[6] == 2103) {
         bridge[6] = 1002;
     }
     else {
         bridge[6] = 0;
     }
+    */
     
     
     //goInLua();
