@@ -27,7 +27,7 @@ int currentCommand = 0;
 
 void goInLua() {
     inLua = true;
-    //cv.notify_one();
+    cv.notify_one();
     {
         //std::unique_lock<std::mutex> lk(m);
         //cv.wait(lk, [] {return (inLua == false); });
@@ -43,9 +43,9 @@ void goOutOfLua() {
     //cv.notify_one();
     if (isLuaPowered) // This here is meant to be a condition for the thread to skip Lua demanding data ( to end the LUA THREAD fast on final cleanup )
     {
-        //std::unique_lock<std::mutex> lk(m);
-        //cv.wait(lk, [] {return (inLua == true); });
-        while (inLua == false) {/* spinlock */}
+        std::unique_lock<std::mutex> lk(m);
+        cv.wait(lk, [] {return (inLua == true); });
+        //while (inLua == false) {/* spinlock */}
     }
 }
 
@@ -277,7 +277,7 @@ std::thread* setup() {
     bridge[6] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
     MyOutputFile << "setup4\n" << std::flush;
     std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
-            //ThreadA->detach(); // TESTING - not working either..
+            ThreadA->detach(); // Detaching actually helps
     MyOutputFile << "setup5\n" << std::flush;
     {
         //std::unique_lock<std::mutex> lk(m);

@@ -110,7 +110,11 @@ volatile void OnGetControl() {
 
     }
 
+    MyOutputFile << "DDD\n" << std::flush;
+
     goInLua();
+
+    MyOutputFile << "FFF\n" << std::flush;
 
     /*
     if (bridge[6] == 2103) {
