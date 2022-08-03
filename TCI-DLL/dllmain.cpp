@@ -9,6 +9,7 @@
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
+#include <mutex>
 
 /*
 
@@ -70,9 +71,17 @@ int l_AnnounceAll2(lua_State* L) {
     return 0;
 }
 
+bool MockThreadSupport = false;
+std::mutex mockMutex;
+std::condition_variable mockcv;
+
 void simpleThread() {
-    int a = 10;
-    a = 50 + 1;
+
+    MockThreadSupport = true;
+    //mockcv.notify_one();
+
+
+    // QUESTION : Does THIS thread crash if put to sleep with a cv? ( very important )
 }
 
 volatile void OnGetControl() {
@@ -89,18 +98,41 @@ volatile void OnGetControl() {
         return;
     }
 
-    MyOutputFile << "pre-thread\n" << std::flush;
-    std::thread newFunnyThread(simpleThread);
-    newFunnyThread.join();
-    MyOutputFile << "post-thread\n" << std::flush;
 
+    
+    if (bridge[6] == 2103) {
+        MockThreadSupport = false;
+        MyOutputFile << "pre-thread\n" << std::flush;
+        std::thread newFunnyThread(simpleThread);
+        //newFunnyThread.join(); // If we don't join the thread, it crashes the game
+        newFunnyThread.detach(); // Detaching or joining works.
+
+        MyOutputFile << "post-thread - wait stage\n" << std::flush;
+
+        //std::unique_lock<std::mutex> lk(mockMutex);
+        //MyOutputFile << "setup6\n" << std::flush;
+        // ^^^ LAST THING TO BE PRINTED
+        //mockcv.wait(lk, [] {return (MockThreadSupport == true); });
+
+        //mockcv.wait(lk); // <--- the wait crashes the execution
+
+        while(MockThreadSupport==false){/*busy waiting - spin lock*/ }
+
+        MyOutputFile << "post-thread - post wait\n" << std::flush;
+    }
+    
+
+    
+    // CURRENT PROBLEM *LATEST* : chekc if CV's work in threads .. and so on ..
     /*
     if (LUA_THREAD == NULL) {
         MyOutputFile << "Lua thread first time setup from server control\n" << std::flush;
         LUA_THREAD = setup(); // <--- as this doesn't work, THE LAUNCHING OF A THREAD SHOULD BE TESTED.
+        //LUA_THREAD->detach();
         MyOutputFile << "Lua thread first time setup done\n" << std::flush;
     }
     */
+    
 
     /*
     if (bridge[6] == 2103) {
@@ -163,18 +195,17 @@ volatile void OnGetControl() {
     MyOutputFile << "after goInLua\n" << std::flush;
     */
 
+    
     if (bridge[6] == 2103) {
         bridge[6] = 1002;
     }
     else {
         bridge[6] = 0;
     }
-
-    /*
     
-    goInLua();
     
-    */
+    //goInLua();
+    
 
 
 }

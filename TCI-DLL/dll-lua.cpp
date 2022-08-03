@@ -275,6 +275,7 @@ std::thread* setup() {
     bridge[6] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
     MyOutputFile << "setup4\n" << std::flush;
     std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
+            //ThreadA->detach(); // TESTING - not working either..
     MyOutputFile << "setup5\n" << std::flush;
     {
         std::unique_lock<std::mutex> lk(m);
