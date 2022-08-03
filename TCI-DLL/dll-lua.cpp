@@ -54,7 +54,11 @@ extern std::ofstream MyOutputFile;
 void AnnounceAll() {
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
     bridge[6] = 1002;
-    MyOutputFile << "AnnounceAll -internally\n" << std::flush;
+    MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7*4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
+    for (int i = 1; i <= DLL_BRIDGE[7 * 4]; i++) {
+        MyOutputFile << DLL_BRIDGE[7 * 4 + i];
+    }
+    MyOutputFile << std::flush;
     goOutOfLua();
 }
 

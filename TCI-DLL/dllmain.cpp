@@ -82,6 +82,7 @@ void simpleThread() {
 
 
     // QUESTION : Does THIS thread crash if put to sleep with a cv? ( very important )
+    // tested : it does not crash with a cv.wait.
 }
 
 bool initializedLua = false;
@@ -113,6 +114,8 @@ volatile void OnGetControl() {
     MyOutputFile << "DDD\n" << std::flush;
 
     goInLua();
+    // should try one more time to remove spinlock from main thread????? - tried, doesn't work
+    // also test with OTHER mutex and cv. - tried, didn't work
 
     MyOutputFile << "FFF\n" << std::flush;
 
