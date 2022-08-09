@@ -293,6 +293,7 @@ int l_ClearCommandHandlers(lua_State* L) {
 }
 
 // RegisterEventHandler("onPlayerKilled", onKilledHandler)
+// "onStartingEquipSetup", "onPlayerKilled", ...
 int l_RegisterEventHandler(lua_State* L) {
     return 0;
 }
