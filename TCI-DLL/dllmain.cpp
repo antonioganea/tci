@@ -48,6 +48,10 @@ Register preservation instructions:
 */
 
 BYTE* DLL_BRIDGE = NULL;
+const int DLL_BRIDGE_SIZE = 256;
+char** DLL_STRING_LOC = NULL;
+char* DLL_STRING = NULL;
+char** DLL_STRING2_LOC = NULL;
 
 extern std::thread* LUA_THREAD;
 std::thread* setup();
@@ -579,6 +583,13 @@ void SetupDLLBridge() {
     //                                     ^^^^^^ this was necessary
 
     //MyOutputFile.close();
+
+    //Setting up the DLL_STRING bridge
+    DLL_STRING_LOC = (char**)(DLL_BRIDGE + DLL_BRIDGE_SIZE * 4);
+    DLL_STRING = *DLL_STRING_LOC;
+    DLL_STRING2_LOC = (char**)(DLL_BRIDGE + DLL_BRIDGE_SIZE * 4 + 8);
+
+    strcpy(DLL_STRING, "Ok this is an interesting string");
 }
 
 

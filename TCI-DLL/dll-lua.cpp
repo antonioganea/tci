@@ -51,7 +51,34 @@ void goOutOfLua() {
 
 extern std::ofstream MyOutputFile;
 
+extern char** DLL_STRING_LOC;
+extern char* DLL_STRING;
+extern char** DLL_STRING2_LOC;
+
+char workBuffer[1024];
+
 void AnnounceAll() {
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    
+    //MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7 * 4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
+    //for (int i = 1; i <= DLL_BRIDGE[7 * 4]; i++) {
+    //    MyOutputFile << DLL_BRIDGE[7 * 4 + i];
+    //}
+    //MyOutputFile << std::flush;
+
+    memcpy(workBuffer, *DLL_STRING2_LOC, bridge[7]);
+
+
+    memcpy(DLL_STRING, workBuffer, bridge[7]);
+    memcpy(DLL_STRING + bridge[7], workBuffer, bridge[7]);
+
+    bridge[7] *= 2;
+    bridge[6] = 1002;
+
+    goOutOfLua();
+}
+
+void AnnounceAll_old() {
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
     bridge[6] = 1002;
     MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7*4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
