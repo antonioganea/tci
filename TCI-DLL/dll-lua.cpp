@@ -78,6 +78,32 @@ extern std::ofstream MyOutputFile;
 extern BYTE* DLL_BRIDGE;
 
 
+
+static const luaL_Reg libsToLoad[] = {
+  {LUA_GNAME, luaopen_base}, // works
+  //{LUA_LOADLIBNAME, luaopen_package}, // not working - confirmed
+  {LUA_COLIBNAME, luaopen_coroutine}, // works
+  {LUA_TABLIBNAME, luaopen_table}, // works
+  {LUA_IOLIBNAME, luaopen_io}, // works
+  {LUA_OSLIBNAME, luaopen_os}, // works
+  {LUA_STRLIBNAME, luaopen_string}, // works
+  {LUA_MATHLIBNAME, luaopen_math}, // works
+  {LUA_UTF8LIBNAME, luaopen_utf8}, // works
+  {LUA_DBLIBNAME, luaopen_debug}, // works
+  {NULL, NULL}
+};
+
+
+void openCustomLuaLibs(lua_State* L) {
+    const luaL_Reg* lib;
+    /* "require" functions from 'loadedlibs' and set results to global table */
+    for (lib = libsToLoad; lib->func; lib++) {
+        luaL_requiref(L, lib->name, lib->func, 1);
+        lua_pop(L, 1);  /* remove lib */
+    }
+}
+
+
 void initLua() {
     MyOutputFile << "new state\n" << std::flush;
     state = luaL_newstate();
@@ -85,7 +111,9 @@ void initLua() {
 
     // Make standard libraries available in the Lua object
     //luaL_openlibs(state); <--- this crashes (maybe bcs of stdout stdin stderr - i/o lib )
-    luaopen_math(state);
+    openCustomLuaLibs(state);
+
+    //luaopen_math(state);
     MyOutputFile << "lua math done\n" << std::flush;
 
     //lua_pushcfunction(state, l_RegisterAsServerObject);
