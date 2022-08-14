@@ -12,18 +12,16 @@
 #include <thread>
 #include <condition_variable>
 
+#include "lua-api.h"
+
 
 //int simBridge[1024];
-
-extern BYTE* DLL_BRIDGE;
 
 
 std::mutex m;
 std::condition_variable cv;
 
 bool inLua = false;
-
-int currentCommand = 0;
 
 void goInLua() {
     inLua = true;
@@ -49,83 +47,6 @@ void goOutOfLua() {
     }
 }
 
-extern std::ofstream MyOutputFile;
-
-extern char** DLL_STRING_LOC;
-extern char* DLL_STRING;
-extern char** DLL_STRING2_LOC;
-
-char workBuffer[1024];
-
-void AnnounceAll() {
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    
-    //MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7 * 4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
-    //for (int i = 1; i <= DLL_BRIDGE[7 * 4]; i++) {
-    //    MyOutputFile << DLL_BRIDGE[7 * 4 + i];
-    //}
-    //MyOutputFile << std::flush;
-
-    memcpy(workBuffer, *DLL_STRING2_LOC, bridge[7]);
-
-
-    memcpy(DLL_STRING, workBuffer, bridge[7]);
-    memcpy(DLL_STRING + bridge[7], workBuffer, bridge[7]);
-
-    bridge[7] *= 2;
-    bridge[6] = 1002;
-
-    goOutOfLua();
-}
-
-void AnnounceAll_old() {
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    bridge[6] = 1002;
-    MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7*4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
-    for (int i = 1; i <= DLL_BRIDGE[7 * 4]; i++) {
-        MyOutputFile << DLL_BRIDGE[7 * 4 + i];
-    }
-    MyOutputFile << std::flush;
-    goOutOfLua();
-}
-
-//Call from Lua to Cpp
-void SpawnOlga() {
-    std::cout << "Spawn Olga point" << std::endl;
-
-    goOutOfLua();
-
-    std::cout << "Spawn Olga done" << std::endl;
-
-    // Writes to shared_mem (bridge)
-    // NEEDS TO PASS CONTROL TO DayZServer_x64
-    //giveControl();
-}
-
-void SetDay() {
-    std::cout << "Set day point" << std::endl;
-
-    goOutOfLua();
-
-    /*
-    cv.notify_one();
-    {
-        std::unique_lock<std::mutex> lk(m);
-        cv.wait(lk, [] {return false; });
-    }
-    */
-
-    std::cout << "Set day done" << std::endl;
-
-    // Writes to shared_mem (bridge)
-    // NEEDS TO PASS CONTROL TO DayZServer_x64
-    //giveControl();
-}
-
-
-
-
-
 
 
 /*
@@ -149,157 +70,12 @@ void ThreadA_Activity()
 
 */
 
-// RegisterAsServerObject( object )
-int l_RegisterAsServerObject(lua_State* L) {
-    std::cout << "Register as server object" << std::endl;
-    int objectID;
-
-    if (luaL_checkinteger(L, -1)) {
-        objectID = lua_tonumber(L, -1);
-    }
-
-    std::cout << objectID << std::endl;
-
-    return 0;
-}
-
-int l_SpawnVolga(lua_State* L) {
-    SpawnOlga();
-    /*
-    std::cout << "[Lua] Spawning Olga ..." << std::endl;
-
-    currentCommand = 54;
-
-    goOutOfLua();
-
-    currentCommand = 0;
-
-    std::cout << "[Lua] Spawned Olga" << std::endl;
-    */
-
-    return 0;
-}
-
-int l_AnnounceAll(lua_State* L) {
-    AnnounceAll();
-
-    return 0;
-}
-
-// BroadcastMessage("Our discord is discord.gg/something")
-int l_BroadcastMessage(lua_State* L) {
-    return 0;
-}
-
-// SendPlayerMessage(myPlayer, "How do you do today?") -- Requires user defined player type
-int l_SendPlayerMessage(lua_State* L) {
-    return 0;
-}
-
-// car = SpawnCar("olga", x, y, z) -- Requires user defined car type
-int l_SpawnCar(lua_State* L) {
-    return 0;
-}
-
-// playerCount = GetPlayerCount()
-int l_GetPlayerCount(lua_State* L) {
-    return 0;
-}
-
-// player = GetPlayerBySteamID(76561198113938382) -- Requires user defined player type
-int l_GetPlayerBySteamID(lua_State* L) {
-    return 0;
-}
-
-// steamID = GetPlayerSteamID(myPlayer) -- Requires user defined player type
-int l_GetPlayerSteamID(lua_State* L) {
-    return 0;
-}
-
-// health = GetPlayerHealth(myPlayer) -- Requires user defined player type
-int l_GetPlayerHealth(lua_State* L) {
-    return 0;
-}
-
-// SetPlayerHealth(myPlayer, health+10) -- Requires user defined player type
-int l_SetPlayerHealth(lua_State* L) {
-    return 0;
-}
-
-// blood = GetPlayerBlood(myPlayer) -- Requires user defined player type
-int l_GetPlayerBlood(lua_State* L) {
-    return 0;
-}
-
-// SetPlayerBlood(myPlayer, blood+10) -- Requires user defined player type
-int l_SetPlayerBlood(lua_State* L) {
-    return 0;
-}
-
-// shock = GetPlayerShock(myPlayer) -- Requires user defined player type
-int l_GetPlayerShock(lua_State* L) {
-    return 0;
-}
-
-// SetPlayerShock(myPlayer, shock+10) -- Requires user defined player type
-int l_SetPlayerShock(lua_State* L) {
-    return 0;
-}
-
-// KillPlayer(myPlayer) -- Requires user defined player type
-int l_KillPlayer(lua_State* L) {
-    return 0;
-}
-
-// x, y, z = GetPlayerPosition(myPlayer) -- Requires user defined player type
-int l_GetPlayerPosition(lua_State* L) {
-    return 0;
-}
-
-// SetPlayerPosition(myPlayer, x, y, z)
-int l_SetPlayerPosition(lua_State* L) {
-    return 0;
-}
-
-// SpawnPlayerItem(myPlayer, "SKS", 3, true) -- last parameter determines if the item is spawned in inventory or on the floor
-// might wanna consider a return type that is a user defined item type ( So you can check stuff later )
-int l_SpawnPlayerItem(lua_State* L) {
-    return 0;
-}
-
-// itemStack = GetPlayerItemStackInHand(myPlayer) -- Requires user defined item type
-int l_GetPlayerItemStackInHand(lua_State* L) {
-    return 0;
-}
-
-// itemName = GetItemStackName(itemStack) -- Requires user defined item type
-int l_GetItemStackName(lua_State* L) {
-    return 0;
-}
-
-// RegisterCommandHandler("/onduty", onDutyHandler)
-int l_RegisterCommandHandler(lua_State* L) {
-    return 0;
-}
-
-// UnregisterCommandHandler("/onduty", onDutyHandler)
-int l_UnregisterCommandHandler(lua_State* L) {
-    return 0;
-}
-
-// ClearCommandHandlers("/onduty")
-int l_ClearCommandHandlers(lua_State* L) {
-    return 0;
-}
-
-// RegisterEventHandler("onPlayerKilled", onKilledHandler)
-// "onStartingEquipSetup", "onPlayerKilled", ...
-int l_RegisterEventHandler(lua_State* L) {
-    return 0;
-}
 
 lua_State* state;
 
+
+extern std::ofstream MyOutputFile;
+extern BYTE* DLL_BRIDGE;
 
 
 void initLua() {
@@ -443,6 +219,7 @@ void cleanup() {
     LUA_THREAD->join();
     delete LUA_THREAD;
 }
+
 
 int main2()
 {

@@ -111,6 +111,15 @@
     <ClInclude Include="lzio.h">
       <Filter>Header Files\lua</Filter>
     </ClInclude>
+    <ClInclude Include="lua-api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tci-api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dll-lua.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -217,6 +226,12 @@
     </ClCompile>
     <ClCompile Include="lzio.cpp">
       <Filter>Source Files\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="lua-api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tci-api.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

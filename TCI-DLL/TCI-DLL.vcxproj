@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dll-lua.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="lapi.h" />
     <ClInclude Include="lauxlib.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="lstring.h" />
     <ClInclude Include="ltable.h" />
     <ClInclude Include="ltm.h" />
+    <ClInclude Include="lua-api.h" />
     <ClInclude Include="lua.h" />
     <ClInclude Include="lua.hpp" />
     <ClInclude Include="luaconf.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="lvm.h" />
     <ClInclude Include="lzio.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="tci-api.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -216,6 +219,7 @@
     <ClCompile Include="ltable.cpp" />
     <ClCompile Include="ltablib.cpp" />
     <ClCompile Include="ltm.cpp" />
+    <ClCompile Include="lua-api.cpp" />
     <ClCompile Include="lundump.cpp" />
     <ClCompile Include="lutf8lib.cpp" />
     <ClCompile Include="lvm.cpp" />
@@ -226,6 +230,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="tci-api.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
