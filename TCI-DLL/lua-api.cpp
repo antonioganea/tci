@@ -47,6 +47,12 @@ int l_AnnounceAll(lua_State* L) {
 
 // BroadcastMessage("Our discord is discord.gg/something")
 int l_BroadcastMessage(lua_State* L) {
+
+    char buffer[256];
+    strcpy(buffer, lua_tostring(L, 1));
+
+    BroadcastMessage(buffer);
+
     return 0;
 }
 

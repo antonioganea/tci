@@ -37,6 +37,17 @@ void AnnounceAll() {
     goOutOfLua();
 }
 
+void BroadcastMessage(char* str) {
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+
+    strcpy(DLL_STRING, str);
+
+    bridge[7] = strlen(str);
+    bridge[6] = 1002;
+
+    goOutOfLua();
+}
+
 void AnnounceAll_old() {
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
     bridge[6] = 1002;

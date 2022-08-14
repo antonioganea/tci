@@ -125,6 +125,9 @@ void initLua() {
     lua_pushcfunction(state, l_AnnounceAll);
     lua_setglobal(state, "AnnounceAll");
 
+    lua_pushcfunction(state, l_BroadcastMessage);
+    lua_setglobal(state, "BroadcastMessage");
+
     MyOutputFile << "initLua done\n" << std::flush;
 }
 
@@ -183,7 +186,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
 
         case (int)DayZServerCommands::OnCommand:
             //LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
-            LuaexecuteLine("AnnounceAll()");
+            LuaexecuteLine("BroadcastMessage(os.date('%X', os.time()))");
 
             break;
 
