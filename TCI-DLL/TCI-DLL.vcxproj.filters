@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\lua">
+      <UniqueIdentifier>{7ab46cf0-7f82-47d4-9ace-86058259a38f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lua">
+      <UniqueIdentifier>{6767b7db-07c0-450c-a107-f096467be293}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -22,88 +28,88 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lapi.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lauxlib.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lcode.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lctype.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="ldebug.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="ldo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lfunc.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lgc.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="ljumptab.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="llex.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="llimits.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lmem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lobject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lopcodes.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lopnames.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lparser.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lprefix.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lstate.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lstring.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="ltable.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="ltm.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lua.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lua.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="luaconf.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lualib.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lundump.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lvm.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
     <ClInclude Include="lzio.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,100 +123,100 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="lapi.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lauxlib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lbaselib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lcode.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lcorolib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lctype.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ldblib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ldebug.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ldo.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ldump.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lfunc.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lgc.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="linit.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="liolib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="llex.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lmathlib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lmem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="loadlib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lobject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lopcodes.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="loslib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lparser.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lstate.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lstring.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lstrlib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ltable.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ltablib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="ltm.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lundump.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lutf8lib.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lvm.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
     <ClCompile Include="lzio.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
