@@ -73,6 +73,8 @@ class CustomMission: MissionServer
 	string DLL_INBOUND_STRING = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 	string DLL_OUTBOUND_STRING = "something";
 
+	int crappyVariable = 1000;
+
 	void MagicCall_Internal() {
 		DLL_WATERMARK[5] = 0;
 	}
@@ -180,6 +182,22 @@ class CustomMission: MissionServer
 		DLL_BRIDGE_BYTES[3] = 16777132;//0xFFFFAC;
 	}
 
+	void InterpreterCycle() {
+		while (DLL_WATERMARK[6] != 0) {
+			//SendGlobalMessage("Blau");
+			MagicCall();
+			//SendGlobalMessage("Blogg");
+			if (DLL_WATERMARK[6] == 1002) {
+				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_WATERMARK[7]);
+				SendGlobalMessage("The response from lua is : " + luaResponse);
+
+				crappyVariable = 2000;
+
+				//SendGlobalMessage("This is a message for everyone - EnfusionScript-Lua interface");
+			}
+		}
+	}
+
 	void OnLuaCommand(string firstParam) {
 		SendGlobalMessage("Glaugen");
 		DLL_WATERMARK[6] = 2103; // on lua command
@@ -210,19 +228,36 @@ class CustomMission: MissionServer
 		DLL_OUTBOUND_STRING = firstParam;
 		DLL_WATERMARK[7] = firstParam.Length();
 		
-		while (DLL_WATERMARK[6] != 0) {
-			SendGlobalMessage("Blau");
-			MagicCall();
-			SendGlobalMessage("Blogg");
-			if (DLL_WATERMARK[6] == 1002) {
-				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_WATERMARK[7]);
-				SendGlobalMessage("The response from lua is : " + luaResponse);
-				//SendGlobalMessage("This is a message for everyone - EnfusionScript-Lua interface");
-			}
-		}
+		InterpreterCycle();
+
 		SendGlobalMessage("Command executed");
-		
 	}
+
+	// TODO : Would be nice to pass timeslice
+	void OnServerUpdatePass() {
+		DLL_WATERMARK[6] = 4912; // on update command code
+		InterpreterCycle();
+	}
+
+	/*
+	override void OnUpdate(float timeslice) // Has been observed jamming. ( uncertain cause ) // MIGHT NOT BE THREAD-SAFE. // might also
+	// be linked to WRITING DDD FFF at each frame by mistake ( the writing was commented at this point .. )
+	{
+		super.OnUpdate(timeslice);
+
+		
+		//UpdateDummyScheduler();
+		//TickScheduler(timeslice);
+		//UpdateLogoutPlayers();
+		//m_WorldData.UpdateBaseEnvTemperature(timeslice); // re-calculate base enviro temperature
+		
+
+		// This should only be called if TCI is injected, otherwise it will jam
+		if (crappyVariable == 2000) { // change this with something better
+			OnServerUpdatePass();
+		}
+	}
+	*/
 
 	void LoadAdmins()
 	{
@@ -1196,13 +1231,13 @@ class CustomMission: MissionServer
 		EntityAI itemEnt;
 		ItemBase itemBs;
 
-		itemTop = player.FindAttachmentBySlotName("Body"); 
+		itemTop = player.FindAttachmentBySlotName("Body");
 
-		if ( itemTop )
+		if (itemTop)
 		{
 			itemEnt = itemTop.GetInventory().CreateInInventory("Rag");
-			
-			if ( Class.CastTo(itemBs, itemEnt ) )
+
+			if (Class.CastTo(itemBs, itemEnt))
 				itemBs.SetQuantity(6);
 
 			itemEnt = player.GetInventory().CreateInInventory("TunaCan");

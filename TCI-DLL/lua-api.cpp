@@ -8,6 +8,15 @@
 
 #include "tci-api.h"
 
+int l_ConsoleMessage(lua_State* L) {
+    char buffer[256];
+    strcpy(buffer, lua_tostring(L, 1));
+
+    ConsoleMessage(buffer);
+
+    return 0;
+}
+
 // RegisterAsServerObject( object )
 int l_RegisterAsServerObject(lua_State* L) {
     std::cout << "Register as server object" << std::endl;

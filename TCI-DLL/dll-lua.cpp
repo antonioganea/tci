@@ -128,6 +128,9 @@ void initLua() {
     lua_pushcfunction(state, l_BroadcastMessage);
     lua_setglobal(state, "BroadcastMessage");
 
+    lua_pushcfunction(state, l_ConsoleMessage);
+    lua_setglobal(state, "ConsoleMessage");
+
     MyOutputFile << "initLua done\n" << std::flush;
 }
 
@@ -162,7 +165,8 @@ enum class DayZServerCommands {
     Nothing,
     OnUpdate,
     OnKilled,
-    OnCommand = 2103
+    OnCommand = 2103,
+    OnUpdatePass = 4912
 };
 
 void LUA_INTERPRETER_UNEDITABLE() {
@@ -186,18 +190,23 @@ void LUA_INTERPRETER_UNEDITABLE() {
 
         case (int)DayZServerCommands::OnCommand:
             //LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
-            LuaexecuteLine("BroadcastMessage(os.date('%X', os.time()))");
+            LuaexecuteLine("BroadcastMessage(os.date('%X', os.time())); ConsoleMessage('someone executed /lua')");
 
             break;
 
+        case (int)DayZServerCommands::OnUpdatePass:
+
+            // ...
+
+            break;
 
         default:
-            MyOutputFile << "hit default\n" << std::flush;
+            MyOutputFile << "hit default in LUA THREAD. Something is WRONG\n" << std::flush;
             break;
 
         }
 
-        MyOutputFile << "exiting\n" << std::flush;
+        //MyOutputFile << "exiting\n" << std::flush;
         bridge[6] = 0;
         goOutOfLua();
     }

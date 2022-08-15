@@ -105,6 +105,10 @@ volatile void OnGetControl() {
         return;
     }
 
+    // TODO(UpdatePass+LuaHotReload) : Need a more homogenous way of running setup()
+    // not just on 2103 .... + there should be a global bool flag indicating that it should be hot-reloaded.
+    // SHOULD_LUA_RELOAD == true .. something like this
+    // Also, there needs to be a way to call setup() again.. but dispose the old state cleanly ( For hot reloads )
     if (!initializedLua && bridge[6] == 2103) {
 
         LUA_THREAD = setup();
@@ -115,13 +119,13 @@ volatile void OnGetControl() {
 
     }
 
-    MyOutputFile << "DDD\n" << std::flush;
+    //MyOutputFile << "DDD\n" << std::flush;
 
     goInLua();
     // should try one more time to remove spinlock from main thread????? - tried, doesn't work
     // also test with OTHER mutex and cv. - tried, didn't work
 
-    MyOutputFile << "FFF\n" << std::flush;
+    //MyOutputFile << "FFF\n" << std::flush;
 
     /*
     if (bridge[6] == 2103) {

@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "dll-lua.h"
+#include "gui.h"
 
 extern BYTE* DLL_BRIDGE;
 extern std::ofstream MyOutputFile;
@@ -46,6 +47,13 @@ void BroadcastMessage(char* str) {
     bridge[6] = 1002;
 
     goOutOfLua();
+}
+
+
+extern TCIAppConsole console;
+
+void ConsoleMessage(char* str) {
+    console.AddLog(str);
 }
 
 void AnnounceAll_old() {

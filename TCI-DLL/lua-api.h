@@ -4,6 +4,9 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+// ConsoleMessage("this should appear in the console")
+int l_ConsoleMessage(lua_State* L);
+
 // RegisterAsServerObject( object )
 int l_RegisterAsServerObject(lua_State* L);
 
