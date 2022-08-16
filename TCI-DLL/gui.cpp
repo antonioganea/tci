@@ -382,6 +382,10 @@ void    TCIAppConsole::ClearLog()
         free(Items[i]);
     Items.clear();
 }
+
+extern bool SHOULD_LUA_HOTLOAD;
+//extern bool initializedLua;
+
 void    TCIAppConsole::Draw(const char* title, bool* p_open)
 {
     ImGui::SetNextWindowPos({ 0,0 });
@@ -414,7 +418,13 @@ void    TCIAppConsole::Draw(const char* title, bool* p_open)
 
 
 
-    ImGui::Button("Hot Reload");
+    if (ImGui::Button("Hot Reload")) {
+        AddLog("[tci] Called Hot Reload from console.");
+
+        // if (initializedLua) // might need to check this to avoid weird bugs
+        SHOULD_LUA_HOTLOAD = true;
+    }
+
     ImGui::SameLine();
     if (ImGui::Button("Enable debug"))
     {
@@ -520,6 +530,7 @@ void    TCIAppConsole::Draw(const char* title, bool* p_open)
         bool has_color = false;
         if (strstr(item, "[error]")) { color = ImVec4(1.0f, 0.4f, 0.4f, 1.0f); has_color = true; }
         else if (strncmp(item, "# ", 2) == 0) { color = ImVec4(1.0f, 0.8f, 0.6f, 1.0f); has_color = true; }
+        else if (strstr(item, "[tci]")) { color = ImVec4(1.0f, 0.65f, 0.09f, 1.0f); has_color = true; }
         if (has_color)
             ImGui::PushStyleColor(ImGuiCol_Text, color);
         ImGui::TextUnformatted(item);

@@ -54,7 +54,8 @@ char* DLL_STRING = NULL;
 char** DLL_STRING2_LOC = NULL;
 
 extern std::thread* LUA_THREAD;
-std::thread* setup();
+void freeLuaStateInternally();
+std::thread* setup(const char * path);
 void cleanup();
 void goInLua();
 
@@ -90,6 +91,7 @@ void simpleThread() {
 }
 
 bool initializedLua = false;
+bool SHOULD_LUA_HOTLOAD = false;
 
 volatile void OnGetControl() {
 
@@ -109,15 +111,37 @@ volatile void OnGetControl() {
     // not just on 2103 .... + there should be a global bool flag indicating that it should be hot-reloaded.
     // SHOULD_LUA_RELOAD == true .. something like this
     // Also, there needs to be a way to call setup() again.. but dispose the old state cleanly ( For hot reloads )
-    if (!initializedLua && bridge[6] == 2103) {
+    if (!initializedLua) {
 
-        LUA_THREAD = setup();
+        // TODO: do we really need the bridge[6] temp swap ?
+        // are we sure we can't just let it do whatever it wants to do in setup()?
+        // ..... (should investigate for readability reasons )
+        int tempCode = bridge[6];
+        // Might wanna :
+        // 1) preserve all the call details from enfusion script, and execute them AFTER the lua setup...
+        // or
+        // 2) Dedicate a separate call from EnfusionScript that is specifically made for LuaSetup
+        //      -> however, a system needs to ensure that ES calls that lua setup after we are injected(detouring), and only once
+        //      -> when we want to HOT Reload we need to call ES to time a luasetupcall for later
+
+
+        bridge[6] = 0; // change this with non-magic code ( from enum DayzServerCommands )
+        //pushESCallContext();   // to be implemented
+
+
+        LUA_THREAD = setup("C:\\Program Files (x86)\\Steam\\steamapps\\common\\DayZServer\\lua\\script.lua");
+
+        // CURRENT STATUS :
+        // If we call three broadcasts in a row, first one will be ignored because it is overwritten below ( bridge[6] = tempCode )
+        // We need to delay the popESCallContext() until the Lua Thread places a 0 in bridge[6]
 
         initializedLua = true;
 
-        bridge[6] = 2103;
+        //popESCallContext();   // to be implemented
+        bridge[6] = tempCode;
 
     }
+
 
     //MyOutputFile << "DDD\n" << std::flush;
 
@@ -125,7 +149,16 @@ volatile void OnGetControl() {
     // should try one more time to remove spinlock from main thread????? - tried, doesn't work
     // also test with OTHER mutex and cv. - tried, didn't work
 
+    if (SHOULD_LUA_HOTLOAD && bridge[6] == 0 && initializedLua) { // if lua needs to hotload and we're not in the middle of something..
+        freeLuaStateInternally();
+        initializedLua = false;
+        SHOULD_LUA_HOTLOAD = false;
+    }
+
     //MyOutputFile << "FFF\n" << std::flush;
+   
+
+
 
     /*
     if (bridge[6] == 2103) {

@@ -1,3 +1,22 @@
+
+
+function doSomeStuff()
+	BroadcastMessage("Lua Script loaded!")
+	BroadcastMessage("Reloading works :P")
+end
+
+ConsoleMessage("YESS")
+BroadcastMessage("Lua Script loaded!")
+BroadcastMessage("Lua Script loaded!")
+BroadcastMessage("Lua Script loaded!")
+ConsoleMessage("YESS555")
+BroadcastMessage("it does really work.")
+ConsoleMessage("3020YESS555")
+BroadcastMessage(os.date('%X', os.time()))
+ConsoleMessage("[error] TU A GEAU")
+
+--[[
+
 function some(command, player)
 
 	BroadcastMessage("Someone ran /some")
@@ -50,3 +69,5 @@ function getLoadout(command, player)
 	end
 end
 RegisterCommandHandler("/loadout", getLoadout)
+
+]]

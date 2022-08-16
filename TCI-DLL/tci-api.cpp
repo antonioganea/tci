@@ -52,7 +52,7 @@ void BroadcastMessage(char* str) {
 
 extern TCIAppConsole console;
 
-void ConsoleMessage(char* str) {
+void ConsoleMessage(const char* str) {
     console.AddLog(str);
 }
 

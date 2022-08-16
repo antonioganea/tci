@@ -71,6 +71,18 @@ void ThreadA_Activity()
 */
 
 
+#include "tci-api.h"
+
+void print_error_console(lua_State* state) {
+    // The error message is on top of the stack.
+    // Fetch it, print it and then pop it off the stack.
+    const char* message = lua_tostring(state, -1);
+    //puts(message);
+    ConsoleMessage(message);
+    lua_pop(state, 1);
+}
+
+
 lua_State* state;
 
 
@@ -104,7 +116,9 @@ void openCustomLuaLibs(lua_State* L) {
 }
 
 
-void initLua() {
+char bootPath[512];
+
+void initLua(const char* path) {
     MyOutputFile << "new state\n" << std::flush;
     state = luaL_newstate();
     MyOutputFile << "new state done\n" << std::flush;
@@ -130,6 +144,8 @@ void initLua() {
 
     lua_pushcfunction(state, l_ConsoleMessage);
     lua_setglobal(state, "ConsoleMessage");
+
+    strcpy_s(bootPath, path);
 
     MyOutputFile << "initLua done\n" << std::flush;
 }
@@ -165,9 +181,12 @@ enum class DayZServerCommands {
     Nothing,
     OnUpdate,
     OnKilled,
+    JustBooted,
     OnCommand = 2103,
     OnUpdatePass = 4912
 };
+
+bool justBooted = false; // unused
 
 void LUA_INTERPRETER_UNEDITABLE() {
 
@@ -176,6 +195,32 @@ void LUA_INTERPRETER_UNEDITABLE() {
     while (isLuaPowered) {
 
         DWORD* bridge = (DWORD*)DLL_BRIDGE;
+
+        /*
+        if (justBooted) {
+            int res = luaL_dofile(state, bootPath);
+            switch (res) {
+                case LUA_ERRSYNTAX:
+                    //puts("[Lua] Error executing line ( syntax ) !");
+                    break;
+                case LUA_ERRMEM:
+                    //puts("[Lua] Error executing line ( memory ) !");
+                    break;
+                default: {
+                    //int res = lua_pcall(state, 0, LUA_MULTRET, 0);
+                    if (res != LUA_OK) {
+                        print_error_console(state);
+                        return;
+                    }
+                }
+            }
+
+            ConsoleMessage("[tci] doFile executed!");
+            MyOutputFile << "doFile done\n" << std::flush;
+
+            justBooted = false;
+        }
+        */
 
         switch (bridge[6])
         {
@@ -187,6 +232,32 @@ void LUA_INTERPRETER_UNEDITABLE() {
         case (int)DayZServerCommands::OnKilled:
 
             break;
+        case (int)DayZServerCommands::JustBooted: {
+
+            ConsoleMessage("[tci] executing doFile...");
+
+            int res = luaL_dofile(state, bootPath);
+            switch (res) {
+            case LUA_ERRSYNTAX:
+                //puts("[Lua] Error executing line ( syntax ) !");
+                break;
+            case LUA_ERRMEM:
+                //puts("[Lua] Error executing line ( memory ) !");
+                break;
+            default: {
+                //int res = lua_pcall(state, 0, LUA_MULTRET, 0);
+                if (res != LUA_OK) {
+                    print_error_console(state);
+                    return;
+                }
+            }
+            }
+
+            ConsoleMessage("[tci] doFile executed!");
+            MyOutputFile << "doFile done\n" << std::flush;
+
+            break;
+        }
 
         case (int)DayZServerCommands::OnCommand:
             //LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
@@ -218,13 +289,30 @@ void LUA_INTERPRETER_UNEDITABLE() {
 std::thread* LUA_THREAD = NULL;
 
 
+void freeLuaStateInternally() {
+    lua_close(state);
+}
+
+// This is called when you already have a thread running
+void createLuaState(const char* path) { // TODO : name it more appropiately
+    initLua(path);
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    bridge[6] = (int)DayZServerCommands::JustBooted;
+    goInLua();
+}
+
+std::thread* setup(const char* path) {
+
+    if (LUA_THREAD != NULL) {
+        createLuaState(path);
+        return LUA_THREAD;
+    }
 
 
-std::thread* setup() {
     //for (int i = 0; i < 500; i++) { DLL_BRIDGE[i] = 0; }
     MyOutputFile << "setup\n" << std::flush;
 
-    initLua();
+    initLua(path);
 
     MyOutputFile << "setup2\n" << std::flush;
 
@@ -233,7 +321,8 @@ std::thread* setup() {
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
     MyOutputFile << "setup3\n" << std::flush;
-    bridge[6] = (int)DayZServerCommands::Nothing; // this should go through default / nothing
+    bridge[6] = (int)DayZServerCommands::JustBooted; // this should go through default / nothing
+    justBooted = true;
     MyOutputFile << "setup4\n" << std::flush;
     std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
             ThreadA->detach(); // Detaching actually helps
@@ -260,10 +349,9 @@ void cleanup() {
     delete LUA_THREAD;
 }
 
-
 int main2()
 {
-    LUA_THREAD = setup();
+    LUA_THREAD = setup("C:\\Program Files (x86)\\Steam\\steamapps\\common\\DayZServer\\lua\\script.lua");
 
     //std::this_thread::sleep_for(std::chrono::seconds(1));
     std::cout << "[[[[[Sloop]]]]]" << std::endl;
