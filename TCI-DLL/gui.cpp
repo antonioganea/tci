@@ -384,7 +384,7 @@ void    TCIAppConsole::ClearLog()
 }
 
 extern bool SHOULD_LUA_HOTLOAD;
-//extern bool initializedLua;
+extern bool initializedLua;
 
 void    TCIAppConsole::Draw(const char* title, bool* p_open)
 {
@@ -421,8 +421,8 @@ void    TCIAppConsole::Draw(const char* title, bool* p_open)
     if (ImGui::Button("Hot Reload")) {
         AddLog("[tci] Called Hot Reload from console.");
 
-        // if (initializedLua) // might need to check this to avoid weird bugs
-        SHOULD_LUA_HOTLOAD = true;
+        if (initializedLua) // avoids weird bugs
+            SHOULD_LUA_HOTLOAD = true;
     }
 
     ImGui::SameLine();

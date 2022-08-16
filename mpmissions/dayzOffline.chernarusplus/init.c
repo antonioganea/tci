@@ -189,7 +189,7 @@ class CustomMission: MissionServer
 			//SendGlobalMessage("Blogg");
 			if (DLL_WATERMARK[6] == 1002) {
 				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_WATERMARK[7]);
-				SendGlobalMessage("The response from lua is : " + luaResponse);
+				SendGlobalMessage("Broadcast : " + luaResponse);
 
 				crappyVariable = 2000;
 

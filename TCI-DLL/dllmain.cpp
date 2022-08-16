@@ -90,8 +90,31 @@ void simpleThread() {
     // tested : it does not crash with a cv.wait.
 }
 
+int ESCALL_COMMAND;
+int watermark7 = 0;
+
+bool preserved = false;
+
+// Preserving is very important and must be done right, if not, the server will jam in the iterationCycle
+// or potentially crash ( bcs of runtime errors )
+void pushESCall() {
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    ESCALL_COMMAND = bridge[6];
+    watermark7 = bridge[7];
+    preserved = true;
+}
+
+void popESCall() {
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    bridge[6] = ESCALL_COMMAND;
+    bridge[7] = watermark7;
+    preserved = false;
+}
+
 bool initializedLua = false;
 bool SHOULD_LUA_HOTLOAD = false;
+
+bool ESFirstCall = true; // signifies that OnGetControl is the first passthrough in an ES magic call cycle
 
 volatile void OnGetControl() {
 
@@ -111,12 +134,24 @@ volatile void OnGetControl() {
     // not just on 2103 .... + there should be a global bool flag indicating that it should be hot-reloaded.
     // SHOULD_LUA_RELOAD == true .. something like this
     // Also, there needs to be a way to call setup() again.. but dispose the old state cleanly ( For hot reloads )
+
+    //MyOutputFile << "FX0\n" << std::flush;
+
+    //if (SHOULD_LUA_HOTLOAD && bridge[6] == 0 && initializedLua)
+    if (SHOULD_LUA_HOTLOAD && ESFirstCall && initializedLua) { // if lua needs to hotload and we're not in the middle of something..
+        freeLuaStateInternally();
+        initializedLua = false;
+        SHOULD_LUA_HOTLOAD = false;
+        //MyOutputFile << "FX-HR\n" << std::flush;
+    }
+
     if (!initializedLua) {
+        //MyOutputFile << "FX-notInitialized\n" << std::flush;
 
         // TODO: do we really need the bridge[6] temp swap ?
         // are we sure we can't just let it do whatever it wants to do in setup()?
         // ..... (should investigate for readability reasons )
-        int tempCode = bridge[6];
+        //int tempCode = bridge[6];
         // Might wanna :
         // 1) preserve all the call details from enfusion script, and execute them AFTER the lua setup...
         // or
@@ -124,8 +159,9 @@ volatile void OnGetControl() {
         //      -> however, a system needs to ensure that ES calls that lua setup after we are injected(detouring), and only once
         //      -> when we want to HOT Reload we need to call ES to time a luasetupcall for later
 
+        pushESCall();
 
-        bridge[6] = 0; // change this with non-magic code ( from enum DayzServerCommands )
+        //bridge[6] = 0; // change this with non-magic code ( from enum DayzServerCommands )
         //pushESCallContext();   // to be implemented
 
 
@@ -138,22 +174,33 @@ volatile void OnGetControl() {
         initializedLua = true;
 
         //popESCallContext();   // to be implemented
-        bridge[6] = tempCode;
+        //bridge[6] = tempCode;
+
+        
 
     }
+    else {
+        //MyOutputFile << "FX-else\n" << std::flush;
+        goInLua();
+        // should try one more time to remove spinlock from main thread????? - tried, doesn't work
+        // also test with OTHER mutex and cv. - tried, didn't work
+
+        if (initializedLua && bridge[6] == 0) {
+            //MyOutputFile << "FX-ending\n" << std::flush;
+            if (preserved) {
+                //MyOutputFile << "FX-popES\n" << std::flush;
+                popESCall();
+                goInLua();
+            }
+        }
+    }
+
+    ESFirstCall = bridge[6] == 0;
 
 
     //MyOutputFile << "DDD\n" << std::flush;
 
-    goInLua();
-    // should try one more time to remove spinlock from main thread????? - tried, doesn't work
-    // also test with OTHER mutex and cv. - tried, didn't work
 
-    if (SHOULD_LUA_HOTLOAD && bridge[6] == 0 && initializedLua) { // if lua needs to hotload and we're not in the middle of something..
-        freeLuaStateInternally();
-        initializedLua = false;
-        SHOULD_LUA_HOTLOAD = false;
-    }
 
     //MyOutputFile << "FFF\n" << std::flush;
    
