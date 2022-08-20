@@ -239,25 +239,30 @@ class CustomMission: MissionServer
 		InterpreterCycle();
 	}
 
-	/*
+	
 	override void OnUpdate(float timeslice) // Has been observed jamming. ( uncertain cause ) // MIGHT NOT BE THREAD-SAFE. // might also
 	// be linked to WRITING DDD FFF at each frame by mistake ( the writing was commented at this point .. )
 	{
-		super.OnUpdate(timeslice);
+		//super.OnUpdate(timeslice);
 
 		
-		//UpdateDummyScheduler();
-		//TickScheduler(timeslice);
-		//UpdateLogoutPlayers();
-		//m_WorldData.UpdateBaseEnvTemperature(timeslice); // re-calculate base enviro temperature
+		UpdateDummyScheduler();
+		TickScheduler(timeslice);
+		UpdateLogoutPlayers();
+		m_WorldData.UpdateBaseEnvTemperature(timeslice); // re-calculate base enviro temperature
 		
 
 		// This should only be called if TCI is injected, otherwise it will jam
-		if (crappyVariable == 2000) { // change this with something better
+		//if (crappyVariable == 2000) { // change this with something better
+		//	OnServerUpdatePass();
+		//}
+
+		if (DLL_WATERMARK[3] == 12) {
+			DLL_WATERMARK[3] = 100;
 			OnServerUpdatePass();
 		}
 	}
-	*/
+	
 
 	void LoadAdmins()
 	{

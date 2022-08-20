@@ -386,6 +386,8 @@ void    TCIAppConsole::ClearLog()
 extern bool SHOULD_LUA_HOTLOAD;
 extern bool initializedLua;
 
+void debugCall();
+
 void    TCIAppConsole::Draw(const char* title, bool* p_open)
 {
     ImGui::SetNextWindowPos({ 0,0 });
@@ -428,7 +430,8 @@ void    TCIAppConsole::Draw(const char* title, bool* p_open)
     ImGui::SameLine();
     if (ImGui::Button("Enable debug"))
     {
-        strcpy_s(buffer, "hallo");
+        //strcpy_s(buffer, "hallo");
+        debugCall();
     }
 
     ImGui::Separator();

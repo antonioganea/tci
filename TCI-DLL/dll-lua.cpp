@@ -266,7 +266,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
             break;
 
         case (int)DayZServerCommands::OnUpdatePass:
-
+            LuaexecuteLine("ConsoleMessage('OnUpdatePass')");
             // ...
 
             break;

@@ -111,6 +111,11 @@ void popESCall() {
     preserved = false;
 }
 
+void debugCall() {
+    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    bridge[3] = 12;
+}
+
 bool initializedLua = false;
 bool SHOULD_LUA_HOTLOAD = false;
 
@@ -135,18 +140,18 @@ volatile void OnGetControl() {
     // SHOULD_LUA_RELOAD == true .. something like this
     // Also, there needs to be a way to call setup() again.. but dispose the old state cleanly ( For hot reloads )
 
-    //MyOutputFile << "FX0\n" << std::flush;
+    MyOutputFile << "FX0\n" << std::flush;
 
     //if (SHOULD_LUA_HOTLOAD && bridge[6] == 0 && initializedLua)
     if (SHOULD_LUA_HOTLOAD && ESFirstCall && initializedLua) { // if lua needs to hotload and we're not in the middle of something..
         freeLuaStateInternally();
         initializedLua = false;
         SHOULD_LUA_HOTLOAD = false;
-        //MyOutputFile << "FX-HR\n" << std::flush;
+        MyOutputFile << "FX-HR\n" << std::flush;
     }
 
     if (!initializedLua) {
-        //MyOutputFile << "FX-notInitialized\n" << std::flush;
+        MyOutputFile << "FX-notInitialized\n" << std::flush;
 
         // TODO: do we really need the bridge[6] temp swap ?
         // are we sure we can't just let it do whatever it wants to do in setup()?
@@ -180,17 +185,19 @@ volatile void OnGetControl() {
 
     }
     else {
-        //MyOutputFile << "FX-else\n" << std::flush;
+        MyOutputFile << "FX-else\n" << std::flush;
         goInLua();
         // should try one more time to remove spinlock from main thread????? - tried, doesn't work
         // also test with OTHER mutex and cv. - tried, didn't work
 
         if (initializedLua && bridge[6] == 0) {
-            //MyOutputFile << "FX-ending\n" << std::flush;
+            MyOutputFile << "FX-ending\n" << std::flush;
             if (preserved) {
-                //MyOutputFile << "FX-popES\n" << std::flush;
+                MyOutputFile << "FX-popES\n" << std::flush;
                 popESCall();
-                goInLua();
+                goInLua(); // WARNING! THIS goInLua is immediately after another one. Sometimes the cv.notify() is too fast and
+                // the threads jam! Be advised. - CONFIRMED CAUSE OF PROBLEMS. needs to be fixed! - somehow it might work under some conditions
+                // but it is KNOWN to cause jams.
             }
         }
     }
@@ -203,8 +210,7 @@ volatile void OnGetControl() {
 
 
     //MyOutputFile << "FFF\n" << std::flush;
-   
-
+    MyOutputFile << "FX-finale\n" << std::flush;
 
 
     /*

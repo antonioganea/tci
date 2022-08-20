@@ -1,29 +1,11 @@
 
 --policeMen = {}
 
-function onDuty()
-
-	--x, y, z = GetPlayerPos(player)
-
-	--if ... KamyPoliceOutside
-
-	--table.insert(policeMen, player)
-
-	BroadcastMessage("Random number " .. math.random(1, 10))
-	BroadcastMessage("You should take care of the guns")
-
-	BroadcastMessage("The result is " .. (10^3))
-
-	for i = 1, 3 do
-
-		BroadcastMessage("crick")
-
-	end
-
-	-- GiveItem("sks", player)
-end
-
-onDuty()
+ConsoleMessage("YESS")
+BroadcastMessage("Lua Script loaded!")
+BroadcastMessage("Lua Script loaded!")
+BroadcastMessage("Lua Script loaded!")
+ConsoleMessage("YESS555")
 
 
 --[[
