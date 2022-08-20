@@ -68,10 +68,37 @@ class CustomMission: MissionServer
 	const int BRIDGE_SIZE = 256;
 	int DLL_BRIDGE_BYTES[BRIDGE_SIZE];
 
-	int DLL_WATERMARK[256];
+	int DLL_WATERMARK[4];
+
+	int DLL_DETOURED;
+	int DLL_IS_MAGIC_CALL;
+	int DLL_TRIGGER_DEBUG_CALL;
+	int DLL_IN_COMMAND;
+	int DLL_OUT_COMMAND;
+
+	int DLL_INTN_IN;
+	int DLL_INTN_OUT;
+
+	int DLL_INTS_IN[8];
+	int DLL_INTS_OUT[8];
+
+	int DLL_FLOATN_IN;
+	int DLL_FLOATN_OUT;
+
+	float DLL_INTS_IN[8];
+	float DLL_INTS_OUT[8];
+
+	int DLL_STRN_IN;
+	int DLL_STRN_OUT;
+	int DLL_STRLEN_IN[4];
+	int DLL_STRLEN_OUT[4];
+
 	// Inbound string has 1024 characters.
 	string DLL_INBOUND_STRING = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-	string DLL_OUTBOUND_STRING = "something";
+	string DLL_OUTBOUND_STR1 = "something1";
+	string DLL_OUTBOUND_STR2 = "something2";
+	string DLL_OUTBOUND_STR3 = "something3";
+	string DLL_OUTBOUND_STR4 = "something4";
 
 	int crappyVariable = 1000;
 
@@ -84,6 +111,7 @@ class CustomMission: MissionServer
 		MagicCall_Internal();
 	}
 
+	/*
 	int GetByte(int n, int which) { // not tested
 		return (n >> ((3 - which) * 8)) & 0xFF;
 	}
@@ -114,6 +142,7 @@ class CustomMission: MissionServer
 			SetBufferByte(i + x + 1, mynumber);
 		}
 	}
+	*/
 
 	void PAYLOAD_INJECT(){
 		DLL_PAYLOAD = "THIS IS A SAMPLE PAYLOAD.";
