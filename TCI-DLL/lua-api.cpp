@@ -164,8 +164,37 @@ int l_GetItemStackName(lua_State* L) {
     return 0;
 }
 
+#include <vector>
+#include <map>
+#include <string>
+
+std::map<std::string, std::vector<int>> commandHandlers;
+
+#include <fstream>
+
+extern std::ofstream MyOutputFile;
+
 // RegisterCommandHandler("/onduty", onDutyHandler)
 int l_RegisterCommandHandler(lua_State* L) {
+
+    MyOutputFile << "RegisterCommandHandler\n" << std::flush;
+
+    // todo : check if the parameter is a function..
+
+    if (lua_gettop(L) != 2) { // function takes two parameters
+        return 0;
+    }
+
+    std::string commandName(lua_tostring(L, 1));
+
+    MyOutputFile << commandName << " - command name\n" << std::flush;
+
+    int r = luaL_ref(L, LUA_REGISTRYINDEX);
+
+    MyOutputFile << "registered ref " << r << "\n" << std::flush;
+
+    commandHandlers[commandName].push_back(r);
+
     return 0;
 }
 
@@ -183,4 +212,36 @@ int l_ClearCommandHandlers(lua_State* L) {
 // "onStartingEquipSetup", "onPlayerKilled", ...
 int l_RegisterEventHandler(lua_State* L) {
     return 0;
+}
+
+extern lua_State* state;
+
+int CallCommandHandlers(std::string command) {
+
+    MyOutputFile << "CallCommandHandlers\n" << std::flush;
+
+    int calls = 0;
+
+    std::vector<int>& handlers = commandHandlers[command];
+
+    for (std::vector<int>::iterator it = handlers.begin(); it != handlers.end(); it++) {
+
+        MyOutputFile << "calling ref " << *it << "\n" << std::flush;
+
+        lua_rawgeti(state, LUA_REGISTRYINDEX, *it);
+        if (lua_pcall(state, 0, 0, 0) != 0){
+            //error TODO - implement
+        }
+        calls++;
+    }
+
+    MyOutputFile << "returning " << calls << " calls\n" << std::flush;
+    
+    //luaL_unref(L, LUA_REGISTRYINDEX, r);
+
+    return calls;
+}
+
+void ResetHandlers() {
+    commandHandlers.clear();
 }

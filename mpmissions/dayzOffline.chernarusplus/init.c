@@ -168,27 +168,27 @@ class CustomMission: MissionServer
 
 
 
-	     DLL_DETOURED = 1;
-		 DLL_IS_MAGIC_CALL = 2;
-		 DLL_COMMAND = 3;
-		 DLL_TRIGGER_DEBUG_CALL = 4;
+	     //DLL_DETOURED = 1;
+		 //DLL_IS_MAGIC_CALL = 2;
+		 //DLL_COMMAND = 3;
+		 //DLL_TRIGGER_DEBUG_CALL = 4;
 
-		 DLL_INTN_IN = 6;
-		 DLL_INTN_OUT = 7;
+		 //DLL_INTN_IN = 6;
+		 //DLL_INTN_OUT = 7;
 
-		 DLL_INTS_IN[0] = 8;
-		 DLL_INTS_OUT[0] = 9;
+		 //DLL_INTS_IN[0] = 8;
+		 //DLL_INTS_OUT[0] = 9;
 
-		 DLL_FLOATN_IN = 10;
-		 DLL_FLOATN_OUT = 11;
+		 //DLL_FLOATN_IN = 10;
+		 //DLL_FLOATN_OUT = 11;
 
-		 DLL_FLOATS_IN[0] = 12;
-		 DLL_FLOATS_OUT[0] = 13;
+		 //DLL_FLOATS_IN[0] = 12;
+		 //DLL_FLOATS_OUT[0] = 13;
 
-		 DLL_STRN_IN = 14;
-		 DLL_STRN_OUT = 15;
-		 DLL_STRLEN_IN[0] = 16;
-		 DLL_STRLEN_OUT[0] = 17;
+		 //DLL_STRN_IN = 14;
+		 //DLL_STRN_OUT = 15;
+		 //DLL_STRLEN_IN[0] = 16;
+		 //DLL_STRLEN_OUT[0] = 17;
 
 
 
@@ -406,6 +406,16 @@ class CustomMission: MissionServer
 		DLL_FLOATS_OUT[2] = pos[2];
 		
 		DLL_COMMAND = 1592;
+
+		InterpreterCycle();
+	}
+
+	void RedirectCommandToLua(PlayerBase player, string command) {
+		DLL_COMMAND = 5522; // on generic command
+
+		DLL_OUTBOUND_STR1 = command;
+		DLL_STRLEN_OUT[0] = command.Length();
+		DLL_STRN_OUT = 1;
 
 		InterpreterCycle();
 	}
@@ -668,8 +678,9 @@ class CustomMission: MissionServer
 				return false;
 
 			default:
-				SendPlayerMessage(player, "Unknown command!");
-				SendPlayerMessage(player, helpMsg);
+				SendPlayerMessage(player, "Redirecting to lua!");
+				//SendPlayerMessage(player, helpMsg);
+				RedirectCommandToLua(player, args[0]);
 				return false;
 		}
 		

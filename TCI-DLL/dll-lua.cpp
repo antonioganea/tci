@@ -148,6 +148,9 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_GetFloatsDemo);
     lua_setglobal(state, "GetFloatsDemo");
 
+    lua_pushcfunction(state, l_RegisterCommandHandler);
+    lua_setglobal(state, "RegisterCommandHandler");
+
     strcpy_s(bootPath, path);
 
     MyOutputFile << "initLua done\n" << std::flush;
@@ -187,7 +190,8 @@ enum class DayZServerCommands {
     JustBooted,
     OnCommand = 2103,
     OnUpdatePass = 4912,
-    OnSomething = 1592
+    OnSomething = 1592,
+    OnGenericCommand = 5522
 };
 
 bool justBooted = false; // unused
@@ -286,6 +290,19 @@ void LUA_INTERPRETER_UNEDITABLE() {
             LuaexecuteLine("x, y, z = GetFloatsDemo(); ConsoleMessage(x .. ' ' .. y .. ' ' .. z)");
             break;
 
+        case (int)DayZServerCommands::OnGenericCommand:
+            MyOutputFile << "OnGenericCommand\n" << std::flush;
+            MyOutputFile << std::hex << (long long)DLL_IN_STR1 << std::dec << '\n' << std::flush;
+            MyOutputFile << std::hex << (long long)(*DLL_IN_STR1) << std::dec << '\n' << std::flush;
+            if (CallCommandHandlers(*DLL_IN_STR1) > 0) {
+                MyOutputFile << "fa1\n" << std::flush;
+            }
+            else {
+                MyOutputFile << "fa2\n" << std::flush;
+                ConsoleMessage("Unknown command in interpreter.");
+            }
+            break;
+
         default:
             MyOutputFile << "hit default in LUA THREAD. Something is WRONG\n" << std::flush;
             break;
@@ -306,6 +323,7 @@ std::thread* LUA_THREAD = NULL;
 
 void freeLuaStateInternally() {
     lua_close(state);
+    ResetHandlers();
 }
 
 // This is called when you already have a thread running

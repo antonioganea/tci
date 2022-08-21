@@ -7,6 +7,25 @@ BroadcastMessage("Lua Script loaded!")
 BroadcastMessage("Lua Script loaded!")
 ConsoleMessage("YESS555")
 
+function com1()
+	BroadcastMessage("com1 works!")
+	ConsoleMessage("com1 ran")
+end
+RegisterCommandHandler("/com", com1)
+
+function com2()
+	BroadcastMessage("com2 works!")
+	ConsoleMessage("com2 ran")
+end
+RegisterCommandHandler("/com2", com2)
+
+function com3()
+	BroadcastMessage("com3 works!")
+	ConsoleMessage("com3 ran")
+end
+RegisterCommandHandler("/com3", com3)
+
+ConsoleMessage("Loaded")
 
 --[[
 function doSomeStuff()

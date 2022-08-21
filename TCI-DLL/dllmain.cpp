@@ -149,6 +149,14 @@ bool SHOULD_LUA_HOTLOAD = false;
 
 bool ESFirstCall = true; // signifies that OnGetControl is the first passthrough in an ES magic call cycle
 
+
+
+
+// HERE IS AN IDEA :
+// Instead of wasting time on call preserving ....
+// Allow hot reloads only on update events - that will get ignored anyway?
+
+
 volatile void OnGetControl() {
 
     //MyOutputFile << "Something" << std::flush;
@@ -733,10 +741,10 @@ void SetupDLLBridge() {
     DLL_STRN_OUT = (int*)ptr; ptr += sizeof(int);
 
     ptr += 8; // ES Array header
-    DLL_STRLEN_IN = (int*)ptr; ptr += 8 * sizeof(int);
+    DLL_STRLEN_IN = (int*)ptr; ptr += 4 * sizeof(int);
 
     ptr += 8; // ES Array header
-    DLL_STRLEN_OUT = (int*)ptr; ptr += 8 * sizeof(int);
+    DLL_STRLEN_OUT = (int*)ptr; ptr += 4 * sizeof(int);
 
     //Setting up the DLL_STRING bridge
     DLL_STRING_LOC = (char**)ptr; ptr += 8;
