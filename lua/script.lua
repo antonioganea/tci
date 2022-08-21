@@ -7,23 +7,50 @@ BroadcastMessage("Lua Script loaded!")
 BroadcastMessage("Lua Script loaded!")
 ConsoleMessage("YESS555")
 
-function com1()
-	BroadcastMessage("com1 works!")
-	ConsoleMessage("com1 ran")
+
+
+function com1(playerID)
+	BroadcastMessage("com1 works! playerID " .. playerID)
+	ConsoleMessage("com1 ran by " .. playerID)
 end
 RegisterCommandHandler("/com", com1)
 
-function com2()
+function com2(playerID)
 	BroadcastMessage("com2 works!")
 	ConsoleMessage("com2 ran")
 end
 RegisterCommandHandler("/com2", com2)
 
-function com3()
+function com3(playerID)
 	BroadcastMessage("com3 works!")
 	ConsoleMessage("com3 ran")
 end
 RegisterCommandHandler("/com3", com3)
+
+activeCop = 0
+
+function onDuty(playerID)
+	BroadcastMessage("You are now hired as a cop!")
+	activeCop = playerID
+	ConsoleMessage("cop hired")
+end
+RegisterCommandHandler("/onDuty", onDuty)
+
+function offDuty(playerID)
+	BroadcastMessage("You are off duty!")
+	activeCop = 0
+	ConsoleMessage("cop released")
+end
+RegisterCommandHandler("/offDuty", offDuty)
+
+function job(playerID)
+	if playerID == activeCop then
+		BroadcastMessage("You ARE the cop!")
+	else
+		BroadcastMessage("You are not even hired!")
+	end
+end
+RegisterCommandHandler("/job", job)
 
 ConsoleMessage("Loaded")
 

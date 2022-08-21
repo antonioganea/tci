@@ -216,7 +216,7 @@ int l_RegisterEventHandler(lua_State* L) {
 
 extern lua_State* state;
 
-int CallCommandHandlers(std::string command) {
+int CallCommandHandlers(std::string command, int playerID) {
 
     MyOutputFile << "CallCommandHandlers\n" << std::flush;
 
@@ -229,7 +229,8 @@ int CallCommandHandlers(std::string command) {
         MyOutputFile << "calling ref " << *it << "\n" << std::flush;
 
         lua_rawgeti(state, LUA_REGISTRYINDEX, *it);
-        if (lua_pcall(state, 0, 0, 0) != 0){
+        lua_pushinteger(state, playerID);
+        if (lua_pcall(state, 1, 0, 0) != 0){
             //error TODO - implement
         }
         calls++;

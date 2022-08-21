@@ -416,6 +416,10 @@ class CustomMission: MissionServer
 		DLL_OUTBOUND_STR1 = command;
 		DLL_STRLEN_OUT[0] = command.Length();
 		DLL_STRN_OUT = 1;
+		
+		int playerID = player.GetID();
+		DLL_INTS_OUT[0] = playerID;
+		DLL_INTN_OUT = 1;
 
 		InterpreterCycle();
 	}

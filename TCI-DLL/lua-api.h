@@ -85,6 +85,6 @@ int l_ClearCommandHandlers(lua_State* L);
 int l_RegisterEventHandler(lua_State* L);
 
 #include <string>
-int CallCommandHandlers(std::string command);
+int CallCommandHandlers(std::string command, int playerID);
 
 void ResetHandlers();

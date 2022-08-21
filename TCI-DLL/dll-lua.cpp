@@ -294,7 +294,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
             MyOutputFile << "OnGenericCommand\n" << std::flush;
             MyOutputFile << std::hex << (long long)DLL_IN_STR1 << std::dec << '\n' << std::flush;
             MyOutputFile << std::hex << (long long)(*DLL_IN_STR1) << std::dec << '\n' << std::flush;
-            if (CallCommandHandlers(*DLL_IN_STR1) > 0) {
+            if (CallCommandHandlers(*DLL_IN_STR1, DLL_INTS_OUT[0]) > 0) {
                 MyOutputFile << "fa1\n" << std::flush;
             }
             else {
