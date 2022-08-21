@@ -8,7 +8,9 @@
 #include "dll-lua.h"
 #include "gui.h"
 
-extern BYTE* DLL_BRIDGE;
+#include "bridge.h"
+
+//extern BYTE* DLL_BRIDGE;
 extern std::ofstream MyOutputFile;
 
 extern char** DLL_STRING_LOC;
@@ -18,6 +20,7 @@ extern char** DLL_STRING2_LOC;
 char workBuffer[1024];
 
 void AnnounceAll() {
+    /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
     //MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7 * 4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
@@ -36,15 +39,17 @@ void AnnounceAll() {
     bridge[6] = 1002;
 
     goOutOfLua();
+    */
 }
 
 void BroadcastMessage(char* str) {
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
     strcpy(DLL_STRING, str);
 
-    bridge[7] = strlen(str);
-    bridge[6] = 1002;
+    
+    DLL_STRLEN_IN[0] = strlen(str);
+    *DLL_COMMAND = 1002;
 
     goOutOfLua();
 }
@@ -57,6 +62,7 @@ void ConsoleMessage(const char* str) {
 }
 
 void AnnounceAll_old() {
+    /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
     bridge[6] = 1002;
     MyOutputFile << "AnnounceAll -internally " << (int)DLL_BRIDGE[7 * 4] << " " << DLL_BRIDGE[7 * 4 + 1] << DLL_BRIDGE[7 * 4 + 2] << "\n" << std::flush;
@@ -65,6 +71,7 @@ void AnnounceAll_old() {
     }
     MyOutputFile << std::flush;
     goOutOfLua();
+    */
 }
 
 //Call from Lua to Cpp

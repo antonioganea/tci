@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bridge.h" />
     <ClInclude Include="dll-lua.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="gui.h" />

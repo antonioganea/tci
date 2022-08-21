@@ -188,13 +188,15 @@ enum class DayZServerCommands {
 
 bool justBooted = false; // unused
 
+#include "bridge.h"
+
 void LUA_INTERPRETER_UNEDITABLE() {
 
     MyOutputFile << "booting lua interpreter thread\n" << std::flush;
 
     while (isLuaPowered) {
 
-        DWORD* bridge = (DWORD*)DLL_BRIDGE;
+        //DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
         /*
         if (justBooted) {
@@ -222,7 +224,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
         }
         */
 
-        switch (bridge[6])
+        switch (*DLL_COMMAND)
         {
 
         case (int)DayZServerCommands::OnUpdate:
@@ -278,7 +280,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
         }
 
         //MyOutputFile << "exiting\n" << std::flush;
-        bridge[6] = 0;
+        *DLL_COMMAND = 0;
         goOutOfLua();
     }
 
@@ -296,8 +298,9 @@ void freeLuaStateInternally() {
 // This is called when you already have a thread running
 void createLuaState(const char* path) { // TODO : name it more appropiately
     initLua(path);
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    bridge[6] = (int)DayZServerCommands::JustBooted;
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    //bridge[6] = (int)DayZServerCommands::JustBooted;
+    *DLL_COMMAND = (int)DayZServerCommands::JustBooted;
     goInLua();
 }
 
@@ -321,7 +324,8 @@ std::thread* setup(const char* path) {
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
     MyOutputFile << "setup3\n" << std::flush;
-    bridge[6] = (int)DayZServerCommands::JustBooted; // this should go through default / nothing
+    //bridge[6] = (int)DayZServerCommands::JustBooted; // this should go through default / nothing
+    *DLL_COMMAND = (int)DayZServerCommands::JustBooted;
     justBooted = true;
     MyOutputFile << "setup4\n" << std::flush;
     std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
@@ -349,6 +353,7 @@ void cleanup() {
     delete LUA_THREAD;
 }
 
+/*
 int main2()
 {
     LUA_THREAD = setup("C:\\Program Files (x86)\\Steam\\steamapps\\common\\DayZServer\\lua\\script.lua");
@@ -380,3 +385,4 @@ int main2()
 
     return 0;
 }
+*/

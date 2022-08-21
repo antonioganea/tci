@@ -48,10 +48,37 @@ Register preservation instructions:
 */
 
 BYTE* DLL_BRIDGE = NULL;
-const int DLL_BRIDGE_SIZE = 256;
+
+int * DLL_DETOURED;
+int * DLL_IS_MAGIC_CALL;
+int * DLL_COMMAND;
+int * DLL_TRIGGER_DEBUG_CALL;
+
+int * DLL_INTN_IN;
+int * DLL_INTN_OUT;
+
+int * DLL_INTS_IN; // array
+int * DLL_INTS_OUT; // array
+
+int * DLL_FLOATN_IN;
+int * DLL_FLOATN_OUT;
+
+float * DLL_FLOATS_IN; // array
+float * DLL_FLOATS_OUT; // array
+
+int * DLL_STRN_IN;
+int * DLL_STRN_OUT;
+int * DLL_STRLEN_IN; // array
+int * DLL_STRLEN_OUT; // array
+
+
 char** DLL_STRING_LOC = NULL;
 char* DLL_STRING = NULL;
-char** DLL_STRING2_LOC = NULL;
+
+char** DLL_IN_STR1 = NULL;
+char** DLL_IN_STR2 = NULL;
+char** DLL_IN_STR3 = NULL;
+char** DLL_IN_STR4 = NULL;
 
 extern std::thread* LUA_THREAD;
 void freeLuaStateInternally();
@@ -66,8 +93,9 @@ std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\DLL-Log-debugging.txt")
 
 void AnnounceAll2() {
     MyOutputFile << "annoncer2\n" << std::flush;
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    bridge[6] = 1002;
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    //bridge[6] = 1002;
+    *DLL_COMMAND = 1002;
 }
 
 int l_AnnounceAll2(lua_State* L) {
@@ -98,22 +126,22 @@ bool preserved = false;
 // Preserving is very important and must be done right, if not, the server will jam in the iterationCycle
 // or potentially crash ( bcs of runtime errors )
 void pushESCall() {
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    ESCALL_COMMAND = bridge[6];
-    watermark7 = bridge[7];
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    ESCALL_COMMAND = *DLL_COMMAND;
+    watermark7 = DLL_STRLEN_OUT[0]; // ex bridge[7]
     preserved = true;
 }
 
 void popESCall() {
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    bridge[6] = ESCALL_COMMAND;
-    bridge[7] = watermark7;
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    *DLL_COMMAND = ESCALL_COMMAND;
+    DLL_STRLEN_OUT[0] = watermark7;
     preserved = false;
 }
 
 void debugCall() {
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    bridge[3] = 12;
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    *DLL_TRIGGER_DEBUG_CALL = 12;
 }
 
 bool initializedLua = false;
@@ -129,9 +157,9 @@ volatile void OnGetControl() {
         return;
     }
 
-    DWORD* bridge = (DWORD*)DLL_BRIDGE;
+    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
-    if (bridge[5] != 54) {
+    if (*DLL_IS_MAGIC_CALL != 54) {
         return;
     }
 
@@ -190,7 +218,7 @@ volatile void OnGetControl() {
         // should try one more time to remove spinlock from main thread????? - tried, doesn't work
         // also test with OTHER mutex and cv. - tried, didn't work
 
-        if (initializedLua && bridge[6] == 0) {
+        if (initializedLua && ((* DLL_COMMAND) == 0)) {
             MyOutputFile << "FX-ending\n" << std::flush;
             if (preserved) {
                 MyOutputFile << "FX-popES\n" << std::flush;
@@ -202,7 +230,7 @@ volatile void OnGetControl() {
         }
     }
 
-    ESFirstCall = bridge[6] == 0;
+    ESFirstCall = (* DLL_COMMAND) == 0;
 
 
     //MyOutputFile << "DDD\n" << std::flush;
@@ -674,10 +702,52 @@ void SetupDLLBridge() {
 
     //MyOutputFile.close();
 
+    BYTE* ptr = DLL_BRIDGE + 4*sizeof(int);
+
+    DLL_DETOURED = (int*)ptr; ptr += sizeof(int);
+    DLL_IS_MAGIC_CALL = (int*)ptr; ptr += sizeof(int);
+    DLL_COMMAND = (int*)ptr; ptr += sizeof(int);
+    DLL_TRIGGER_DEBUG_CALL = (int*)ptr; ptr += sizeof(int);
+
+    DLL_INTN_IN = (int*)ptr; ptr += sizeof(int);
+    DLL_INTN_OUT = (int*)ptr; ptr += sizeof(int);
+
+    //ptr += 4; // QWORD alignment
+
+    ptr += 8; // ES Array header
+    DLL_INTS_IN = (int*)ptr; ptr += 8 * sizeof(int);
+
+    ptr += 8; // ES Array header
+    DLL_INTS_OUT = (int*)ptr; ptr += 8 * sizeof(int);
+
+    DLL_FLOATN_IN = (int*)ptr; ptr += sizeof(int);
+    DLL_FLOATN_OUT = (int*)ptr; ptr += sizeof(int);
+
+    ptr += 8; // ES Array header
+    DLL_FLOATS_IN = (float*)ptr; ptr += 8 * sizeof(float);
+
+    ptr += 8; // ES Array header
+    DLL_FLOATS_OUT = (float*)ptr; ptr += 8 * sizeof(float);
+
+    DLL_STRN_IN = (int*)ptr; ptr += sizeof(int);
+    DLL_STRN_OUT = (int*)ptr; ptr += sizeof(int);
+
+    ptr += 8; // ES Array header
+    DLL_STRLEN_IN = (int*)ptr; ptr += 8 * sizeof(int);
+
+    ptr += 8; // ES Array header
+    DLL_STRLEN_OUT = (int*)ptr; ptr += 8 * sizeof(int);
+
     //Setting up the DLL_STRING bridge
-    DLL_STRING_LOC = (char**)(DLL_BRIDGE + DLL_BRIDGE_SIZE * 4);
+    DLL_STRING_LOC = (char**)ptr; ptr += 8;
     DLL_STRING = *DLL_STRING_LOC;
-    DLL_STRING2_LOC = (char**)(DLL_BRIDGE + DLL_BRIDGE_SIZE * 4 + 8);
+
+    DLL_IN_STR1 = (char**)ptr; ptr += 8;
+    DLL_IN_STR2 = (char**)ptr; ptr += 8;
+    DLL_IN_STR3 = (char**)ptr; ptr += 8;
+    DLL_IN_STR4 = (char**)ptr; ptr += 8;
+
+    // TODO : Sometimes, there has been a spacer (8 bytes) observed between STRLEN_OUT and DLL_STRING_LOC in memory...
 
     strcpy(DLL_STRING, "Ok this is an interesting string");
 }

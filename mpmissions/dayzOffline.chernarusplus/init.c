@@ -72,9 +72,8 @@ class CustomMission: MissionServer
 
 	int DLL_DETOURED;
 	int DLL_IS_MAGIC_CALL;
+	int DLL_COMMAND;
 	int DLL_TRIGGER_DEBUG_CALL;
-	int DLL_IN_COMMAND;
-	int DLL_OUT_COMMAND;
 
 	int DLL_INTN_IN;
 	int DLL_INTN_OUT;
@@ -85,8 +84,8 @@ class CustomMission: MissionServer
 	int DLL_FLOATN_IN;
 	int DLL_FLOATN_OUT;
 
-	float DLL_INTS_IN[8];
-	float DLL_INTS_OUT[8];
+	float DLL_FLOATS_IN[8];
+	float DLL_FLOATS_OUT[8];
 
 	int DLL_STRN_IN;
 	int DLL_STRN_OUT;
@@ -103,11 +102,11 @@ class CustomMission: MissionServer
 	int crappyVariable = 1000;
 
 	void MagicCall_Internal() {
-		DLL_WATERMARK[5] = 0;
+		DLL_IS_MAGIC_CALL = 0;
 	}
 
 	void MagicCall() {
-		DLL_WATERMARK[5] = 54;
+		DLL_IS_MAGIC_CALL = 54;
 		MagicCall_Internal();
 	}
 
@@ -166,6 +165,34 @@ class CustomMission: MissionServer
 		DLL_WATERMARK[2] = -1742332957;
 		DLL_WATERMARK[3] = -1380158861;
 
+
+
+
+	     DLL_DETOURED = 1;
+		 DLL_IS_MAGIC_CALL = 2;
+		 DLL_COMMAND = 3;
+		 DLL_TRIGGER_DEBUG_CALL = 4;
+
+		 DLL_INTN_IN = 6;
+		 DLL_INTN_OUT = 7;
+
+		 DLL_INTS_IN[0] = 8;
+		 DLL_INTS_OUT[0] = 9;
+
+		 DLL_FLOATN_IN = 10;
+		 DLL_FLOATN_OUT = 11;
+
+		 DLL_FLOATS_IN[0] = 12;
+		 DLL_FLOATS_OUT[0] = 13;
+
+		 DLL_STRN_IN = 14;
+		 DLL_STRN_OUT = 15;
+		 DLL_STRLEN_IN[0] = 16;
+		 DLL_STRLEN_OUT[0] = 17;
+
+
+
+
 		//Print("Hello from this noisy script");
 		//$profile:
 		FileHandle file = OpenFile("$profile:testfile.txt", FileMode.WRITE);
@@ -212,12 +239,12 @@ class CustomMission: MissionServer
 	}
 
 	void InterpreterCycle() {
-		while (DLL_WATERMARK[6] != 0) {
+		while (DLL_COMMAND != 0) {
 			//SendGlobalMessage("Blau");
 			MagicCall();
 			//SendGlobalMessage("Blogg");
-			if (DLL_WATERMARK[6] == 1002) {
-				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_WATERMARK[7]);
+			if (DLL_COMMAND == 1002) {
+				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				SendGlobalMessage("Broadcast : " + luaResponse);
 
 				crappyVariable = 2000;
@@ -229,7 +256,7 @@ class CustomMission: MissionServer
 
 	void OnLuaCommand(string firstParam) {
 		SendGlobalMessage("Glaugen");
-		DLL_WATERMARK[6] = 2103; // on lua command
+		DLL_COMMAND = 2103; // on lua command
 
 		//int sum = 0;
 		//for (int x = 0; x < firstParam.Length(); x++) {
@@ -254,8 +281,9 @@ class CustomMission: MissionServer
 
 		//WriteString(firstParam, 0);
 
-		DLL_OUTBOUND_STRING = firstParam;
-		DLL_WATERMARK[7] = firstParam.Length();
+		DLL_OUTBOUND_STR1 = firstParam;
+		DLL_STRLEN_OUT[0] = firstParam.Length();
+		DLL_STRN_OUT = 1;
 		
 		InterpreterCycle();
 
@@ -264,7 +292,7 @@ class CustomMission: MissionServer
 
 	// TODO : Would be nice to pass timeslice
 	void OnServerUpdatePass() {
-		DLL_WATERMARK[6] = 4912; // on update command code
+		DLL_COMMAND = 4912; // on update command code
 		InterpreterCycle();
 	}
 
@@ -286,8 +314,8 @@ class CustomMission: MissionServer
 		//	OnServerUpdatePass();
 		//}
 
-		if (DLL_WATERMARK[3] == 12) {
-			DLL_WATERMARK[3] = 100;
+		if (DLL_TRIGGER_DEBUG_CALL == 12) {
+			DLL_TRIGGER_DEBUG_CALL = 100;
 			OnServerUpdatePass();
 		}
 	}
