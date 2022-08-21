@@ -145,6 +145,9 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_ConsoleMessage);
     lua_setglobal(state, "ConsoleMessage");
 
+    lua_pushcfunction(state, l_GetFloatsDemo);
+    lua_setglobal(state, "GetFloatsDemo");
+
     strcpy_s(bootPath, path);
 
     MyOutputFile << "initLua done\n" << std::flush;
@@ -183,7 +186,8 @@ enum class DayZServerCommands {
     OnKilled,
     JustBooted,
     OnCommand = 2103,
-    OnUpdatePass = 4912
+    OnUpdatePass = 4912,
+    OnSomething = 1592
 };
 
 bool justBooted = false; // unused
@@ -271,6 +275,15 @@ void LUA_INTERPRETER_UNEDITABLE() {
             LuaexecuteLine("ConsoleMessage('OnUpdatePass')");
             // ...
 
+            break;
+
+        case (int)DayZServerCommands::OnSomething:
+            //DLL_FLOATS_OUT[0];
+
+
+
+
+            LuaexecuteLine("x, y, z = GetFloatsDemo(); ConsoleMessage(x .. ' ' .. y .. ' ' .. z)");
             break;
 
         default:

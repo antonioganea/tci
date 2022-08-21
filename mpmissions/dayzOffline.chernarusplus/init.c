@@ -351,6 +351,65 @@ class CustomMission: MissionServer
 		CloseFile(file);
 	}
 
+	/*
+	void SpawnCarFromBridgeData() {
+		Car car;
+
+		//olgablack
+		// Spawn and build the car
+		car = GetGame().CreateObject("CivilianSedan_Black", pos);
+		car.GetInventory().CreateAttachment("CivSedanHood_Black");
+		car.GetInventory().CreateAttachment("CivSedanTrunk_Black");
+		car.GetInventory().CreateAttachment("CivSedanDoors_Driver_Black");
+		car.GetInventory().CreateAttachment("CivSedanDoors_CoDriver_Black");
+		car.GetInventory().CreateAttachment("CivSedanDoors_BackLeft_Black");
+		car.GetInventory().CreateAttachment("CivSedanDoors_BackRight_Black");
+		car.GetInventory().CreateAttachment("CivSedanWheel");
+		car.GetInventory().CreateAttachment("CivSedanWheel");
+		car.GetInventory().CreateAttachment("CivSedanWheel");
+		car.GetInventory().CreateAttachment("CivSedanWheel");
+
+		SendPlayerMessage(player, "CivSedan_Black spawned.");
+
+
+		// A car was spawned, so we do some common car configuration
+
+		// Do general car building matching all car types
+		car.GetInventory().CreateAttachment("CarRadiator");
+		car.GetInventory().CreateAttachment("CarBattery");
+		car.GetInventory().CreateAttachment("SparkPlug");
+		car.GetInventory().CreateAttachment("HeadlightH7");
+		car.GetInventory().CreateAttachment("HeadlightH7");
+
+		// Fill all the fluids
+		car.Fill(CarFluid.FUEL, car.GetFluidCapacity(CarFluid.FUEL));
+		car.Fill(CarFluid.OIL, car.GetFluidCapacity(CarFluid.OIL));
+		car.Fill(CarFluid.BRAKE, car.GetFluidCapacity(CarFluid.BRAKE));
+		car.Fill(CarFluid.COOLANT, car.GetFluidCapacity(CarFluid.COOLANT));
+
+		// Set neutral gear
+		car.GetController().ShiftTo(CarGear.NEUTRAL);
+	}
+	*/
+
+	void OnSomething(PlayerBase player) {
+		// dam pozitia la injector
+		// asteptam sa vedem ce face el =]]
+
+
+		// Set car pos near player
+		vector pos = player.GetPosition();
+
+		DLL_FLOATN_OUT = 3;
+		DLL_FLOATS_OUT[0] = pos[0];
+		DLL_FLOATS_OUT[1] = pos[1];
+		DLL_FLOATS_OUT[2] = pos[2];
+		
+		DLL_COMMAND = 1592;
+
+		InterpreterCycle();
+	}
+
 	bool Command(PlayerBase player, string command)
 	{
 		const string helpMsg = "Available commands: /help /car /warp /kill /give /gear /ammo /say /info /heal /god /suicide /here /there";
@@ -365,6 +424,9 @@ class CustomMission: MissionServer
 		
 		switch (args[0])
 		{
+			case "/something":
+				OnSomething(player);
+			break;
 			case "/lua":
 				OnLuaCommand(args[1]);
 				break;
