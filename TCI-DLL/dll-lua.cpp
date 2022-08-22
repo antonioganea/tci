@@ -151,6 +151,9 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_RegisterCommandHandler);
     lua_setglobal(state, "RegisterCommandHandler");
 
+    lua_pushcfunction(state, l_GetPlayerPosition);
+    lua_setglobal(state, "GetPlayerPosition");
+
     strcpy_s(bootPath, path);
 
     MyOutputFile << "initLua done\n" << std::flush;

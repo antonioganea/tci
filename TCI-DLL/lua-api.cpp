@@ -140,7 +140,15 @@ int l_KillPlayer(lua_State* L) {
 
 // x, y, z = GetPlayerPosition(myPlayer) -- Requires user defined player type
 int l_GetPlayerPosition(lua_State* L) {
-    return 0;
+    int playerID = lua_tointeger(L, 1);
+
+    Vector3f pos = GetPlayerPosition(playerID);
+
+    lua_pushnumber(L, pos.x);
+    lua_pushnumber(L, pos.y);
+    lua_pushnumber(L, pos.z);
+
+    return 3;
 }
 
 // SetPlayerPosition(myPlayer, x, y, z)

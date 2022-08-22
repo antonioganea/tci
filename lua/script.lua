@@ -8,6 +8,37 @@ BroadcastMessage("Lua Script loaded!")
 ConsoleMessage("YESS555")
 
 
+policeLocker = {12050.608398438, 6.77032995224, 3612.6008300781}
+
+function distance(x1,y1,z1, x2,y2,z2)
+	return math.sqrt((x1-x2)^2 + (y1-y2)^2 + (z1-z2)^2)
+end
+
+function distanceToLocker(x,y,z)
+	return distance(x,y,z, policeLocker[1], policeLocker[2], policeLocker[3])
+end
+
+function locker(playerID)
+	--BroadcastMessage("LOCKER COMMAND")
+	
+	x, y, z = GetPlayerPosition(playerID)
+	local dist = distanceToLocker(x,y,z)
+	ConsoleMessage("distanceToLocker " .. dist)
+	if dist < 1 then
+		BroadcastMessage("You are within the area of the locker")
+	else
+		BroadcastMessage("You are not near the locker")
+	end
+end
+RegisterCommandHandler("/locker", locker)
+
+--[[
+function getPlayers(playerID)
+	players = {12321, 52323, 5123123, 552111}
+
+end
+RegisterCommandHandler("/getPlayers", getPlayers)
+]]
 
 function com1(playerID)
 	BroadcastMessage("com1 works! playerID " .. playerID)
@@ -16,8 +47,12 @@ end
 RegisterCommandHandler("/com", com1)
 
 function com2(playerID)
-	BroadcastMessage("com2 works!")
-	ConsoleMessage("com2 ran")
+	
+	x, y, z = GetPlayerPosition(playerID)
+
+	BroadcastMessage(x .. " " .. y .. " " .. z)
+
+	ConsoleMessage("com2 " .. x .. " " .. y .. " " .. z)
 end
 RegisterCommandHandler("/com2", com2)
 

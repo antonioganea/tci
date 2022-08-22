@@ -10,4 +10,10 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
+
+struct Vector3f
+{
+    float x, y, z;
+};
+
 #endif //PCH_H

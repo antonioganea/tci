@@ -61,6 +61,22 @@ void ConsoleMessage(const char* str) {
     console.AddLog(str);
 }
 
+Vector3f GetPlayerPosition(int playerID) {
+    Vector3f pos;
+
+    *DLL_COMMAND = 5681;
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    pos.x = DLL_FLOATS_OUT[0];
+    pos.y = DLL_FLOATS_OUT[1];
+    pos.z = DLL_FLOATS_OUT[2];
+
+    return pos;
+}
+
 void AnnounceAll_old() {
     /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;

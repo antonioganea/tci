@@ -251,6 +251,17 @@ class CustomMission: MissionServer
 
 				//SendGlobalMessage("This is a message for everyone - EnfusionScript-Lua interface");
 			}
+			if (DLL_COMMAND == 5681) {
+
+				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
+				PlayerBase targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				vector pos = targetPlayer.GetPosition();
+
+				DLL_FLOATN_OUT = 3;
+				DLL_FLOATS_OUT[0] = pos[0];
+				DLL_FLOATS_OUT[1] = pos[1];
+				DLL_FLOATS_OUT[2] = pos[2];
+			}
 		}
 	}
 
