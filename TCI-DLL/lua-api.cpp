@@ -159,6 +159,16 @@ int l_SetPlayerPosition(lua_State* L) {
 // SpawnPlayerItem(myPlayer, "SKS", 3, true) -- last parameter determines if the item is spawned in inventory or on the floor
 // might wanna consider a return type that is a user defined item type ( So you can check stuff later )
 int l_SpawnPlayerItem(lua_State* L) {
+
+    char buffer[256];
+    strcpy(buffer, lua_tostring(L, 2));
+
+    int playerID = lua_tointeger(L, 1);
+    int quantity = lua_tointeger(L, 3);
+    bool inHand = lua_toboolean(L, 4);
+
+    SpawnPlayerItem(playerID, buffer, quantity, inHand);
+
     return 0;
 }
 

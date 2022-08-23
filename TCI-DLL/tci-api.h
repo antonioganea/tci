@@ -11,3 +11,5 @@ Vector3f GetPlayerPosition(int playerID);
 //Call from Lua to Cpp
 void SpawnOlga();
 void SetDay();
+
+void SpawnPlayerItem(int playerID, const char* item, int quantity, bool inHand);

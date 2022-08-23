@@ -251,16 +251,43 @@ class CustomMission: MissionServer
 
 				//SendGlobalMessage("This is a message for everyone - EnfusionScript-Lua interface");
 			}
+
+			PlayerBase targetPlayer;
+
 			if (DLL_COMMAND == 5681) {
 
 				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
-				PlayerBase targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
 				vector pos = targetPlayer.GetPosition();
 
 				DLL_FLOATN_OUT = 3;
 				DLL_FLOATS_OUT[0] = pos[0];
 				DLL_FLOATS_OUT[1] = pos[1];
 				DLL_FLOATS_OUT[2] = pos[2];
+			}
+			if (DLL_COMMAND == 5682) {
+				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				string itemType = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+
+				EntityAI item;
+
+				if (DLL_INTS_IN[2] == 0) {
+					item = targetPlayer.SpawnEntityOnGroundPos(itemType, targetPlayer.GetPosition());
+				}
+				else {
+					targetPlayer.GetInventory().CreateInInventory(itemType);
+				}
+				
+
+				for (int i = 0; i < DLL_INTS_IN[1] - 1; i++) {
+					if (DLL_INTS_IN[2] == 0) {
+						item = targetPlayer.SpawnEntityOnGroundPos(itemType, targetPlayer.GetPosition());
+					}
+					else {
+						targetPlayer.GetInventory().CreateInInventory(itemType);
+					}
+				}
 			}
 		}
 	}

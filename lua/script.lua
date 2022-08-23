@@ -26,6 +26,13 @@ function locker(playerID)
 	ConsoleMessage("distanceToLocker " .. dist)
 	if dist < 1 then
 		BroadcastMessage("You are within the area of the locker")
+		SpawnPlayerItem(playerID, "MakarovIJ70", 1, true)
+		SpawnPlayerItem(playerID, "Mag_IJ70_8Rnd", 2, true)
+		SpawnPlayerItem(playerID, "AmmoBox_380_35rnd", 1, true)
+		SpawnPlayerItem(playerID, "Handcuffs", 1, true)
+		SpawnPlayerItem(playerID, "HandcuffKeys", 1, true)
+		
+		BroadcastMessage("Guns and ammo dispatched!")
 	else
 		BroadcastMessage("You are not near the locker")
 	end

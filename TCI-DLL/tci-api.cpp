@@ -122,3 +122,20 @@ void SetDay() {
     // NEEDS TO PASS CONTROL TO DayZServer_x64
     //giveControl();
 }
+
+
+void SpawnPlayerItem(int playerID, const char* item, int quantity, bool inHand) {
+    
+    *DLL_COMMAND = 5682;
+
+    DLL_INTS_IN[0] = playerID;
+    DLL_INTS_IN[1] = quantity;
+    DLL_INTS_IN[2] = (int)inHand;
+    *DLL_INTN_IN = 3;
+
+    strcpy(DLL_STRING, item);
+    DLL_STRLEN_IN[0] = strlen(item);
+
+    goOutOfLua();
+}
+
