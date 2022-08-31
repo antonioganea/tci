@@ -89,7 +89,8 @@ int l_SpawnCar(lua_State* L) {
 
 // playerCount = GetPlayerCount()
 int l_GetPlayerCount(lua_State* L) {
-    return 0;
+    lua_pushinteger(L, GetPlayerCount());
+    return 1;
 }
 
 // player = GetPlayerBySteamID(76561198113938382) -- Requires user defined player type

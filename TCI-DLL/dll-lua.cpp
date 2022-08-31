@@ -154,6 +154,9 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_SpawnPlayerItem);
     lua_setglobal(state, "SpawnPlayerItem");
 
+    lua_pushcfunction(state, l_GetPlayerCount);
+    lua_setglobal(state, "GetPlayerCount");
+
     strcpy_s(bootPath, path);
 
     MyOutputFile << "initLua done\n" << std::flush;

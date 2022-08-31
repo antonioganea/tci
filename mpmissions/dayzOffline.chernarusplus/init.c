@@ -243,7 +243,7 @@ class CustomMission: MissionServer
 			//SendGlobalMessage("Blau");
 			MagicCall();
 			//SendGlobalMessage("Blogg");
-			if (DLL_COMMAND == 1002) {
+			if (DLL_COMMAND == 1002) { // BroadcastMessage
 				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				SendGlobalMessage("Broadcast : " + luaResponse);
 
@@ -254,13 +254,13 @@ class CustomMission: MissionServer
 
 			PlayerBase targetPlayer;
 
-			if (DLL_COMMAND == 1006) {
+			if (DLL_COMMAND == 1006) { // SendPlayerMessage
 				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
 				SendPlayerMessage(targetPlayer, luaResponse);
 			}
 
-			if (DLL_COMMAND == 1008) {
+			if (DLL_COMMAND == 1008) { // SpawnCar
 				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 
 				vector pos;
@@ -277,6 +277,10 @@ class CustomMission: MissionServer
 					DLL_INTS_OUT[0] = 0;
 				}
 				DLL_INTN_OUT = 1;
+			}
+
+			if (DLL_COMMAND == 1010) { // GetPlayerCount
+				DLL_INTS_OUT[0] = GetPlayerCount();
 			}
 
 			if (DLL_COMMAND == 5681) {
@@ -382,7 +386,118 @@ class CustomMission: MissionServer
 			OnServerUpdatePass();
 		}
 	}
-	
+
+	int GetPlayerCount() {
+		ref array<Man> players = new array<Man>;
+		GetGame().GetPlayers(players);
+		return players.Count();
+	}
+
+	bool SpawnCarAtPos(string type, vector pos)
+	{
+		type.ToLower();
+
+		Car car;
+
+		switch (type)
+		{
+		case "offroad":
+			// Spawn and build the car
+			car = GetGame().CreateObject("OffroadHatchback", pos);
+			car.GetInventory().CreateAttachment("HatchbackTrunk");
+			car.GetInventory().CreateAttachment("HatchbackHood");
+			car.GetInventory().CreateAttachment("HatchbackDoors_CoDriver");
+			car.GetInventory().CreateAttachment("HatchbackDoors_Driver");
+			car.GetInventory().CreateAttachment("HatchbackWheel");
+			car.GetInventory().CreateAttachment("HatchbackWheel");
+			car.GetInventory().CreateAttachment("HatchbackWheel");
+			car.GetInventory().CreateAttachment("HatchbackWheel");
+			break;
+
+		case "olga":
+			// Spawn and build the car
+			car = GetGame().CreateObject("CivilianSedan", pos);
+			car.GetInventory().CreateAttachment("CivSedanHood");
+			car.GetInventory().CreateAttachment("CivSedanTrunk");
+			car.GetInventory().CreateAttachment("CivSedanDoors_Driver");
+			car.GetInventory().CreateAttachment("CivSedanDoors_CoDriver");
+			car.GetInventory().CreateAttachment("CivSedanDoors_BackLeft");
+			car.GetInventory().CreateAttachment("CivSedanDoors_BackRight");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			break;
+
+		case "olgablack":
+			// Spawn and build the car
+			car = GetGame().CreateObject("CivilianSedan_Black", pos);
+			car.GetInventory().CreateAttachment("CivSedanHood_Black");
+			car.GetInventory().CreateAttachment("CivSedanTrunk_Black");
+			car.GetInventory().CreateAttachment("CivSedanDoors_Driver_Black");
+			car.GetInventory().CreateAttachment("CivSedanDoors_CoDriver_Black");
+			car.GetInventory().CreateAttachment("CivSedanDoors_BackLeft_Black");
+			car.GetInventory().CreateAttachment("CivSedanDoors_BackRight_Black");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			car.GetInventory().CreateAttachment("CivSedanWheel");
+			break;
+
+		case "sarka":
+			// Spawn and build the car
+			car = GetGame().CreateObject("Sedan_02", pos);
+			car.GetInventory().CreateAttachment("Sedan_02_Hood");
+			car.GetInventory().CreateAttachment("Sedan_02_Trunk");
+			car.GetInventory().CreateAttachment("Sedan_02_Door_1_1");
+			car.GetInventory().CreateAttachment("Sedan_02_Door_1_2");
+			car.GetInventory().CreateAttachment("Sedan_02_Door_2_1");
+			car.GetInventory().CreateAttachment("Sedan_02_Door_2_2");
+			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
+			break;
+
+		case "gunter":
+			// Spawn and build the car
+			car = GetGame().CreateObject("Hatchback_02", pos);
+			car.GetInventory().CreateAttachment("Hatchback_02_Hood");
+			car.GetInventory().CreateAttachment("Hatchback_02_Trunk");
+			car.GetInventory().CreateAttachment("Hatchback_02_Door_1_1");
+			car.GetInventory().CreateAttachment("Hatchback_02_Door_1_2");
+			car.GetInventory().CreateAttachment("Hatchback_02_Door_2_1");
+			car.GetInventory().CreateAttachment("Hatchback_02_Door_2_2");
+			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
+			break;
+
+		default:
+			return false;
+		}
+
+		// A car was spawned, so we do some common car configuration
+
+		// Do general car building matching all car types
+		car.GetInventory().CreateAttachment("CarRadiator");
+		car.GetInventory().CreateAttachment("CarBattery");
+		car.GetInventory().CreateAttachment("SparkPlug");
+		car.GetInventory().CreateAttachment("HeadlightH7");
+		car.GetInventory().CreateAttachment("HeadlightH7");
+
+		// Fill all the fluids
+		car.Fill(CarFluid.FUEL, car.GetFluidCapacity(CarFluid.FUEL));
+		car.Fill(CarFluid.OIL, car.GetFluidCapacity(CarFluid.OIL));
+		car.Fill(CarFluid.BRAKE, car.GetFluidCapacity(CarFluid.BRAKE));
+		car.Fill(CarFluid.COOLANT, car.GetFluidCapacity(CarFluid.COOLANT));
+
+		// Set neutral gear
+		car.GetController().ShiftTo(CarGear.NEUTRAL);
+
+		return true;
+	}
 
 	void LoadAdmins()
 	{
@@ -970,112 +1085,6 @@ class CustomMission: MissionServer
 		// Set neutral gear
 		car.GetController().ShiftTo(CarGear.NEUTRAL);
 		
-		return true;
-	}
-
-	bool SpawnCarAtPos(string type, vector pos)
-	{
-		type.ToLower();
-
-		Car car;
-
-		switch (type)
-		{
-		case "offroad":
-			// Spawn and build the car
-			car = GetGame().CreateObject("OffroadHatchback", pos);
-			car.GetInventory().CreateAttachment("HatchbackTrunk");
-			car.GetInventory().CreateAttachment("HatchbackHood");
-			car.GetInventory().CreateAttachment("HatchbackDoors_CoDriver");
-			car.GetInventory().CreateAttachment("HatchbackDoors_Driver");
-			car.GetInventory().CreateAttachment("HatchbackWheel");
-			car.GetInventory().CreateAttachment("HatchbackWheel");
-			car.GetInventory().CreateAttachment("HatchbackWheel");
-			car.GetInventory().CreateAttachment("HatchbackWheel");
-			break;
-
-		case "olga":
-			// Spawn and build the car
-			car = GetGame().CreateObject("CivilianSedan", pos);
-			car.GetInventory().CreateAttachment("CivSedanHood");
-			car.GetInventory().CreateAttachment("CivSedanTrunk");
-			car.GetInventory().CreateAttachment("CivSedanDoors_Driver");
-			car.GetInventory().CreateAttachment("CivSedanDoors_CoDriver");
-			car.GetInventory().CreateAttachment("CivSedanDoors_BackLeft");
-			car.GetInventory().CreateAttachment("CivSedanDoors_BackRight");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			break;
-
-		case "olgablack":
-			// Spawn and build the car
-			car = GetGame().CreateObject("CivilianSedan_Black", pos);
-			car.GetInventory().CreateAttachment("CivSedanHood_Black");
-			car.GetInventory().CreateAttachment("CivSedanTrunk_Black");
-			car.GetInventory().CreateAttachment("CivSedanDoors_Driver_Black");
-			car.GetInventory().CreateAttachment("CivSedanDoors_CoDriver_Black");
-			car.GetInventory().CreateAttachment("CivSedanDoors_BackLeft_Black");
-			car.GetInventory().CreateAttachment("CivSedanDoors_BackRight_Black");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			car.GetInventory().CreateAttachment("CivSedanWheel");
-			break;
-
-		case "sarka":
-			// Spawn and build the car
-			car = GetGame().CreateObject("Sedan_02", pos);
-			car.GetInventory().CreateAttachment("Sedan_02_Hood");
-			car.GetInventory().CreateAttachment("Sedan_02_Trunk");
-			car.GetInventory().CreateAttachment("Sedan_02_Door_1_1");
-			car.GetInventory().CreateAttachment("Sedan_02_Door_1_2");
-			car.GetInventory().CreateAttachment("Sedan_02_Door_2_1");
-			car.GetInventory().CreateAttachment("Sedan_02_Door_2_2");
-			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
-			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
-			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
-			car.GetInventory().CreateAttachment("Sedan_02_Wheel");
-			break;
-
-		case "gunter":
-			// Spawn and build the car
-			car = GetGame().CreateObject("Hatchback_02", pos);
-			car.GetInventory().CreateAttachment("Hatchback_02_Hood");
-			car.GetInventory().CreateAttachment("Hatchback_02_Trunk");
-			car.GetInventory().CreateAttachment("Hatchback_02_Door_1_1");
-			car.GetInventory().CreateAttachment("Hatchback_02_Door_1_2");
-			car.GetInventory().CreateAttachment("Hatchback_02_Door_2_1");
-			car.GetInventory().CreateAttachment("Hatchback_02_Door_2_2");
-			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
-			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
-			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
-			car.GetInventory().CreateAttachment("Hatchback_02_Wheel");
-			break;
-
-		default:
-			return false;
-		}
-
-		// A car was spawned, so we do some common car configuration
-
-		// Do general car building matching all car types
-		car.GetInventory().CreateAttachment("CarRadiator");
-		car.GetInventory().CreateAttachment("CarBattery");
-		car.GetInventory().CreateAttachment("SparkPlug");
-		car.GetInventory().CreateAttachment("HeadlightH7");
-		car.GetInventory().CreateAttachment("HeadlightH7");
-
-		// Fill all the fluids
-		car.Fill(CarFluid.FUEL, car.GetFluidCapacity(CarFluid.FUEL));
-		car.Fill(CarFluid.OIL, car.GetFluidCapacity(CarFluid.OIL));
-		car.Fill(CarFluid.BRAKE, car.GetFluidCapacity(CarFluid.BRAKE));
-		car.Fill(CarFluid.COOLANT, car.GetFluidCapacity(CarFluid.COOLANT));
-
-		// Set neutral gear
-		car.GetController().ShiftTo(CarGear.NEUTRAL);
-
 		return true;
 	}
 	

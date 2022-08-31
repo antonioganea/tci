@@ -89,6 +89,14 @@ Vector3f GetPlayerPosition(int playerID) {
     return pos;
 }
 
+int GetPlayerCount() {
+    *DLL_COMMAND = 1010;
+
+    goOutOfLua();
+
+    return DLL_INTS_OUT[0];
+}
+
 bool SpawnCar(char* carType, float x, float y, float z) {
     strcpy(DLL_STRING, carType);
 
