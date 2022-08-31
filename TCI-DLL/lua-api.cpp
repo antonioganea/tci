@@ -44,23 +44,6 @@ int l_RegisterAsServerObject(lua_State* L) {
     return 0;
 }
 
-int l_SpawnVolga(lua_State* L) {
-    SpawnOlga();
-    /*
-    std::cout << "[Lua] Spawning Olga ..." << std::endl;
-
-    currentCommand = 54;
-
-    goOutOfLua();
-
-    currentCommand = 0;
-
-    std::cout << "[Lua] Spawned Olga" << std::endl;
-    */
-
-    return 0;
-}
-
 int l_AnnounceAll(lua_State* L) {
     AnnounceAll();
 

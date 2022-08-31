@@ -102,19 +102,6 @@ void AnnounceAll_old() {
     */
 }
 
-//Call from Lua to Cpp
-void SpawnOlga() {
-    std::cout << "Spawn Olga point" << std::endl;
-
-    goOutOfLua();
-
-    std::cout << "Spawn Olga done" << std::endl;
-
-    // Writes to shared_mem (bridge)
-    // NEEDS TO PASS CONTROL TO DayZServer_x64
-    //giveControl();
-}
-
 void SetDay() {
     std::cout << "Set day point" << std::endl;
 
