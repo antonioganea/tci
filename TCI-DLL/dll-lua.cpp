@@ -136,9 +136,6 @@ void initLua(const char* path) {
     //lua_pushcfunction(state, l_SpawnVolga);
     //lua_setglobal(state, "SpawnOlga");
 
-    lua_pushcfunction(state, l_AnnounceAll);
-    lua_setglobal(state, "AnnounceAll");
-
     lua_pushcfunction(state, l_BroadcastMessage);
     lua_setglobal(state, "BroadcastMessage");
 

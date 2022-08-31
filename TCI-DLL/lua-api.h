@@ -12,8 +12,6 @@ int l_ConsoleMessage(lua_State* L);
 // RegisterAsServerObject( object )
 int l_RegisterAsServerObject(lua_State* L);
 
-int l_AnnounceAll(lua_State* L);
-
 // BroadcastMessage("Our discord is discord.gg/something")
 int l_BroadcastMessage(lua_State* L);
 
