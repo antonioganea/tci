@@ -136,14 +136,23 @@ void initLua(const char* path) {
     //lua_pushcfunction(state, l_SpawnVolga);
     //lua_setglobal(state, "SpawnOlga");
 
-    lua_pushcfunction(state, l_BroadcastMessage);
-    lua_setglobal(state, "BroadcastMessage");
+    lua_pushcfunction(state, l_GetFloatsDemo);
+    lua_setglobal(state, "GetFloatsDemo");
 
     lua_pushcfunction(state, l_ConsoleMessage);
     lua_setglobal(state, "ConsoleMessage");
 
-    lua_pushcfunction(state, l_GetFloatsDemo);
-    lua_setglobal(state, "GetFloatsDemo");
+    lua_pushcfunction(state, l_BroadcastMessage);
+    lua_setglobal(state, "BroadcastMessage");
+
+    lua_pushcfunction(state, l_SendPlayerMessage);
+    lua_setglobal(state, "SendPlayerMessage");
+
+    lua_pushcfunction(state, l_SpawnCar);
+    lua_setglobal(state, "SpawnCar");
+
+    lua_pushcfunction(state, l_GetPlayerCount);
+    lua_setglobal(state, "GetPlayerCount");
 
     lua_pushcfunction(state, l_RegisterCommandHandler);
     lua_setglobal(state, "RegisterCommandHandler");
@@ -153,9 +162,6 @@ void initLua(const char* path) {
 
     lua_pushcfunction(state, l_SpawnPlayerItem);
     lua_setglobal(state, "SpawnPlayerItem");
-
-    lua_pushcfunction(state, l_GetPlayerCount);
-    lua_setglobal(state, "GetPlayerCount");
 
     strcpy_s(bootPath, path);
 
