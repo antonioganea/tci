@@ -292,7 +292,11 @@ class CustomMission: MissionServer
 				else {
 					DLL_INTS_OUT[0] = 0;
 				}
-				
+			}
+
+			if (DLL_COMMAND == 1014) { // GetPlayerSteamID
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_OUTBOUND_STR1 = targetPlayer.GetIdentity().GetPlainId();
 			}
 
 			if (DLL_COMMAND == 5681) {

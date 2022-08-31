@@ -102,7 +102,9 @@ int l_GetPlayerBySteamID(lua_State* L) {
 
 // steamID = GetPlayerSteamID(myPlayer) -- Requires user defined player type
 int l_GetPlayerSteamID(lua_State* L) {
-    return 0;
+    int playerID = lua_tointeger(L, 1);
+    lua_pushinteger(L, GetPlayerSteamID(playerID));
+    return 1;
 }
 
 // health = GetPlayerHealth(myPlayer) -- Requires user defined player type

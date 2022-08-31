@@ -113,6 +113,19 @@ int GetPlayerBySteamID(long long steamID) {
     return DLL_INTS_OUT[0];
 }
 
+long long GetPlayerSteamID(int playerID) {
+    *DLL_COMMAND = 1014;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    char* steamIDstr = *DLL_IN_STR1;
+
+    return strtoll(steamIDstr, NULL, 10);
+}
+
 bool SpawnCar(char* carType, float x, float y, float z) {
     strcpy(DLL_STRING, carType);
 

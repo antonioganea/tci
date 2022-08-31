@@ -11,6 +11,7 @@ Vector3f GetPlayerPosition(int playerID);
 
 int GetPlayerCount();
 int GetPlayerBySteamID(long long steamID);
+long long GetPlayerSteamID(int playerID);
 
 bool SpawnCar(char* carType, float x, float y, float z);
 void SetDay();
