@@ -89,6 +89,23 @@ Vector3f GetPlayerPosition(int playerID) {
     return pos;
 }
 
+bool SpawnCar(char* carType, float x, float y, float z) {
+    strcpy(DLL_STRING, carType);
+
+    DLL_STRLEN_IN[0] = strlen(carType);
+    *DLL_COMMAND = 1008;
+
+    DLL_FLOATS_IN[0] = x;
+    DLL_FLOATS_IN[1] = y;
+    DLL_FLOATS_IN[2] = z;
+
+    *DLL_FLOATN_IN = 3;
+
+    goOutOfLua();
+
+    return DLL_INTS_OUT[0];
+}
+
 void AnnounceAll_old() {
     /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;

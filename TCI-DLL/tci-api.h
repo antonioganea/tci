@@ -9,6 +9,7 @@ void ConsoleMessage(const char * str);
 
 Vector3f GetPlayerPosition(int playerID);
 
+bool SpawnCar(char* carType, float x, float y, float z);
 void SetDay();
 
 void SpawnPlayerItem(int playerID, const char* item, int quantity, bool inHand);

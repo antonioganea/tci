@@ -70,7 +70,21 @@ int l_SendPlayerMessage(lua_State* L) {
 
 // car = SpawnCar("olga", x, y, z) -- Requires user defined car type
 int l_SpawnCar(lua_State* L) {
-    return 0;
+
+    char buffer[256];
+    strcpy(buffer, lua_tostring(L, 1));
+
+    float x, y, z;
+
+    x = lua_tonumber(L, 2);
+    y = lua_tonumber(L, 3);
+    z = lua_tonumber(L, 4);
+
+    bool success = SpawnCar(buffer, x, y, z);
+
+    lua_pushboolean(L, success);
+
+    return 1;
 }
 
 // playerCount = GetPlayerCount()
