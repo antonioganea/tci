@@ -54,6 +54,18 @@ void BroadcastMessage(char* str) {
     goOutOfLua();
 }
 
+void SendPlayerMessage(int playerID, char* str) {
+    strcpy(DLL_STRING, str);
+
+    DLL_STRLEN_IN[0] = strlen(str);
+    *DLL_COMMAND = 1006;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+}
+
 
 extern TCIAppConsole console;
 

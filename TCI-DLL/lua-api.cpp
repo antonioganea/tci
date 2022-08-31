@@ -80,6 +80,14 @@ int l_BroadcastMessage(lua_State* L) {
 
 // SendPlayerMessage(myPlayer, "How do you do today?") -- Requires user defined player type
 int l_SendPlayerMessage(lua_State* L) {
+
+    int playerID = lua_tointeger(L, 1);
+
+    char buffer[256];
+    strcpy(buffer, lua_tostring(L, 2));
+
+    SendPlayerMessage(playerID, buffer);
+
     return 0;
 }
 

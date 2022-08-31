@@ -254,6 +254,12 @@ class CustomMission: MissionServer
 
 			PlayerBase targetPlayer;
 
+			if (DLL_COMMAND == 1006) {
+				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				SendPlayerMessage(targetPlayer, luaResponse);
+			}
+
 			if (DLL_COMMAND == 5681) {
 
 				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
