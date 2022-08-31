@@ -95,7 +95,9 @@ int l_GetPlayerCount(lua_State* L) {
 
 // player = GetPlayerBySteamID(76561198113938382) -- Requires user defined player type
 int l_GetPlayerBySteamID(lua_State* L) {
-    return 0;
+    long long steamID = lua_tointeger(L, 1);
+    lua_pushinteger(L, GetPlayerBySteamID(steamID));
+    return 1;
 }
 
 // steamID = GetPlayerSteamID(myPlayer) -- Requires user defined player type

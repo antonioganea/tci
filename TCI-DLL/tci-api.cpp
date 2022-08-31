@@ -97,6 +97,22 @@ int GetPlayerCount() {
     return DLL_INTS_OUT[0];
 }
 
+int GetPlayerBySteamID(long long steamID) {
+    *DLL_COMMAND = 1012;
+
+    snprintf(DLL_STRING, 256, "%lld", steamID); // seems to be null-terminated.
+
+    // Alternatively,
+    // this is only a 'long' to str converter, not long long :
+    //_ltoa(steamID, buffer, 10);
+
+    DLL_STRLEN_IN[0] = strlen(DLL_STRING);
+
+    goOutOfLua();
+
+    return DLL_INTS_OUT[0];
+}
+
 bool SpawnCar(char* carType, float x, float y, float z) {
     strcpy(DLL_STRING, carType);
 

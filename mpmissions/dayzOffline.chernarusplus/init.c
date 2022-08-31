@@ -283,6 +283,18 @@ class CustomMission: MissionServer
 				DLL_INTS_OUT[0] = GetPlayerCount();
 			}
 
+			if (DLL_COMMAND == 1012) { // GetPlayerBySteamID
+				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+				targetPlayer = GetPlayer(luaResponse, Identity.STEAMID);
+				if (targetPlayer != NULL) {
+					DLL_INTS_OUT[0] = targetPlayer.GetID();
+				}
+				else {
+					DLL_INTS_OUT[0] = 0;
+				}
+				
+			}
+
 			if (DLL_COMMAND == 5681) {
 
 				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons

@@ -154,6 +154,9 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_GetPlayerCount);
     lua_setglobal(state, "GetPlayerCount");
 
+    lua_pushcfunction(state, l_GetPlayerBySteamID);
+    lua_setglobal(state, "GetPlayerBySteamID");
+
     lua_pushcfunction(state, l_RegisterCommandHandler);
     lua_setglobal(state, "RegisterCommandHandler");
 

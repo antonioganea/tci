@@ -10,6 +10,7 @@ void ConsoleMessage(const char * str);
 Vector3f GetPlayerPosition(int playerID);
 
 int GetPlayerCount();
+int GetPlayerBySteamID(long long steamID);
 
 bool SpawnCar(char* carType, float x, float y, float z);
 void SetDay();
