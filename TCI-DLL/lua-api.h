@@ -84,6 +84,9 @@ int l_ClearCommandHandlers(lua_State* L);
 // "onStartingEquipSetup", "onPlayerKilled", ...
 int l_RegisterEventHandler(lua_State* L);
 
+// CallLater(1000, callback, repeated?=false, param1, param2, param3 ..)
+int l_CallLater(lua_State* L);
+
 #include <string>
 int CallCommandHandlers(std::string command, int playerID);
 

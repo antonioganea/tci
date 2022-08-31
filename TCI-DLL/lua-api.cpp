@@ -240,6 +240,11 @@ int l_RegisterEventHandler(lua_State* L) {
     return 0;
 }
 
+// CallLater(1000, callback, repeated?=false, param1, param2, param3 ..)
+int l_CallLater(lua_State* L) {
+    return 0;
+}
+
 extern lua_State* state;
 
 int CallCommandHandlers(std::string command, int playerID) {
