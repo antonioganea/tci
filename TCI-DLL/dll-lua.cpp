@@ -160,6 +160,32 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_GetPlayerSteamID);
     lua_setglobal(state, "GetPlayerSteamID");
 
+
+    lua_pushcfunction(state, l_GetPlayerHealth);
+    lua_setglobal(state, "GetPlayerHealth");
+    lua_pushcfunction(state, l_GetPlayerMaxHealth);
+    lua_setglobal(state, "GetPlayerMaxHealth");
+    lua_pushcfunction(state, l_SetPlayerHealth);
+    lua_setglobal(state, "SetPlayerHealth");
+
+    lua_pushcfunction(state, l_GetPlayerBlood);
+    lua_setglobal(state, "GetPlayerBlood");
+    lua_pushcfunction(state, l_GetPlayerMaxBlood);
+    lua_setglobal(state, "GetPlayerMaxBlood");
+    lua_pushcfunction(state, l_SetPlayerBlood);
+    lua_setglobal(state, "SetPlayerBlood");
+
+    lua_pushcfunction(state, l_GetPlayerShock);
+    lua_setglobal(state, "GetPlayerShock");
+    lua_pushcfunction(state, l_GetPlayerMaxShock);
+    lua_setglobal(state, "GetPlayerMaxShock");
+    lua_pushcfunction(state, l_SetPlayerShock);
+    lua_setglobal(state, "SetPlayerShock");
+
+    lua_pushcfunction(state, l_KillPlayer);
+    lua_setglobal(state, "KillPlayer");
+
+
     lua_pushcfunction(state, l_RegisterCommandHandler);
     lua_setglobal(state, "RegisterCommandHandler");
 

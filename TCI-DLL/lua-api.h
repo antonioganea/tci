@@ -30,17 +30,26 @@ int l_GetPlayerSteamID(lua_State* L);
 // health = GetPlayerHealth(myPlayer) -- Requires user defined player type
 int l_GetPlayerHealth(lua_State* L);
 
+// maxHealth = GetPlayerMaxHealth(myPlayer) -- Requires user defined player type
+int l_GetPlayerMaxHealth(lua_State* L);
+
 // SetPlayerHealth(myPlayer, health+10) -- Requires user defined player type
 int l_SetPlayerHealth(lua_State* L);
 
 // blood = GetPlayerBlood(myPlayer) -- Requires user defined player type
 int l_GetPlayerBlood(lua_State* L);
 
+// maxBlood = GetPlayerMaxBlood(myPlayer) -- Requires user defined player type
+int l_GetPlayerMaxBlood(lua_State* L);
+
 // SetPlayerBlood(myPlayer, blood+10) -- Requires user defined player type
 int l_SetPlayerBlood(lua_State* L);
 
 // shock = GetPlayerShock(myPlayer) -- Requires user defined player type
 int l_GetPlayerShock(lua_State* L);
+
+// maxShock = GetPlayerMaxShock(myPlayer) -- Requires user defined player type
+int l_GetPlayerMaxShock(lua_State* L);
 
 // SetPlayerShock(myPlayer, shock+10) -- Requires user defined player type
 int l_SetPlayerShock(lua_State* L);

@@ -126,6 +126,115 @@ long long GetPlayerSteamID(int playerID) {
     return strtoll(steamIDstr, NULL, 10);
 }
 
+
+float GetPlayerHealth(int playerID) {
+    *DLL_COMMAND = 1015;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+float GetPlayerMaxHealth(int playerID) {
+    *DLL_COMMAND = 1016;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+void SetPlayerHealth(int playerID, float value) {
+    *DLL_COMMAND = 1017;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    DLL_FLOATS_IN[0] = value;
+    *DLL_FLOATN_IN = 1;
+
+    goOutOfLua();
+}
+
+
+float GetPlayerBlood(int playerID) {
+    *DLL_COMMAND = 1018;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+float GetPlayerMaxBlood(int playerID) {
+    *DLL_COMMAND = 1019;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+void SetPlayerBlood(int playerID, float value) {
+    *DLL_COMMAND = 1020;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    DLL_FLOATS_IN[0] = value;
+    *DLL_FLOATN_IN = 1;
+
+    goOutOfLua();
+}
+
+
+float GetPlayerShock(int playerID) {
+    *DLL_COMMAND = 1021;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+float GetPlayerMaxShock(int playerID) {
+    *DLL_COMMAND = 1022;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+void SetPlayerShock(int playerID, float value) {
+    *DLL_COMMAND = 1023;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    DLL_FLOATS_IN[0] = value;
+    *DLL_FLOATN_IN = 1;
+
+    goOutOfLua();
+}
+
+
+void KillPlayer(int playerID) {
+    *DLL_COMMAND = 1024;
+
+    DLL_INTS_IN[0] = playerID;
+    *DLL_INTN_IN = 1;
+
+    goOutOfLua();
+}
+
 bool SpawnCar(char* carType, float x, float y, float z) {
     strcpy(DLL_STRING, carType);
 

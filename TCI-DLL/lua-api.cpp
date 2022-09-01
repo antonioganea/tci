@@ -95,36 +95,74 @@ int l_GetPlayerSteamID(lua_State* L) {
 
 // health = GetPlayerHealth(myPlayer) -- Requires user defined player type
 int l_GetPlayerHealth(lua_State* L) {
-    return 0;
+    int playerID = lua_tointeger(L, 1);
+    lua_pushnumber (L, GetPlayerHealth(playerID));
+    return 1;
+}
+
+// maxHealth = GetPlayerMaxHealth(myPlayer) -- Requires user defined player type
+int l_GetPlayerMaxHealth(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    lua_pushnumber(L, GetPlayerMaxHealth(playerID));
+    return 1;
 }
 
 // SetPlayerHealth(myPlayer, health+10) -- Requires user defined player type
 int l_SetPlayerHealth(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    float hp = lua_tonumber(L, 2);
+    SetPlayerHealth(playerID, hp);
     return 0;
 }
 
 // blood = GetPlayerBlood(myPlayer) -- Requires user defined player type
 int l_GetPlayerBlood(lua_State* L) {
-    return 0;
+    int playerID = lua_tointeger(L, 1);
+    lua_pushnumber(L, GetPlayerBlood(playerID));
+    return 1;
+}
+
+// maxBlood = GetPlayerMaxBlood(myPlayer) -- Requires user defined player type
+int l_GetPlayerMaxBlood(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    lua_pushnumber(L, GetPlayerMaxBlood(playerID));
+    return 1;
 }
 
 // SetPlayerBlood(myPlayer, blood+10) -- Requires user defined player type
 int l_SetPlayerBlood(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    float hp = lua_tonumber(L, 2);
+    SetPlayerBlood(playerID, hp);
     return 0;
 }
 
 // shock = GetPlayerShock(myPlayer) -- Requires user defined player type
 int l_GetPlayerShock(lua_State* L) {
-    return 0;
+    int playerID = lua_tointeger(L, 1);
+    lua_pushnumber(L, GetPlayerShock(playerID));
+    return 1;
+}
+
+// maxShock = GetPlayerMaxShock(myPlayer) -- Requires user defined player type
+int l_GetPlayerMaxShock(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    lua_pushnumber(L, GetPlayerMaxShock(playerID));
+    return 1;
 }
 
 // SetPlayerShock(myPlayer, shock+10) -- Requires user defined player type
 int l_SetPlayerShock(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    float hp = lua_tonumber(L, 2);
+    SetPlayerShock(playerID, hp);
     return 0;
 }
 
 // KillPlayer(myPlayer) -- Requires user defined player type
 int l_KillPlayer(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    KillPlayer(playerID);
     return 0;
 }
 

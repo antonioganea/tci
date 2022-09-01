@@ -299,6 +299,56 @@ class CustomMission: MissionServer
 				DLL_OUTBOUND_STR1 = targetPlayer.GetIdentity().GetPlainId();
 			}
 
+			if (DLL_COMMAND == 1015) { // GetPlayerHealth
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_FLOATS_OUT[0] = targetPlayer.GetHealth("GlobalHealth", "Health");
+			}
+
+			if (DLL_COMMAND == 1016) { // GetPlayerMaxHealth
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_FLOATS_OUT[0] = targetPlayer.GetMaxHealth("GlobalHealth", "Health");
+			}
+
+			if (DLL_COMMAND == 1017) { // SetPlayerHealth
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				targetPlayer.SetHealth("GlobalHealth", "Health", DLL_FLOATS_IN[0]);
+			}
+
+			if (DLL_COMMAND == 1018) { // GetPlayerBlood
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_FLOATS_OUT[0] = targetPlayer.GetHealth("GlobalHealth", "Blood");
+			}
+
+			if (DLL_COMMAND == 1019) { // GetPlayerMaxBlood
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_FLOATS_OUT[0] = targetPlayer.GetMaxHealth("GlobalHealth", "Blood");
+			}
+
+			if (DLL_COMMAND == 1020) { // SetPlayerBlood
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				targetPlayer.SetHealth("GlobalHealth", "Blood", DLL_FLOATS_IN[0]);
+			}
+
+			if (DLL_COMMAND == 1021) { // GetPlayerShock
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_FLOATS_OUT[0] = targetPlayer.GetHealth("GlobalHealth", "Shock");
+			}
+
+			if (DLL_COMMAND == 1022) { // GetPlayerMaxShock
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				DLL_FLOATS_OUT[0] = targetPlayer.GetMaxHealth("GlobalHealth", "Shock");
+			}
+
+			if (DLL_COMMAND == 1023) { // SetPlayerShock
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				targetPlayer.SetHealth("GlobalHealth", "Shock", DLL_FLOATS_IN[0]);
+			}
+
+			if (DLL_COMMAND == 1024) { // KillPlayer
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				targetPlayer.SetHealth("", "", -1);
+			}
+
 			if (DLL_COMMAND == 5681) {
 
 				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
