@@ -9,9 +9,6 @@ int l_GetFloatsDemo(lua_State* L);
 // ConsoleMessage("this should appear in the console")
 int l_ConsoleMessage(lua_State* L);
 
-// RegisterAsServerObject( object )
-int l_RegisterAsServerObject(lua_State* L);
-
 // BroadcastMessage("Our discord is discord.gg/something")
 int l_BroadcastMessage(lua_State* L);
 
