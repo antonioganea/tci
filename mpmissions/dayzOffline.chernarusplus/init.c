@@ -263,10 +263,10 @@ class CustomMission: MissionServer
 				SendPlayerMessage(targetPlayer, luaResponse);
 			}
 
+			vector pos;
+
 			if (DLL_COMMAND == 1008) { // SpawnCar
 				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
-
-				vector pos;
 
 				pos[0] = DLL_FLOATS_IN[0];
 				pos[1] = DLL_FLOATS_IN[1];
@@ -356,7 +356,7 @@ class CustomMission: MissionServer
 
 				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
 				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
-				vector pos = targetPlayer.GetPosition();
+				pos = targetPlayer.GetPosition();
 
 				DLL_FLOATN_OUT = 3;
 				DLL_FLOATS_OUT[0] = pos[0];
