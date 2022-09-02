@@ -243,8 +243,11 @@ class CustomMission: MissionServer
 			//SendGlobalMessage("Blau");
 			MagicCall();
 			//SendGlobalMessage("Blogg");
+
+			string luaResponse;
+
 			if (DLL_COMMAND == 1002) { // BroadcastMessage
-				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				SendGlobalMessage("Broadcast : " + luaResponse);
 
 				crappyVariable = 2000;
@@ -255,13 +258,13 @@ class CustomMission: MissionServer
 			PlayerBase targetPlayer;
 
 			if (DLL_COMMAND == 1006) { // SendPlayerMessage
-				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
 				SendPlayerMessage(targetPlayer, luaResponse);
 			}
 
 			if (DLL_COMMAND == 1008) { // SpawnCar
-				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 
 				vector pos;
 
@@ -284,7 +287,7 @@ class CustomMission: MissionServer
 			}
 
 			if (DLL_COMMAND == 1012) { // GetPlayerBySteamID
-				string luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
+				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				targetPlayer = GetPlayer(luaResponse, Identity.STEAMID);
 				if (targetPlayer != NULL) {
 					DLL_INTS_OUT[0] = targetPlayer.GetID();
