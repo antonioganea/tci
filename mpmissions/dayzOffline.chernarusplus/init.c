@@ -383,6 +383,37 @@ class CustomMission: MissionServer
 				targetPlayer.SetHealth("", "", -1);
 			}
 
+			if (DLL_COMMAND == 1025){ // GetCarFuel
+				car = GetCarByNetID(DLL_INTS_IN[0], DLL_INTS_IN[1]);
+				if (car != NULL) {
+					DLL_FLOATS_OUT[0] = car.GetFluidCapacity(CarFluid.FUEL) * car.GetFluidFraction(CarFluid.FUEL);
+				}
+				else {
+					DLL_FLOATS_OUT[0] = 0;
+				}
+			}
+
+			if (DLL_COMMAND == 1026) { // SetCarFuel
+				car = GetCarByNetID(DLL_INTS_IN[0], DLL_INTS_IN[1]);
+				if (car != NULL) {
+					car.LeakAll(CarFluid.FUEL);
+					car.Fill(CarFluid.FUEL, DLL_FLOATS_IN[0]);
+				}
+				else {
+					// ...
+				}
+			}
+
+			if (DLL_COMMAND == 1027) { // GetCarFuelCapacity
+				car = GetCarByNetID(DLL_INTS_IN[0], DLL_INTS_IN[1]);
+				if (car != NULL) {
+					DLL_FLOATS_OUT[0] = car.GetFluidCapacity(CarFluid.FUEL);
+				}
+				else {
+					DLL_FLOATS_OUT[0] = 0;
+				}
+			}
+
 			if (DLL_COMMAND == 5681) {
 
 				// This search of the PlayerBase by PID can be optimized so there are no strings conversions and comparisons
