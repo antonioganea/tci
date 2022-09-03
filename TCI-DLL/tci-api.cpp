@@ -269,6 +269,45 @@ long long GetPlayerCar(int playerID) {
     return conv.lng;
 }
 
+float GetCarFuel(long long car) {
+    *DLL_COMMAND = 1025;
+
+    LongIntConverter conv;
+    conv.lng = car;
+    DLL_INTS_IN[0] = conv.lo;
+    DLL_INTS_IN[1] = conv.hi;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+
+void SetCarFuel(long long car, float fuel) {
+    *DLL_COMMAND = 1026;
+
+    LongIntConverter conv;
+    conv.lng = car;
+    DLL_INTS_IN[0] = conv.lo;
+    DLL_INTS_IN[1] = conv.hi;
+
+    DLL_FLOATS_IN[0] = fuel;
+
+    goOutOfLua();
+}
+
+float GetCarFuelCapacity(long long car) {
+    *DLL_COMMAND = 1027;
+
+    LongIntConverter conv;
+    conv.lng = car;
+    DLL_INTS_IN[0] = conv.lo;
+    DLL_INTS_IN[1] = conv.hi;
+
+    goOutOfLua();
+
+    return DLL_FLOATS_OUT[0];
+}
+
 void AnnounceAll_old() {
     /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;

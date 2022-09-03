@@ -31,6 +31,10 @@ void KillPlayer(int playerID);
 
 long long SpawnCar(char* carType, float x, float y, float z);
 long long GetPlayerCar(int playerID);
+float GetCarFuel(long long car);
+void SetCarFuel(long long car, float fuel);
+float GetCarFuelCapacity(long long car);
+
 void SetDay();
 
 void SpawnPlayerItem(int playerID, const char* item, int quantity, bool inHand);
