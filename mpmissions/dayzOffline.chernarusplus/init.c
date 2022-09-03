@@ -289,6 +289,30 @@ class CustomMission: MissionServer
 				DLL_INTN_OUT = 2;
 			}
 
+			if (DLL_COMMAND == 1009) { // GetPlayerCar
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				EntityAI vehicle = targetPlayer.GetDrivingVehicle();
+
+				//IsTransport()...
+
+				if (vehicle != NULL) {
+					if (vehicle.HasNetworkID()) {
+						vehicle.GetNetworkID(lowbyte, highbyte);
+
+						DLL_INTS_OUT[0] = lowbyte;
+						DLL_INTS_OUT[1] = highbyte;
+					}
+					else {
+						DLL_INTS_OUT[0] = 0;
+						DLL_INTS_OUT[1] = 0;
+					}
+				}
+				else {
+					DLL_INTS_OUT[0] = 0;
+					DLL_INTS_OUT[1] = 0;
+				}
+			}
+
 			if (DLL_COMMAND == 1010) { // GetPlayerCount
 				DLL_INTS_OUT[0] = GetPlayerCount();
 			}
@@ -357,30 +381,6 @@ class CustomMission: MissionServer
 			if (DLL_COMMAND == 1024) { // KillPlayer
 				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
 				targetPlayer.SetHealth("", "", -1);
-			}
-
-			if (DLL_COMMAND == 1025) { // GetPlayerCar
-				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
-				EntityAI vehicle = targetPlayer.GetDrivingVehicle();
-
-				//IsTransport()...
-
-				if (vehicle != NULL) {
-					if (vehicle.HasNetworkID()) {
-						vehicle.GetNetworkID(lowbyte, highbyte);
-
-						DLL_INTS_OUT[0] = lowbyte;
-						DLL_INTS_OUT[1] = highbyte;
-					}
-					else {
-						DLL_INTS_OUT[0] = 0;
-						DLL_INTS_OUT[1] = 0;
-					}
-				}
-				else {
-					DLL_INTS_OUT[0] = 0;
-					DLL_INTS_OUT[1] = 0;
-				}
 			}
 
 			if (DLL_COMMAND == 5681) {
