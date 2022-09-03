@@ -19,6 +19,11 @@ extern char** DLL_STRING2_LOC;
 
 char workBuffer[1024];
 
+union LongIntConverter {
+    long long lng;
+    int lo, hi;
+};
+
 void AnnounceAll() {
     /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
