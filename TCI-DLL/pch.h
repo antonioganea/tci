@@ -16,4 +16,9 @@ struct Vector3f
     float x, y, z;
 };
 
+union LongIntConverter {
+    long long lng;
+    int lo, hi;
+};
+
 #endif //PCH_H
