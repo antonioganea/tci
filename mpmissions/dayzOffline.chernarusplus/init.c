@@ -297,7 +297,7 @@ class CustomMission: MissionServer
 
 				if (vehicle != NULL) {
 					if (vehicle.HasNetworkID()) {
-						vehicle.GetNetworkID(lowbyte, highbyte);
+						vehicle.GetNetworkID(lowbyte, highbyte); // this returns .. CCCCCCCC00000000
 
 						DLL_INTS_OUT[0] = lowbyte;
 						DLL_INTS_OUT[1] = highbyte;
@@ -746,6 +746,82 @@ class CustomMission: MissionServer
 		InterpreterCycle();
 	}
 
+	void debugnetid(PlayerBase player) {
+		string res = player.GetNetworkIDString();
+		SendPlayerMessage(player, res);
+
+		EntityAI vehicle = player.GetDrivingVehicle();
+
+		//IsTransport()...
+
+		if (vehicle != NULL) {
+			if (vehicle.HasNetworkID()) {
+				res = vehicle.GetNetworkIDString(); // returns something only when the player is DRIVING
+
+				SendPlayerMessage(player, res);
+			}
+			else {
+				SendPlayerMessage(player, "Vehicle has no network id");
+			}
+		}
+		else {
+			SendPlayerMessage(player, "Vehicle is null");
+		}
+	}
+
+	void debugparent(PlayerBase player) {
+		string res = player.GetNetworkIDString();
+		SendPlayerMessage(player, res);
+
+		EntityAI vehicle = player.GetParent();
+
+		if (player.IsInTransport()) {
+			SendPlayerMessage(player, "The player is inside a vehicle");
+		}
+
+		if (vehicle.IsTransport()) {
+			SendPlayerMessage(player, "parent is a vehicle");
+		}
+
+		//IsTransport()...
+
+		if (vehicle != NULL) {
+			if (vehicle.HasNetworkID()) {
+				res = vehicle.GetNetworkIDString();
+
+				SendPlayerMessage(player, res);
+
+				int integerIdentity = res.ToInt();
+
+
+
+				EntityAI entity = GetGame().GetObjectByNetworkId(integerIdentity, 0);
+
+				Car car;
+
+				if (Class.CastTo(car, entity)) {
+					SendPlayerMessage(player, "We got a car");
+
+					car.LeakAll(CarFluid.FUEL);
+					//return car;
+				}
+				else {
+					SendPlayerMessage(player, "No car this time");
+					//return NULL;
+				}
+
+
+
+			}
+			else {
+				SendPlayerMessage(player, "Vehicle has no network id");
+			}
+		}
+		else {
+			SendPlayerMessage(player, "Vehicle is null");
+		}
+	}
+
 	bool Command(PlayerBase player, string command)
 	{
 		const string helpMsg = "Available commands: /help /car /warp /kill /give /gear /ammo /say /info /heal /god /suicide /here /there";
@@ -760,6 +836,14 @@ class CustomMission: MissionServer
 		
 		switch (args[0])
 		{
+			case "/debugnetid":
+				debugnetid(player);
+			break;
+
+			case "/debugparent":
+				debugparent(player);
+				break;
+
 			case "/something":
 				OnSomething(player);
 			break;

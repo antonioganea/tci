@@ -63,6 +63,16 @@ function com2(playerID)
 end
 RegisterCommandHandler("/com2", com2)
 
+function carCheck(playerID)
+	
+	car = GetPlayerCar(playerID)
+
+	BroadcastMessage(car)
+
+	ConsoleMessage("carCheck " .. car)
+end
+RegisterCommandHandler("/carcheck", carCheck)
+
 function com3(playerID)
 	BroadcastMessage("com3 works!")
 	ConsoleMessage("com3 ran")
