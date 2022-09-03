@@ -66,14 +66,14 @@ int l_GetPlayerPosition(lua_State* L);
 // SetPlayerPosition(myPlayer, x, y, z)
 int l_SetPlayerPosition(lua_State* L);
 
-// car = GetPlayerCar(playerID)
-int l_GetPlayerCar(lua_State* L);
-
 // fuel = GetCarFuel(car)
 int l_GetCarFuel(lua_State* L);
 
 // SetCarFuel(car, fuel)
 int l_SetCarFuel(lua_State* L);
+
+// capacity = GetCarFuelCapacity(car)
+int l_GetCarFuelCapacity(lua_State* L);
 
 // SpawnPlayerItem(myPlayer, "SKS", 3, true) -- last parameter determines if the item is spawned in inventory or on the floor
 // might wanna consider a return type that is a user defined item type ( So you can check stuff later )
