@@ -8,6 +8,7 @@ void SendPlayerMessage(int playerID, char* str);
 void ConsoleMessage(const char * str);
 
 Vector3f GetPlayerPosition(int playerID);
+void SetPlayerPosition(int playerID, Vector3f pos);
 
 int GetPlayerCount();
 int GetPlayerBySteamID(long long steamID);
