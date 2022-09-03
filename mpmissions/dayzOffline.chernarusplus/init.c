@@ -264,6 +264,9 @@ class CustomMission: MissionServer
 			}
 
 			vector pos;
+			Car car;
+			int lowbyte;
+			int highbyte;
 
 			if (DLL_COMMAND == 1008) { // SpawnCar
 				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
@@ -272,14 +275,18 @@ class CustomMission: MissionServer
 				pos[1] = DLL_FLOATS_IN[1];
 				pos[2] = DLL_FLOATS_IN[2];
 
-				bool success = SpawnCarAtPos(luaResponse, pos);
-				if (success) {
-					DLL_INTS_OUT[0] = 1;
+				car = SpawnCarAtPos(luaResponse, pos);
+				if (car != NULL) {
+					car.GetNetworkID(lowbyte, highbyte);
+
+					DLL_INTS_OUT[0] = lowbyte;
+					DLL_INTS_OUT[1] = highbyte;
 				}
 				else {
 					DLL_INTS_OUT[0] = 0;
+					DLL_INTS_OUT[1] = 0;
 				}
-				DLL_INTN_OUT = 1;
+				DLL_INTN_OUT = 2;
 			}
 
 			if (DLL_COMMAND == 1010) { // GetPlayerCount
@@ -350,6 +357,30 @@ class CustomMission: MissionServer
 			if (DLL_COMMAND == 1024) { // KillPlayer
 				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
 				targetPlayer.SetHealth("", "", -1);
+			}
+
+			if (DLL_COMMAND == 1025) { // GetPlayerCar
+				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
+				EntityAI vehicle = targetPlayer.GetDrivingVehicle();
+
+				//IsTransport()...
+
+				if (vehicle != NULL) {
+					if (vehicle.HasNetworkID()) {
+						vehicle.GetNetworkID(lowbyte, highbyte);
+
+						DLL_INTS_OUT[0] = lowbyte;
+						DLL_INTS_OUT[1] = highbyte;
+					}
+					else {
+						DLL_INTS_OUT[0] = 0;
+						DLL_INTS_OUT[1] = 0;
+					}
+				}
+				else {
+					DLL_INTS_OUT[0] = 0;
+					DLL_INTS_OUT[1] = 0;
+				}
 			}
 
 			if (DLL_COMMAND == 5681) {
@@ -557,7 +588,7 @@ class CustomMission: MissionServer
 			break;
 
 		default:
-			return false;
+			return NULL;
 		}
 
 		// A car was spawned, so we do some common car configuration
@@ -578,7 +609,7 @@ class CustomMission: MissionServer
 		// Set neutral gear
 		car.GetController().ShiftTo(CarGear.NEUTRAL);
 
-		return true;
+		return car;
 	}
 
 	void LoadAdmins()
