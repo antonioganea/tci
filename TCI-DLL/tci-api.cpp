@@ -235,7 +235,7 @@ void KillPlayer(int playerID) {
     goOutOfLua();
 }
 
-bool SpawnCar(char* carType, float x, float y, float z) {
+long long SpawnCar(char* carType, float x, float y, float z) {
     strcpy(DLL_STRING, carType);
 
     DLL_STRLEN_IN[0] = strlen(carType);
@@ -249,7 +249,11 @@ bool SpawnCar(char* carType, float x, float y, float z) {
 
     goOutOfLua();
 
-    return DLL_INTS_OUT[0];
+    LongIntConverter conv;
+    conv.lo = DLL_INTS_OUT[0];
+    conv.hi = DLL_INTS_OUT[1];
+
+    return conv.lng;
 }
 
 void AnnounceAll_old() {
