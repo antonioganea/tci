@@ -267,6 +267,7 @@ class CustomMission: MissionServer
 			Car car;
 			int lowbyte;
 			int highbyte;
+			string res;
 
 			if (DLL_COMMAND == 1008) { // SpawnCar
 				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
@@ -276,40 +277,50 @@ class CustomMission: MissionServer
 				pos[2] = DLL_FLOATS_IN[2];
 
 				car = SpawnCarAtPos(luaResponse, pos);
-				if (car != NULL) {
-					car.GetNetworkID(lowbyte, highbyte);
 
-					DLL_INTS_OUT[0] = lowbyte;
-					DLL_INTS_OUT[1] = highbyte;
+				if (car != NULL) {
+					if (car.HasNetworkID()) {
+						res = car.GetNetworkIDString();
+						DLL_INTS_OUT[0] = res.ToInt();
+					}
+					else {
+						DLL_INTS_OUT[0] = 0;
+					}
 				}
 				else {
 					DLL_INTS_OUT[0] = 0;
-					DLL_INTS_OUT[1] = 0;
 				}
-				DLL_INTN_OUT = 2;
+
+				DLL_INTN_OUT = 1;
 			}
 
 			if (DLL_COMMAND == 1009) { // GetPlayerCar
 				targetPlayer = GetPlayer(DLL_INTS_IN[0].ToString(), Identity.PID);
-				EntityAI vehicle = targetPlayer.GetDrivingVehicle();
+				//EntityAI vehicle = targetPlayer.GetDrivingVehicle(); // only returns something if the player is driving
 
-				//IsTransport()...
+				EntityAI vehicle = targetPlayer.GetParent();
 
-				if (vehicle != NULL) {
-					if (vehicle.HasNetworkID()) {
-						vehicle.GetNetworkID(lowbyte, highbyte); // this returns .. CCCCCCCC00000000
-
-						DLL_INTS_OUT[0] = lowbyte;
-						DLL_INTS_OUT[1] = highbyte;
+				if (targetPlayer.IsInTransport()) {
+					if (vehicle != NULL) {
+						if (vehicle.IsTransport()) {
+							if (vehicle.HasNetworkID()) {
+								res = vehicle.GetNetworkIDString();
+								DLL_INTS_OUT[0] = res.ToInt();
+							}
+							else {
+								DLL_INTS_OUT[0] = 0; // Vehicle has no network id
+							}
+						}
+						else {
+							DLL_INTS_OUT[0] = 0; // Vehicle is not transport
+						}
 					}
 					else {
-						DLL_INTS_OUT[0] = 0;
-						DLL_INTS_OUT[1] = 0;
+						DLL_INTS_OUT[0] = 0; // Vehicle is null
 					}
 				}
 				else {
-					DLL_INTS_OUT[0] = 0;
-					DLL_INTS_OUT[1] = 0;
+					DLL_INTS_OUT[0] = 0; // player is not in transport
 				}
 			}
 
@@ -384,7 +395,7 @@ class CustomMission: MissionServer
 			}
 
 			if (DLL_COMMAND == 1025){ // GetCarFuel
-				car = GetCarByNetID(DLL_INTS_IN[0], DLL_INTS_IN[1]);
+				car = GetCarByNetID(DLL_INTS_IN[0]);
 				if (car != NULL) {
 					DLL_FLOATS_OUT[0] = car.GetFluidCapacity(CarFluid.FUEL) * car.GetFluidFraction(CarFluid.FUEL);
 				}
@@ -394,7 +405,7 @@ class CustomMission: MissionServer
 			}
 
 			if (DLL_COMMAND == 1026) { // SetCarFuel
-				car = GetCarByNetID(DLL_INTS_IN[0], DLL_INTS_IN[1]);
+				car = GetCarByNetID(DLL_INTS_IN[0]);
 				if (car != NULL) {
 					car.LeakAll(CarFluid.FUEL);
 					car.Fill(CarFluid.FUEL, DLL_FLOATS_IN[0]);
@@ -405,7 +416,7 @@ class CustomMission: MissionServer
 			}
 
 			if (DLL_COMMAND == 1027) { // GetCarFuelCapacity
-				car = GetCarByNetID(DLL_INTS_IN[0], DLL_INTS_IN[1]);
+				car = GetCarByNetID(DLL_INTS_IN[0]);
 				if (car != NULL) {
 					DLL_FLOATS_OUT[0] = car.GetFluidCapacity(CarFluid.FUEL);
 				}
@@ -518,8 +529,8 @@ class CustomMission: MissionServer
 		}
 	}
 
-	Car GetCarByNetID(int lowbyte, int highbyte) {
-		EntityAI entity = GetGame().GetObjectByNetworkId(lowbyte, highbyte);
+	Car GetCarByNetID(int carID) {
+		EntityAI entity = GetGame().GetObjectByNetworkId(carID, 0);
 
 		Car car;
 

@@ -69,9 +69,28 @@ function carCheck(playerID)
 
 	BroadcastMessage(car)
 
-	ConsoleMessage("carCheck " .. car)
+	fuel = GetCarFuel(car)
+
+	SetCarFuel(car, 20)
+
+	ConsoleMessage("carCheck " .. car .. " fuel=" .. fuel)
 end
 RegisterCommandHandler("/carcheck", carCheck)
+
+function benzin(playerID)
+	car = GetPlayerCar(playerID)
+
+	BroadcastMessage("Benzin!")
+
+	if ( car ~= 0 ) then
+		fuel = GetCarFuel(car)
+		SetCarFuel(car, fuel+1)
+		ConsoleMessage("benzin " .. fuel+1)
+	else
+		ConsoleMessage("Player " .. playerID .. " not inside a car!")
+	end
+end
+RegisterCommandHandler("/benzin", benzin)
 
 function com3(playerID)
 	BroadcastMessage("com3 works!")

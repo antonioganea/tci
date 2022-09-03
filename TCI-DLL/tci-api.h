@@ -29,11 +29,11 @@ void SetPlayerShock(int playerID, float value);
 
 void KillPlayer(int playerID);
 
-long long SpawnCar(char* carType, float x, float y, float z);
-long long GetPlayerCar(int playerID);
-float GetCarFuel(long long car);
-void SetCarFuel(long long car, float fuel);
-float GetCarFuelCapacity(long long car);
+int SpawnCar(char* carType, float x, float y, float z);
+int GetPlayerCar(int playerID);
+float GetCarFuel(int car);
+void SetCarFuel(int car, float fuel);
+float GetCarFuelCapacity(int car);
 
 void SetDay();
 

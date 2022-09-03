@@ -240,7 +240,7 @@ void KillPlayer(int playerID) {
     goOutOfLua();
 }
 
-long long SpawnCar(char* carType, float x, float y, float z) {
+int SpawnCar(char* carType, float x, float y, float z) {
     strcpy(DLL_STRING, carType);
 
     DLL_STRLEN_IN[0] = strlen(carType);
@@ -254,59 +254,42 @@ long long SpawnCar(char* carType, float x, float y, float z) {
 
     goOutOfLua();
 
-    LongIntConverter conv;
-    conv.lo = DLL_INTS_OUT[0];
-    conv.hi = DLL_INTS_OUT[1];
-
-    return conv.lng;
+    return DLL_INTS_OUT[0];
 }
 
-long long GetPlayerCar(int playerID) {
+int GetPlayerCar(int playerID) {
     *DLL_COMMAND = 1009;
     DLL_INTS_IN[0] = playerID;
 
     goOutOfLua();
 
-    LongIntConverter conv;
-    conv.lo = DLL_INTS_OUT[0];
-    conv.hi = DLL_INTS_OUT[1];
-
-    return conv.lng;
+    return DLL_INTS_OUT[0];
 }
 
-float GetCarFuel(long long car) {
+float GetCarFuel(int car) {
     *DLL_COMMAND = 1025;
 
-    LongIntConverter conv;
-    conv.lng = car;
-    DLL_INTS_IN[0] = conv.lo;
-    DLL_INTS_IN[1] = conv.hi;
+    DLL_INTS_IN[0] = car;
 
     goOutOfLua();
 
     return DLL_FLOATS_OUT[0];
 }
 
-void SetCarFuel(long long car, float fuel) {
+void SetCarFuel(int car, float fuel) {
     *DLL_COMMAND = 1026;
 
-    LongIntConverter conv;
-    conv.lng = car;
-    DLL_INTS_IN[0] = conv.lo;
-    DLL_INTS_IN[1] = conv.hi;
+    DLL_INTS_IN[0] = car;
 
     DLL_FLOATS_IN[0] = fuel;
 
     goOutOfLua();
 }
 
-float GetCarFuelCapacity(long long car) {
+float GetCarFuelCapacity(int car) {
     *DLL_COMMAND = 1027;
 
-    LongIntConverter conv;
-    conv.lng = car;
-    DLL_INTS_IN[0] = conv.lo;
-    DLL_INTS_IN[1] = conv.hi;
+    DLL_INTS_IN[0] = car;
 
     goOutOfLua();
 

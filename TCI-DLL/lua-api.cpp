@@ -66,7 +66,7 @@ int l_SpawnCar(lua_State* L) {
     y = lua_tonumber(L, 3);
     z = lua_tonumber(L, 4);
 
-    long long car = SpawnCar(buffer, x, y, z);
+    int car = SpawnCar(buffer, x, y, z);
 
     lua_pushinteger(L, car);
 
@@ -193,14 +193,14 @@ int l_SetPlayerPosition(lua_State* L) {
 
 // fuel = GetCarFuel(car)
 int l_GetCarFuel(lua_State* L) {
-    long long car = lua_tointeger(L, 1);
+    int car = lua_tointeger(L, 1);
     lua_pushnumber(L, GetCarFuel(car));
     return 1;
 }
 
 // SetCarFuel(car, fuel)
 int l_SetCarFuel(lua_State* L) {
-    long long car = lua_tointeger(L, 1);
+    int car = lua_tointeger(L, 1);
     float fuel = lua_tonumber(L, 2);
     SetCarFuel(car, fuel);
     return 0;
@@ -208,7 +208,7 @@ int l_SetCarFuel(lua_State* L) {
 
 // capacity = GetCarFuelCapacity(car)
 int l_GetCarFuelCapacity(lua_State* L) {
-    long long car = lua_tointeger(L, 1);
+    int car = lua_tointeger(L, 1);
     lua_pushnumber(L, GetCarFuelCapacity(car));
     return 1;
 }
