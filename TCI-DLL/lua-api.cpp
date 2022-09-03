@@ -73,6 +73,13 @@ int l_SpawnCar(lua_State* L) {
     return 1;
 }
 
+// car = GetPlayerCar(playerID)
+int l_GetPlayerCar(lua_State* L) {
+    int playerID = lua_tointeger(L, 1);
+    lua_pushinteger(L, GetPlayerCar(playerID));
+    return 1;
+}
+
 // playerCount = GetPlayerCount()
 int l_GetPlayerCount(lua_State* L) {
     lua_pushinteger(L, GetPlayerCount());

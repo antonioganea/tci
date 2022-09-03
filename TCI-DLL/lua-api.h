@@ -18,6 +18,9 @@ int l_SendPlayerMessage(lua_State* L);
 // car = SpawnCar("olga", x, y, z) -- Requires user defined car type
 int l_SpawnCar(lua_State* L);
 
+// car = GetPlayerCar(playerID)
+int l_GetPlayerCar(lua_State* L);
+
 // playerCount = GetPlayerCount()
 int l_GetPlayerCount(lua_State* L);
 
