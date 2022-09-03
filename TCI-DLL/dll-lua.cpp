@@ -195,6 +195,16 @@ void initLua(const char* path) {
     lua_pushcfunction(state, l_GetPlayerPosition);
     lua_setglobal(state, "GetPlayerPosition");
 
+    lua_pushcfunction(state, l_SetPlayerPosition);
+    lua_setglobal(state, "SetPlayerPosition");
+
+    lua_pushcfunction(state, l_GetCarFuel);
+    lua_setglobal(state, "GetCarFuel");
+    lua_pushcfunction(state, l_SetCarFuel);
+    lua_setglobal(state, "SetCarFuel");
+    lua_pushcfunction(state, l_GetCarFuelCapacity);
+    lua_setglobal(state, "GetCarFuelCapacity");
+
     lua_pushcfunction(state, l_SpawnPlayerItem);
     lua_setglobal(state, "SpawnPlayerItem");
 
