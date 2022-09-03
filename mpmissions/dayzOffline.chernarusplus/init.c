@@ -456,13 +456,26 @@ class CustomMission: MissionServer
 		}
 	}
 
+	Car GetCarByNetID(int lowbyte, int highbyte) {
+		EntityAI entity = GetGame().GetObjectByNetworkId(lowbyte, highbyte);
+
+		Car car;
+
+		if (Class.CastTo(car, entity)) {
+			return car;
+		}
+		else {
+			return NULL;
+		}
+	}
+
 	int GetPlayerCount() {
 		ref array<Man> players = new array<Man>;
 		GetGame().GetPlayers(players);
 		return players.Count();
 	}
 
-	bool SpawnCarAtPos(string type, vector pos)
+	Car SpawnCarAtPos(string type, vector pos)
 	{
 		type.ToLower();
 
