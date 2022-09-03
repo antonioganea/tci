@@ -66,9 +66,9 @@ int l_SpawnCar(lua_State* L) {
     y = lua_tonumber(L, 3);
     z = lua_tonumber(L, 4);
 
-    bool success = SpawnCar(buffer, x, y, z);
+    long long car = SpawnCar(buffer, x, y, z);
 
-    lua_pushboolean(L, success);
+    lua_pushinteger(L, car);
 
     return 1;
 }
