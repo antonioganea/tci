@@ -29,6 +29,7 @@ void SetPlayerShock(int playerID, float value);
 void KillPlayer(int playerID);
 
 long long SpawnCar(char* carType, float x, float y, float z);
+long long GetPlayerCar(int playerID);
 void SetDay();
 
 void SpawnPlayerItem(int playerID, const char* item, int quantity, bool inHand);

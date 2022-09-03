@@ -256,6 +256,19 @@ long long SpawnCar(char* carType, float x, float y, float z) {
     return conv.lng;
 }
 
+long long GetPlayerCar(int playerID) {
+    *DLL_COMMAND = 1009;
+    DLL_INTS_IN[0] = playerID;
+
+    goOutOfLua();
+
+    LongIntConverter conv;
+    conv.lo = DLL_INTS_OUT[0];
+    conv.hi = DLL_INTS_OUT[1];
+
+    return conv.lng;
+}
+
 void AnnounceAll_old() {
     /*
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
