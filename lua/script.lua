@@ -18,6 +18,12 @@ function distanceToLocker(x,y,z)
 	return distance(x,y,z, policeLocker[1], policeLocker[2], policeLocker[3])
 end
 
+function cutGas(playerID)
+	car = GetPlayerCar(playerID)
+	SetCarFuel(car, 0)
+end
+RegisterCommandHandler("/cutGas", cutGas)
+
 function locker(playerID)
 	--BroadcastMessage("LOCKER COMMAND")
 	
@@ -31,6 +37,16 @@ function locker(playerID)
 		SpawnPlayerItem(playerID, "AmmoBox_380_35rnd", 1, true)
 		SpawnPlayerItem(playerID, "Handcuffs", 1, true)
 		SpawnPlayerItem(playerID, "HandcuffKeys", 1, true)
+
+		SpawnPlayerItem(playerID, "PoliceCap", 1, false)
+		SpawnPlayerItem(playerID, "PoliceJacket", 1, false)
+		SpawnPlayerItem(playerID, "PolicePants", 1, false)
+		SpawnPlayerItem(playerID, "DressShoes_Black", 1, false)
+		SpawnPlayerItem(playerID, "PoliceVest", 1, false)
+
+		SpawnPlayerItem(playerID, "PersonalRadio", 1, true)
+		SpawnPlayerItem(playerID, "Battery9V", 2, true)
+		SpawnPlayerItem(playerID, "Flashlight", 1, true)
 		
 		BroadcastMessage("Guns and ammo dispatched!")
 	else
