@@ -315,7 +315,7 @@ void LUA_INTERPRETER_UNEDITABLE() {
                 //int res = lua_pcall(state, 0, LUA_MULTRET, 0);
                 if (res != LUA_OK) {
                     print_error_console(state);
-                    return;
+                    break;
                 }
             }
             }
