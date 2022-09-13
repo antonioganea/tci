@@ -658,9 +658,11 @@ union TConv {
     unsigned long long int big;
 };
 
+const char * bridgeFile = "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
+
 void SetupDLLBridge() {
 
-    std::ifstream MyReadFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt");
+    std::ifstream MyReadFile(bridgeFile);
             ////std::ifstream MyReadFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile.txt");
 
     unsigned int temp;
@@ -762,13 +764,23 @@ void SetupDLLBridge() {
 
 
 
-
-
-
+inline bool file_exists_test(const std::string& name) {
+    if (FILE* file = fopen(name.c_str(), "r")) {
+        fclose(file);
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 DWORD WINAPI HackThread(HMODULE hModule) {
     //std::cout << "Hello World from DLL!" << std::endl;
     //std::cout << ourFunct << std::endl;
+
+    while (!file_exists_test(bridgeFile)) { // maybe break after some time if this doesn't work.......
+        Sleep(100);
+    }
 
     SetupDLLBridge();
 
@@ -804,6 +816,12 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     // and act accordingly.
 
     MyOutputFile << "Hello - post detour\n" << std::flush;
+
+
+    if (remove(bridgeFile) != 0)
+        MyOutputFile << "bridge file successfully deleted\n" << std::flush;
+    else
+        MyOutputFile << "bridge file couldn't be deleted\n" << std::flush;
 
     return 0;
 }
