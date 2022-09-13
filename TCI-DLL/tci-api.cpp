@@ -11,7 +11,9 @@
 #include "bridge.h"
 
 //extern BYTE* DLL_BRIDGE;
+#ifdef DESKTOP_DEBUG_FILE
 extern std::ofstream MyOutputFile;
+#endif
 
 extern char** DLL_STRING_LOC;
 extern char* DLL_STRING;

@@ -247,12 +247,16 @@ std::map<std::string, std::vector<int>> commandHandlers;
 
 #include <fstream>
 
+#ifdef DESKTOP_DEBUG_FILE
 extern std::ofstream MyOutputFile;
+#endif
 
 // RegisterCommandHandler("/onduty", onDutyHandler)
 int l_RegisterCommandHandler(lua_State* L) {
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "RegisterCommandHandler\n" << std::flush;
+#endif
 
     // todo : check if the parameter is a function..
 
@@ -262,11 +266,15 @@ int l_RegisterCommandHandler(lua_State* L) {
 
     std::string commandName(lua_tostring(L, 1));
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << commandName << " - command name\n" << std::flush;
+#endif
 
     int r = luaL_ref(L, LUA_REGISTRYINDEX);
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "registered ref " << r << "\n" << std::flush;
+#endif
 
     commandHandlers[commandName].push_back(r);
 
@@ -298,15 +306,18 @@ extern lua_State* state;
 
 int CallCommandHandlers(std::string command, int playerID) {
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "CallCommandHandlers\n" << std::flush;
+#endif
 
     int calls = 0;
 
     std::vector<int>& handlers = commandHandlers[command];
 
     for (std::vector<int>::iterator it = handlers.begin(); it != handlers.end(); it++) {
-
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "calling ref " << *it << "\n" << std::flush;
+#endif
 
         lua_rawgeti(state, LUA_REGISTRYINDEX, *it);
         lua_pushinteger(state, playerID);
@@ -315,8 +326,9 @@ int CallCommandHandlers(std::string command, int playerID) {
         }
         calls++;
     }
-
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "returning " << calls << " calls\n" << std::flush;
+#endif
     
     //luaL_unref(L, LUA_REGISTRYINDEX, r);
 

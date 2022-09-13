@@ -86,7 +86,9 @@ void print_error_console(lua_State* state) {
 lua_State* state;
 
 
+#ifdef DESKTOP_DEBUG_FILE
 extern std::ofstream MyOutputFile;
+#endif
 extern BYTE* DLL_BRIDGE;
 
 
@@ -119,16 +121,22 @@ void openCustomLuaLibs(lua_State* L) {
 char bootPath[512];
 
 void initLua(const char* path) {
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "new state\n" << std::flush;
+#endif
     state = luaL_newstate();
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "new state done\n" << std::flush;
+#endif
 
     // Make standard libraries available in the Lua object
     //luaL_openlibs(state); <--- this crashes (maybe bcs of stdout stdin stderr - i/o lib )
     openCustomLuaLibs(state);
 
     //luaopen_math(state);
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "lua math done\n" << std::flush;
+#endif
 
     //lua_pushcfunction(state, l_RegisterAsServerObject);
     //lua_setglobal(state, "RegisterAsServerObject");
@@ -210,7 +218,9 @@ void initLua(const char* path) {
 
     strcpy_s(bootPath, path);
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "initLua done\n" << std::flush;
+#endif
 }
 
 void print_error(lua_State* state) {
@@ -257,7 +267,9 @@ bool justBooted = false; // unused
 
 void LUA_INTERPRETER_UNEDITABLE() {
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "booting lua interpreter thread\n" << std::flush;
+#endif
 
     while (isLuaPowered) {
 
@@ -321,7 +333,9 @@ void LUA_INTERPRETER_UNEDITABLE() {
             }
 
             ConsoleMessage("[tci] doFile executed!");
+#ifdef DESKTOP_DEBUG_FILE
             MyOutputFile << "doFile done\n" << std::flush;
+#endif
 
             break;
         }
@@ -348,20 +362,28 @@ void LUA_INTERPRETER_UNEDITABLE() {
             break;
 
         case (int)DayZServerCommands::OnGenericCommand:
+#ifdef DESKTOP_DEBUG_FILE
             MyOutputFile << "OnGenericCommand\n" << std::flush;
             MyOutputFile << std::hex << (long long)DLL_IN_STR1 << std::dec << '\n' << std::flush;
             MyOutputFile << std::hex << (long long)(*DLL_IN_STR1) << std::dec << '\n' << std::flush;
+#endif
             if (CallCommandHandlers(*DLL_IN_STR1, DLL_INTS_OUT[0]) > 0) {
+#ifdef DESKTOP_DEBUG_FILE
                 MyOutputFile << "fa1\n" << std::flush;
+#endif
             }
             else {
+#ifdef DESKTOP_DEBUG_FILE
                 MyOutputFile << "fa2\n" << std::flush;
+#endif
                 ConsoleMessage("Unknown command in interpreter.");
             }
             break;
 
         default:
+#ifdef DESKTOP_DEBUG_FILE
             MyOutputFile << "hit default in LUA THREAD. Something is WRONG\n" << std::flush;
+#endif
             break;
 
         }
@@ -401,31 +423,48 @@ std::thread* setup(const char* path) {
 
 
     //for (int i = 0; i < 500; i++) { DLL_BRIDGE[i] = 0; }
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "setup\n" << std::flush;
+#endif
 
     initLua(path);
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "setup2\n" << std::flush;
+#endif
 
     inLua = true;
 
     DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "setup3\n" << std::flush;
+#endif
     //bridge[6] = (int)DayZServerCommands::JustBooted; // this should go through default / nothing
     *DLL_COMMAND = (int)DayZServerCommands::JustBooted;
     justBooted = true;
+
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "setup4\n" << std::flush;
+#endif
+
     std::thread* ThreadA = new std::thread(LUA_INTERPRETER_UNEDITABLE);
             ThreadA->detach(); // Detaching actually helps
+
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "setup5\n" << std::flush;
+#endif
     {
         //std::unique_lock<std::mutex> lk(m);
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "setup6\n" << std::flush;
+#endif
         // ^^^ LAST THING TO BE PRINTED
         //cv.wait(lk, [] {return (inLua == false); });
         while(inLua==true){}
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "setup7\n" << std::flush;
+#endif
     }
 
     return ThreadA;

@@ -88,11 +88,14 @@ void goInLua();
 
 void LuaexecuteLine(const char* s);
 
+#ifdef DESKTOP_DEBUG_FILE
 std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\DLL-Log-debugging.txt");
-
+#endif
 
 void AnnounceAll2() {
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "annoncer2\n" << std::flush;
+#endif
     //DWORD* bridge = (DWORD*)DLL_BRIDGE;
     //bridge[6] = 1002;
     *DLL_COMMAND = 1002;
@@ -176,18 +179,24 @@ volatile void OnGetControl() {
     // SHOULD_LUA_RELOAD == true .. something like this
     // Also, there needs to be a way to call setup() again.. but dispose the old state cleanly ( For hot reloads )
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "FX0\n" << std::flush;
+#endif
 
     //if (SHOULD_LUA_HOTLOAD && bridge[6] == 0 && initializedLua)
     if (SHOULD_LUA_HOTLOAD && ESFirstCall && initializedLua) { // if lua needs to hotload and we're not in the middle of something..
         freeLuaStateInternally();
         initializedLua = false;
         SHOULD_LUA_HOTLOAD = false;
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "FX-HR\n" << std::flush;
+#endif
     }
 
     if (!initializedLua) {
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "FX-notInitialized\n" << std::flush;
+#endif
 
         // TODO: do we really need the bridge[6] temp swap ?
         // are we sure we can't just let it do whatever it wants to do in setup()?
@@ -221,15 +230,21 @@ volatile void OnGetControl() {
 
     }
     else {
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "FX-else\n" << std::flush;
+#endif
         goInLua();
         // should try one more time to remove spinlock from main thread????? - tried, doesn't work
         // also test with OTHER mutex and cv. - tried, didn't work
 
         if (initializedLua && ((* DLL_COMMAND) == 0)) {
+#ifdef DESKTOP_DEBUG_FILE
             MyOutputFile << "FX-ending\n" << std::flush;
+#endif
             if (preserved) {
+#ifdef DESKTOP_DEBUG_FILE
                 MyOutputFile << "FX-popES\n" << std::flush;
+#endif
                 popESCall();
                 goInLua(); // WARNING! THIS goInLua is immediately after another one. Sometimes the cv.notify() is too fast and
                 // the threads jam! Be advised. - CONFIRMED CAUSE OF PROBLEMS. needs to be fixed! - somehow it might work under some conditions
@@ -246,7 +261,9 @@ volatile void OnGetControl() {
 
 
     //MyOutputFile << "FFF\n" << std::flush;
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "FX-finale\n" << std::flush;
+#endif
 
 
     /*
@@ -793,12 +810,13 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     const uint64_t relativeAddrFuncA = 0x2A8130;
     uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
 
-
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "Hello - before detour\n" << std::flush;
 
     MyOutputFile << "-- " << (long long)ourFunct << '\n'  << std::flush;
     MyOutputFile << "-- " << hookAddressJump << '\n' << std::flush;
     MyOutputFile << "-- " << ourFunctLocation << '\n' << std::flush;
+#endif
 
     //17 bytes
     Detour((void*)hookAddress, (void*)ourFunctLocation, 17);
@@ -815,13 +833,21 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     // TODO : Write some code that auto-detects if the function location reported by c++ is the real thing or a jump
     // and act accordingly.
 
+#ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "Hello - post detour\n" << std::flush;
+#endif
 
 
-    if (remove(bridgeFile) != 0)
+    if (remove(bridgeFile) != 0) {
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "bridge file successfully deleted\n" << std::flush;
-    else
+#endif
+    }
+    else {
+#ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "bridge file couldn't be deleted\n" << std::flush;
+#endif
+    }
 
     return 0;
 }
