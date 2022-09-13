@@ -3,7 +3,7 @@
 ** Standard mathematical library
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lmathlib_c
 #define LUA_LIB
 

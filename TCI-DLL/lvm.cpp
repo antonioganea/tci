@@ -3,7 +3,7 @@
 ** Lua virtual machine
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lvm_c
 #define LUA_CORE
 

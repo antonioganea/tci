@@ -3,7 +3,7 @@
 ** Code generator for Lua
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lcode_c
 #define LUA_CORE
 

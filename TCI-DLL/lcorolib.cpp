@@ -3,7 +3,7 @@
 ** Coroutine Library
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lcorolib_c
 #define LUA_LIB
 

@@ -3,7 +3,7 @@
 ** Some generic functions over Lua objects
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lobject_c
 #define LUA_CORE
 

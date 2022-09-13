@@ -1,4 +1,4 @@
-#include "pch.h"
+
 
 #include "lua.h"
 #include "lualib.h"

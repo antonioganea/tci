@@ -3,7 +3,7 @@
 ** Library for Table Manipulation
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define ltablib_c
 #define LUA_LIB
 

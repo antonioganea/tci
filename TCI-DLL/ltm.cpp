@@ -3,7 +3,7 @@
 ** Tag methods
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define ltm_c
 #define LUA_CORE
 

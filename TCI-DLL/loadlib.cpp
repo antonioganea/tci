@@ -7,7 +7,7 @@
 ** that have dlfcn, an implementation for Windows, and a stub for other
 ** systems.
 */
-#include "pch.h"
+
 #define loadlib_c
 #define LUA_LIB
 

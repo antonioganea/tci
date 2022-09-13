@@ -3,7 +3,7 @@
 ** Lua tables (hash)
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define ltable_c
 #define LUA_CORE
 

@@ -1,5 +1,5 @@
 #include "tci-api.h"
-#include "pch.h"
+
 
 #include <Windows.h>
 #include <iostream>

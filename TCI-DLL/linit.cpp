@@ -4,7 +4,7 @@
 ** See Copyright Notice in lua.h
 */
 
-#include "pch.h"
+
 #define linit_c
 #define LUA_LIB
 

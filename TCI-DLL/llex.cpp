@@ -3,7 +3,7 @@
 ** Lexical Analyzer
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define llex_c
 #define LUA_CORE
 

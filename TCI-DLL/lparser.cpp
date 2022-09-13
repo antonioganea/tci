@@ -3,7 +3,7 @@
 ** Lua Parser
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lparser_c
 #define LUA_CORE
 

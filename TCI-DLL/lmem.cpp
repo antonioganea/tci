@@ -3,7 +3,7 @@
 ** Interface to Memory Manager
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lmem_c
 #define LUA_CORE
 

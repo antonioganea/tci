@@ -3,7 +3,7 @@
 ** Buffered streams
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lzio_c
 #define LUA_CORE
 

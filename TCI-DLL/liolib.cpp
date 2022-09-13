@@ -3,7 +3,7 @@
 ** Standard I/O (and system) library
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define liolib_c
 #define LUA_LIB
 

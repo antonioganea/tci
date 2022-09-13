@@ -3,7 +3,7 @@
 ** Standard Operating System library
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define loslib_c
 #define LUA_LIB
 

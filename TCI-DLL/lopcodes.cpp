@@ -3,7 +3,7 @@
 ** Opcodes for Lua virtual machine
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lopcodes_c
 #define LUA_CORE
 

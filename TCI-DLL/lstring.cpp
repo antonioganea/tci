@@ -3,7 +3,7 @@
 ** String table (keeps all strings handled by Lua)
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lstring_c
 #define LUA_CORE
 

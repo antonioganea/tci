@@ -3,7 +3,7 @@
 ** Standard library for string operations and pattern-matching
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lstrlib_c
 #define LUA_LIB
 

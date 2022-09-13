@@ -3,7 +3,7 @@
 ** load precompiled Lua chunks
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lundump_c
 #define LUA_CORE
 

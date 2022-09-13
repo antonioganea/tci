@@ -1,7 +1,7 @@
-#include "pch.h"
+
 #include <iostream>
 
-
+#include <Windows.h>
 
 #include "lua.h"
 #include "lualib.h"

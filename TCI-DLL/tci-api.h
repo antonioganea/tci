@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector3f.h"
+
 void AnnounceAll();
 void AnnounceAll_old();
 

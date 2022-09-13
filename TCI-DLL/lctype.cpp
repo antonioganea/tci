@@ -3,7 +3,7 @@
 ** 'ctype' functions for Lua
 ** See Copyright Notice in lua.h
 */
-#include "pch.h"
+
 #define lctype_c
 #define LUA_CORE
 
