@@ -11,6 +11,8 @@
 #include "lauxlib.h"
 #include <mutex>
 
+#define DEFERRED_JMP_FUNCTIONS
+
 /*
 
 40 55 57 48 81 EC E8 00 00 00 48 8D 6C 24 20
@@ -446,9 +448,12 @@ bool Detour(void* toHook, void* ourFunct, int len) {
 
     uint64_t here = (uint64_t)ourFunct + (uint64_t)index - (uint64_t)5;
 
+#ifdef DEFERRED_JMP_FUNCTIONS
     DWORD OnGetControlAdressJump = *((DWORD*)((BYTE*)OnGetControl + 1)); // jump to the actual func code
     uint64_t there = (uint64_t)OnGetControl + (uint64_t)OnGetControlAdressJump + 5;
-
+#else
+    uint64_t there = (uint64_t)OnGetControl;
+#endif
     
     uint64_t relJump = there-here-5;
     DWORD relJump32 = relJump;
@@ -803,8 +808,12 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 
     //LUA_THREAD = setup();
 
+#ifdef DEFERRED_JMP_FUNCTIONS
     DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct +1));
     uint64_t ourFunctLocation = (uint64_t)ourFunct + (uint64_t)hookAddressJump + 5;
+#else
+    uint64_t ourFunctLocation = (uint64_t)ourFunct;
+#endif
 
     //DayZServer_x64.exe+2A8130
     const uint64_t relativeAddrFuncA = 0x2A8130;
