@@ -466,7 +466,7 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     
     //MyOutputFile << "Detour 8\n" << std::flush;
 
-    char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB0, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
+    char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB8, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
     // NOTE : There was a lea instruction that doesn't get rewritten in the retour function
     // because the address used by it is relative so it wouldn't copy well over.
     // and it is 32 bit so it wouldn't work anyway ( because the jump is over too big of a distance )
@@ -816,7 +816,7 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 #endif
 
     //DayZServer_x64.exe+2A8130
-    const uint64_t relativeAddrFuncA = 0x2A8130;
+    const uint64_t relativeAddrFuncA = 0x2A770B; // 0x2A8130 in DayZ 1.18
     uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
 
 #ifdef DESKTOP_DEBUG_FILE
