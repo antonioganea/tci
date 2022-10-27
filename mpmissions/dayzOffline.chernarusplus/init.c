@@ -46,8 +46,6 @@ class CustomMission: MissionServer
 	
 	// Players that have God Mode enabled, listed here
 	private ref TIntArray m_gods;
-
-	
 	
 	override void OnInit()
 	{
@@ -62,7 +60,6 @@ class CustomMission: MissionServer
 		PAYLOAD_INJECT();
 	}
 
-	string DLL_PAYLOAD;
 	int DLL_FLIP_NUMBER;
 
 	const int BRIDGE_SIZE = 256;
@@ -110,41 +107,7 @@ class CustomMission: MissionServer
 		MagicCall_Internal();
 	}
 
-	/*
-	int GetByte(int n, int which) { // not tested
-		return (n >> ((3 - which) * 8)) & 0xFF;
-	}
-
-	int SetByte(int n, int b, int which) { // not tested
-		int mask = ~(0xFF << ((which) * 8));
-
-		return (n & mask) | b << (which) * 8;
-	}
-
-	void SetBufferByte(int i, int v) { // not tested
-		int loc = i / 4;
-		int pos = i % 4;
-		DLL_WATERMARK[7 + loc] = SetByte(DLL_WATERMARK[7 + loc], v, pos);
-	}
-
-	int ReadBufferByte(int i) { // not tested
-		int loc = i / 4;
-		int pos = i % 4;
-		return GetByte(DLL_WATERMARK[7 + loc], pos);
-	}
-
-	void WriteString(string s, int i) {
-		SetBufferByte(i, s.Length());
-
-		for (int x = 0; x < s.Length(); x++) {
-			int mynumber = s.ToAscii(s.Get(x));
-			SetBufferByte(i + x + 1, mynumber);
-		}
-	}
-	*/
-
 	void PAYLOAD_INJECT(){
-		DLL_PAYLOAD = "THIS IS A SAMPLE PAYLOAD.";
 		DLL_FLIP_NUMBER = 262987437; // FACDEAD
 		DLL_BRIDGE_BYTES[0] = 171;//0xAB;
 		DLL_BRIDGE_BYTES[1] = 188;//0xBC;
@@ -190,13 +153,7 @@ class CustomMission: MissionServer
 		 //DLL_STRLEN_IN[0] = 16;
 		 //DLL_STRLEN_OUT[0] = 17;
 
-
-
-
-		//Print("Hello from this noisy script");
-		//$profile:
 		FileHandle file = OpenFile("$profile:testfile.txt", FileMode.WRITE);
-		//FPrintln(file, "// This file contains SteamID64 of all server admins. Add them below.");
 		FPrintln(file, DLL_WATERMARK);
 		CloseFile(file);
 	}
@@ -208,7 +165,6 @@ class CustomMission: MissionServer
 	}
 
 	void PAYLOAD_FLIP(){
-		//Print("Payload flip");
 		if ( DLL_FLIP_NUMBER == 262987437 ){
 			DLL_FLIP_NUMBER = 262987439; // FACDEAF
 		}
@@ -216,7 +172,6 @@ class CustomMission: MissionServer
 		{
 			DLL_FLIP_NUMBER = 262987437;
 		}
-
 
 		DLL_BRIDGE_BYTES[0] = 10;//0xA;
 		DLL_BRIDGE_BYTES[1] = 11;//0xB;
@@ -240,9 +195,9 @@ class CustomMission: MissionServer
 
 	void InterpreterCycle() {
 		while (DLL_COMMAND != 0) {
-			//SendGlobalMessage("Blau");
+			//SendGlobalMessage("IC1");
 			MagicCall();
-			//SendGlobalMessage("Blogg");
+			//SendGlobalMessage("IC2");
 
 			string luaResponse;
 
