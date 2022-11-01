@@ -11,6 +11,9 @@
 #include "lua/lauxlib.h"
 #include <mutex>
 
+#include <KnownFolders.h>
+#include <shlobj.h>
+
 #define DEFERRED_JMP_FUNCTIONS
 
 /*
@@ -680,10 +683,12 @@ union TConv {
     unsigned long long int big;
 };
 
-const char * bridgeFile = "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
+//char* bridgeFile;// = "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
+
+
+std::wstring bridgeFile;
 
 void SetupDLLBridge() {
-
     std::ifstream MyReadFile(bridgeFile);
             ////std::ifstream MyReadFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile.txt");
 
@@ -784,21 +789,20 @@ void SetupDLLBridge() {
     strcpy(DLL_STRING, "Ok this is an interesting string");
 }
 
-
-
-inline bool file_exists_test(const std::string& name) {
-    if (FILE* file = fopen(name.c_str(), "r")) {
-        fclose(file);
-        return true;
-    }
-    else {
-        return false;
-    }
+inline bool file_exists_test(const std::wstring& name) {
+    std::ifstream f(name.c_str());
+    return f.good();
 }
 
 DWORD WINAPI HackThread(HMODULE hModule) {
     //std::cout << "Hello World from DLL!" << std::endl;
     //std::cout << ourFunct << std::endl;
+
+    PWSTR localAppDataPath;
+    SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppDataPath);
+
+    bridgeFile = localAppDataPath;
+    bridgeFile += L"\\DayZ\\testfile.txt";
 
     while (!file_exists_test(bridgeFile)) { // maybe break after some time if this doesn't work.......
         Sleep(100);
@@ -847,7 +851,7 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 #endif
 
 
-    if (remove(bridgeFile) != 0) {
+    if (_wremove(bridgeFile.c_str()) != 0) {
 #ifdef DESKTOP_DEBUG_FILE
         MyOutputFile << "bridge file successfully deleted\n" << std::flush;
 #endif
