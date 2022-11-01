@@ -1,6 +1,6 @@
 # Tony's Convenience Injector
 
-![TCI LOGO](docfiles\tci.png)
+![TCI LOGO](docfiles/tci.png)
 
 It is a memory and code injector 💉 tool for the DayZ Standalone server. It allows for :
 
@@ -73,16 +73,16 @@ Yes.
 It is designed to not complicate writing EnfusionScript code, and you can do it alongside TCI with no problems.
 
 ## What else can it do?
-[Click here for the API](docfiles\api.md).
+[Click here for the API](docfiles/api.md).
 
 ## How to install?
 Coming soon.
 
 ## How does it work?
-[Check this doc here](docfiles\hdiw.md).
+[Check this doc here](docfiles/hdiw.md).
 
 ## How was it made?
-[Click here for the story](docfiles\story.md).
+[Click here for the story](docfiles/story.md).
 
 ## Discord server
 [Join our Discord here](https://discord.gg/3vs8S27kyV).
