@@ -12,10 +12,10 @@ int l_ConsoleMessage(lua_State* L);
 // BroadcastMessage("Our discord is discord.gg/something")
 int l_BroadcastMessage(lua_State* L);
 
-// SendPlayerMessage(myPlayer, "How do you do today?") -- Requires user defined player type
+// SendPlayerMessage(myPlayer, "How do you do today?")
 int l_SendPlayerMessage(lua_State* L);
 
-// car = SpawnCar("olga", x, y, z) -- Requires user defined car type
+// car = SpawnCar("olga", x, y, z)
 int l_SpawnCar(lua_State* L);
 
 // car = GetPlayerCar(playerID)
@@ -24,43 +24,43 @@ int l_GetPlayerCar(lua_State* L);
 // playerCount = GetPlayerCount()
 int l_GetPlayerCount(lua_State* L);
 
-// player = GetPlayerBySteamID(76561198113938382) -- Requires user defined player type
+// player = GetPlayerBySteamID(steamID)
 int l_GetPlayerBySteamID(lua_State* L);
 
-// steamID = GetPlayerSteamID(myPlayer) -- Requires user defined player type
+// steamID = GetPlayerSteamID(myPlayer)
 int l_GetPlayerSteamID(lua_State* L);
 
-// health = GetPlayerHealth(myPlayer) -- Requires user defined player type
+// health = GetPlayerHealth(myPlayer)
 int l_GetPlayerHealth(lua_State* L);
 
-// maxHealth = GetPlayerMaxHealth(myPlayer) -- Requires user defined player type
+// maxHealth = GetPlayerMaxHealth(myPlayer)
 int l_GetPlayerMaxHealth(lua_State* L);
 
-// SetPlayerHealth(myPlayer, health+10) -- Requires user defined player type
+// SetPlayerHealth(myPlayer, health+10)
 int l_SetPlayerHealth(lua_State* L);
 
-// blood = GetPlayerBlood(myPlayer) -- Requires user defined player type
+// blood = GetPlayerBlood(myPlayer)
 int l_GetPlayerBlood(lua_State* L);
 
-// maxBlood = GetPlayerMaxBlood(myPlayer) -- Requires user defined player type
+// maxBlood = GetPlayerMaxBlood(myPlayer)
 int l_GetPlayerMaxBlood(lua_State* L);
 
-// SetPlayerBlood(myPlayer, blood+10) -- Requires user defined player type
+// SetPlayerBlood(myPlayer, blood+10)
 int l_SetPlayerBlood(lua_State* L);
 
-// shock = GetPlayerShock(myPlayer) -- Requires user defined player type
+// shock = GetPlayerShock(myPlayer)
 int l_GetPlayerShock(lua_State* L);
 
-// maxShock = GetPlayerMaxShock(myPlayer) -- Requires user defined player type
+// maxShock = GetPlayerMaxShock(myPlayer)
 int l_GetPlayerMaxShock(lua_State* L);
 
-// SetPlayerShock(myPlayer, shock+10) -- Requires user defined player type
+// SetPlayerShock(myPlayer, shock+10)
 int l_SetPlayerShock(lua_State* L);
 
-// KillPlayer(myPlayer) -- Requires user defined player type
+// KillPlayer(myPlayer)
 int l_KillPlayer(lua_State* L);
 
-// x, y, z = GetPlayerPosition(myPlayer) -- Requires user defined player type
+// x, y, z = GetPlayerPosition(myPlayer)
 int l_GetPlayerPosition(lua_State* L);
 
 // SetPlayerPosition(myPlayer, x, y, z)
@@ -85,10 +85,10 @@ int l_GetPlayerSeatNumber(lua_State* L);
 // might wanna consider a return type that is a user defined item type ( So you can check stuff later )
 int l_SpawnPlayerItem(lua_State* L);
 
-// itemStack = GetPlayerItemStackInHand(myPlayer) -- Requires user defined item type
+// itemStack = GetPlayerItemStackInHand(myPlayer)
 int l_GetPlayerItemStackInHand(lua_State* L);
 
-// itemName = GetItemStackName(itemStack) -- Requires user defined item type
+// itemName = GetItemStackName(itemStack)
 int l_GetItemStackName(lua_State* L);
 
 // RegisterCommandHandler("/onduty", onDutyHandler)

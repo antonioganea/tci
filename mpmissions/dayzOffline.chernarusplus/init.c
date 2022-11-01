@@ -419,7 +419,7 @@ class CustomMission: MissionServer
 	}
 
 	void OnLuaCommand(string firstParam) {
-		SendGlobalMessage("Glaugen");
+		SendGlobalMessage("Executing command");
 		DLL_COMMAND = 2103; // on lua command
 
 		//int sum = 0;
@@ -681,9 +681,6 @@ class CustomMission: MissionServer
 	*/
 
 	void OnSomething(PlayerBase player) {
-		// dam pozitia la injector
-		// asteptam sa vedem ce face el =]]
-
 
 		// Set car pos near player
 		vector pos = player.GetPosition();
