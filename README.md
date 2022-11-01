@@ -1,6 +1,6 @@
 # Tony's Convenience Injector
 
-![TCI LOGO](docfiles\tci.png)
+![TCI LOGO](docfiles/tci.png)
 
 It is a memory and code injector 💉 tool for the DayZ Standalone server. It allows for :
 
