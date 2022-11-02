@@ -819,8 +819,9 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     uint64_t ourFunctLocation = (uint64_t)ourFunct;
 #endif
 
-    //DayZServer_x64.exe+2A8130
-    const uint64_t relativeAddrFuncA = 0x2A770B; // 0x2A8130 in DayZ 1.18
+    //DayZServer_x64.exe+2A8130 <- DayZ 1.18
+    //0x2A770B <- DayZ 1.19 first version
+    const uint64_t relativeAddrFuncA = 0x2A797B;
     uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
 
 #ifdef DESKTOP_DEBUG_FILE
