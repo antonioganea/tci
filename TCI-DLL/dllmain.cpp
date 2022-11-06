@@ -101,16 +101,6 @@ bool MockThreadSupport = false;
 std::mutex mockMutex;
 std::condition_variable mockcv;
 
-void simpleThread() {
-
-    MockThreadSupport = true;
-    //mockcv.notify_one();
-
-
-    // QUESTION : Does THIS thread crash if put to sleep with a cv? ( very important )
-    // tested : it does not crash with a cv.wait.
-}
-
 int ESCALL_COMMAND;
 int watermark7 = 0;
 
