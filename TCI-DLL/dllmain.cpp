@@ -17,6 +17,7 @@
 #define DEFERRED_JMP_FUNCTIONS
 
 #include "bridge.h"
+#include "utils.h"
 
 /*
 
@@ -592,11 +593,6 @@ void SetupDLLBridge() {
     strcpy(DLL_STRING, "Ok this is an interesting string");
 }
 
-inline bool file_exists_test(const std::wstring& name) {
-    std::ifstream f(name.c_str());
-    return f.good();
-}
-
 DWORD WINAPI HackThread(HMODULE hModule) {
     //std::cout << "Hello World from DLL!" << std::endl;
     //std::cout << ourFunct << std::endl;
@@ -607,7 +603,7 @@ DWORD WINAPI HackThread(HMODULE hModule) {
     bridgeFile = localAppDataPath;
     bridgeFile += L"\\DayZ\\testfile.txt";
 
-    while (!file_exists_test(bridgeFile)) { // maybe break after some time if this doesn't work.......
+    while (!fileExistsTest(bridgeFile)) { // maybe break after some time if this doesn't work.......
         Sleep(100);
     }
 
