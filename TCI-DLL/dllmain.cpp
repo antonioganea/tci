@@ -508,97 +508,6 @@ volatile void ourFunct() {
     std::cout << "Some more junk" << std::endl;
 }
 
-/*
-struct TTT {
-    unsigned int low, high;
-};
-
-union TConv {
-    TTT t;
-    unsigned long long int big;
-};
-
-BYTE* DLL_BRIDGE = NULL;
-
-void SetupDLLBridge() {
-    std::ifstream MyReadFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt");
-
-    unsigned int temp;
-
-    MyReadFile >> temp;
-
-    MyReadFile.close();
-
-    TConv t;
-    t.big = 0;
-    t.t.low = temp;
-
-    std::ofstream MyOutputFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile-response.txt");
-    MyOutputFile << std::hex << temp << std::dec << std::endl;
-
-    // 01 3B AB E1 B3 BC AF F2 E3 1B 26 98 73 72 BC AD
-    BYTE watermark[] = { 0x01, 0x3B, 0xAB, 0xE1, 0xB3, 0xBC, 0xAF, 0xF2, 0xE3, 0x1B, 0x26, 0x98, 0x73, 0x72, 0xBC, 0xAD };
-
-    MyOutputFile << "X" << std::flush;
-
-    MEMORY_BASIC_INFORMATION bas_inf[1024];
-
-    //SYSTEM_INFO sysInfo;
-    //GetSystemInfo(&sysInfo);
-    //std::cout << "Page size : " << sysInfo.dwPageSize << std::endl;
-
-    for (int i = 0; i < 1000; i++) {
-        MyOutputFile << std::endl;
-
-        MyOutputFile << "Y " << i << std::hex << t.big << std::dec << std::flush;
-        DWORD returnVal = VirtualQuery(
-            (LPCVOID)t.big,
-            bas_inf,
-            1024
-        );
-        MyOutputFile << "Z" << std::flush;
-
-        // PAGE_NOACCESS 0x01
-        // PAGE_READONLY 0x02
-        // PAGE_READWRITE 0x04
-        // ...
-        // PAGE_EXECUTE_READWRITE 0x40
-
-        //std::cout << returnVal << std::endl;
-        //std::cout << bas_inf[0].Protect << std::endl;
-
-        if (returnVal == 0) {
-            continue;
-        }
-        MyOutputFile << "W " << returnVal << " " << std::hex << bas_inf[0].Protect << std::dec << " " << std::flush;
-
-        if (bas_inf[0].Protect != PAGE_READWRITE) {
-            continue;
-        }
-        MyOutputFile << "O" << std::flush;
-
-        if (memcmp((void*)t.big, watermark, sizeof(watermark)) == 0) {
-            DLL_BRIDGE = (BYTE*)t.big;
-            MyOutputFile << "Worked. Hooked." << DLL_BRIDGE << std::flush;
-            break;
-        }
-        MyOutputFile << "T";
-        t.t.high++;
-    }
-
-    //DWORD procID = GetProcessId(GetCurrentProcess());
-    //bool success = ReadProcessMemory(GetCurrentProcess(), (LPCVOID)100, &readingBuffer, 4, &BYTES_READ);
-
-    MyOutputFile << "-END OF FUNC-" << (long long)DLL_BRIDGE << std::flush;
-    //                                   ^^^^^^^ this was necessary
-
-    MyOutputFile.close();
-}
-*/
-
-
-
-
 struct TTT {
     unsigned int low, high;
 };
@@ -846,6 +755,96 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 
 // ATTIC :
+
+
+/*
+struct TTT {
+    unsigned int low, high;
+};
+
+union TConv {
+    TTT t;
+    unsigned long long int big;
+};
+
+BYTE* DLL_BRIDGE = NULL;
+
+void SetupDLLBridge() {
+    std::ifstream MyReadFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt");
+
+    unsigned int temp;
+
+    MyReadFile >> temp;
+
+    MyReadFile.close();
+
+    TConv t;
+    t.big = 0;
+    t.t.low = temp;
+
+    std::ofstream MyOutputFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile-response.txt");
+    MyOutputFile << std::hex << temp << std::dec << std::endl;
+
+    // 01 3B AB E1 B3 BC AF F2 E3 1B 26 98 73 72 BC AD
+    BYTE watermark[] = { 0x01, 0x3B, 0xAB, 0xE1, 0xB3, 0xBC, 0xAF, 0xF2, 0xE3, 0x1B, 0x26, 0x98, 0x73, 0x72, 0xBC, 0xAD };
+
+    MyOutputFile << "X" << std::flush;
+
+    MEMORY_BASIC_INFORMATION bas_inf[1024];
+
+    //SYSTEM_INFO sysInfo;
+    //GetSystemInfo(&sysInfo);
+    //std::cout << "Page size : " << sysInfo.dwPageSize << std::endl;
+
+    for (int i = 0; i < 1000; i++) {
+        MyOutputFile << std::endl;
+
+        MyOutputFile << "Y " << i << std::hex << t.big << std::dec << std::flush;
+        DWORD returnVal = VirtualQuery(
+            (LPCVOID)t.big,
+            bas_inf,
+            1024
+        );
+        MyOutputFile << "Z" << std::flush;
+
+        // PAGE_NOACCESS 0x01
+        // PAGE_READONLY 0x02
+        // PAGE_READWRITE 0x04
+        // ...
+        // PAGE_EXECUTE_READWRITE 0x40
+
+        //std::cout << returnVal << std::endl;
+        //std::cout << bas_inf[0].Protect << std::endl;
+
+        if (returnVal == 0) {
+            continue;
+        }
+        MyOutputFile << "W " << returnVal << " " << std::hex << bas_inf[0].Protect << std::dec << " " << std::flush;
+
+        if (bas_inf[0].Protect != PAGE_READWRITE) {
+            continue;
+        }
+        MyOutputFile << "O" << std::flush;
+
+        if (memcmp((void*)t.big, watermark, sizeof(watermark)) == 0) {
+            DLL_BRIDGE = (BYTE*)t.big;
+            MyOutputFile << "Worked. Hooked." << DLL_BRIDGE << std::flush;
+            break;
+        }
+        MyOutputFile << "T";
+        t.t.high++;
+    }
+
+    //DWORD procID = GetProcessId(GetCurrentProcess());
+    //bool success = ReadProcessMemory(GetCurrentProcess(), (LPCVOID)100, &readingBuffer, 4, &BYTES_READ);
+
+    MyOutputFile << "-END OF FUNC-" << (long long)DLL_BRIDGE << std::flush;
+    //                                   ^^^^^^^ this was necessary
+
+    MyOutputFile.close();
+}
+*/
+
 
 bool DetourGeneric(void* toHook, void* ourFunct, int len) {
     if (len < 14) {
