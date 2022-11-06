@@ -57,14 +57,9 @@ std::wstring GetBridgeFilePath() {
 
 unsigned int readBridgeFileValue(std::wstring filePath) {
     std::ifstream MyReadFile(filePath);
-    ////std::ifstream MyReadFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile.txt");
-
     unsigned int temp;
-
     MyReadFile >> temp;
-
     MyReadFile.close();
-
     return temp;
 }
 
