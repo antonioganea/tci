@@ -487,6 +487,17 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 
     SetupDLLBridge();
 
+    if (_wremove(bridgeFile.c_str()) != 0) {
+#ifdef DESKTOP_DEBUG_FILE
+        MyOutputFile << "bridge file successfully deleted\n" << std::flush;
+#endif
+    }
+    else {
+#ifdef DESKTOP_DEBUG_FILE
+        MyOutputFile << "bridge file couldn't be deleted\n" << std::flush;
+#endif
+    }
+
     //LUA_THREAD = setup();
 
 #ifdef DEFERRED_JMP_FUNCTIONS
@@ -527,18 +538,6 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 #ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "Hello - post detour\n" << std::flush;
 #endif
-
-
-    if (_wremove(bridgeFile.c_str()) != 0) {
-#ifdef DESKTOP_DEBUG_FILE
-        MyOutputFile << "bridge file successfully deleted\n" << std::flush;
-#endif
-    }
-    else {
-#ifdef DESKTOP_DEBUG_FILE
-        MyOutputFile << "bridge file couldn't be deleted\n" << std::flush;
-#endif
-    }
 
     return 0;
 }
