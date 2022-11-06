@@ -477,7 +477,7 @@ volatile void ourFunct() {
 
 DWORD WINAPI HackThread(HMODULE hModule) {
 
-    SetupDLLBridge(); // blocks thread until bridge file is available for reading
+    SetupDataBridge(); // blocks thread until bridge file is available for reading
 
 #ifdef DEFERRED_JMP_FUNCTIONS
     DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct +1));

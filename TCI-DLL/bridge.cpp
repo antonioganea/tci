@@ -164,7 +164,7 @@ void bindBridgeLayout() {
 
 
 // TODO : return bool, and add error handling in dllmain.cpp
-void SetupDLLBridge() {
+void SetupDataBridge() {
     std::wstring bridgeFile = ComputeBridgeFilePath();
 
     while (!fileExistsTest(bridgeFile)) { // maybe break after some time if this doesn't work.......

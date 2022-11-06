@@ -47,4 +47,4 @@ unsigned int readBridgeFileValue(std::wstring filePath);
 void ScanForWatermark(unsigned int lowIntVal);
 void bindBridgeLayout();
 
-void SetupDLLBridge();
+void SetupDataBridge();
