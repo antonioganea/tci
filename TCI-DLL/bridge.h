@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "bridge-layout.h"
 
-std::wstring ComputeBridgeFilePath();
+std::wstring GetBridgeFilePath();
 
 unsigned int readBridgeFileValue(std::wstring filePath);
 

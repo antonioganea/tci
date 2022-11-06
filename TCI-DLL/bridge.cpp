@@ -41,7 +41,7 @@ char** DLL_IN_STR4 = NULL;
 #include <shlobj.h>
 
 // Returns something like : "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
-std::wstring ComputeBridgeFilePath() {
+std::wstring GetBridgeFilePath() {
     std::wstring bridgeFile;
 
     PWSTR localAppDataPath;
@@ -113,7 +113,7 @@ void ScanForWatermark(unsigned int lowIntVal) {
 
 // TODO : return bool, and add error handling in dllmain.cpp
 void SetupDataBridge() {
-    std::wstring bridgeFile = ComputeBridgeFilePath();
+    std::wstring bridgeFile = GetBridgeFilePath();
 
     while (!fileExistsTest(bridgeFile)) { // maybe break after some time if this doesn't work.......
         Sleep(100);
