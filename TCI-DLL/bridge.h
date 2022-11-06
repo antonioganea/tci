@@ -1,8 +1,11 @@
 #pragma once
 
 #include <Windows.h>
+#include "utils.h"
 
 extern BYTE* DLL_BRIDGE;
+
+/* BRIDGE LAYOUT */
 
 extern int* DLL_DETOURED;
 extern int* DLL_IS_MAGIC_CALL;
@@ -34,3 +37,11 @@ extern char** DLL_IN_STR1;
 extern char** DLL_IN_STR2;
 extern char** DLL_IN_STR3;
 extern char** DLL_IN_STR4;
+
+/* END OF BRIDGE LAYOUT */
+
+extern std::wstring bridgeFile; // = "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
+
+void ComputeBridgeFilePath();
+
+void SetupDLLBridge();
