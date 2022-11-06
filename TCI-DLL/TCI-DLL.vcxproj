@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bridge-layout.h" />
     <ClInclude Include="bridge.h" />
     <ClInclude Include="dll-lua.h" />
     <ClInclude Include="gui.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Vector3f.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bridge-layout.cpp" />
     <ClCompile Include="bridge.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="dll-lua.cpp" />
