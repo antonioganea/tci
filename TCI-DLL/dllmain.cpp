@@ -476,29 +476,8 @@ volatile void ourFunct() {
 }
 
 DWORD WINAPI HackThread(HMODULE hModule) {
-    //std::cout << "Hello World from DLL!" << std::endl;
-    //std::cout << ourFunct << std::endl;
 
-    ComputeBridgeFilePath();
-
-    while (!fileExistsTest(bridgeFile)) { // maybe break after some time if this doesn't work.......
-        Sleep(100);
-    }
-
-    SetupDLLBridge();
-
-    if (_wremove(bridgeFile.c_str()) != 0) {
-#ifdef DESKTOP_DEBUG_FILE
-        MyOutputFile << "bridge file successfully deleted\n" << std::flush;
-#endif
-    }
-    else {
-#ifdef DESKTOP_DEBUG_FILE
-        MyOutputFile << "bridge file couldn't be deleted\n" << std::flush;
-#endif
-    }
-
-    //LUA_THREAD = setup();
+    SetupDLLBridge(); // blocks thread until bridge file is available for reading
 
 #ifdef DEFERRED_JMP_FUNCTIONS
     DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct +1));

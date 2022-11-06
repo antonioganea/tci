@@ -40,8 +40,11 @@ extern char** DLL_IN_STR4;
 
 /* END OF BRIDGE LAYOUT */
 
-extern std::wstring bridgeFile; // = "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
+std::wstring ComputeBridgeFilePath();
 
-void ComputeBridgeFilePath();
+unsigned int readBridgeFileValue(std::wstring filePath);
+
+void ScanForWatermark(unsigned int lowIntVal);
+void bindBridgeLayout();
 
 void SetupDLLBridge();

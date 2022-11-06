@@ -37,23 +37,26 @@ char** DLL_IN_STR4 = NULL;
 
 /* END OF BRIDGE LAYOUT */
 
-std::wstring bridgeFile;
-
 #include <KnownFolders.h>
 #include <shlobj.h>
 
-void ComputeBridgeFilePath() {
+// Returns something like : "C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile.txt";
+std::wstring ComputeBridgeFilePath() {
+    std::wstring bridgeFile;
+
     PWSTR localAppDataPath;
     SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &localAppDataPath);
 
     bridgeFile = localAppDataPath;
     bridgeFile += L"\\DayZ\\testfile.txt";
+
+    return bridgeFile;
 }
 
 #include <fstream>
 
-void SetupDLLBridge() {
-    std::ifstream MyReadFile(bridgeFile);
+unsigned int readBridgeFileValue(std::wstring filePath) {
+    std::ifstream MyReadFile(filePath);
     ////std::ifstream MyReadFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile.txt");
 
     unsigned int temp;
@@ -62,10 +65,14 @@ void SetupDLLBridge() {
 
     MyReadFile.close();
 
+    return temp;
+}
+
+// TODO : return bool, and add error handling
+void ScanForWatermark(unsigned int lowIntVal) {
     TConv t;
     t.big = 0;
-    t.t.low = temp;
-
+    t.t.low = lowIntVal;
 
     ////std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\VictimWithFile\\testfile-response.txt");
 //std::ofstream MyOutputFile("C:\\Users\\Antonio\\AppData\\Local\\DayZ\\testfile-response.txt");
@@ -102,7 +109,9 @@ void SetupDLLBridge() {
     //                                     ^^^^^^ this was necessary
 
     //MyOutputFile.close();
+}
 
+void bindBridgeLayout() {
     BYTE* ptr = DLL_BRIDGE + 4 * sizeof(int);
 
     DLL_DETOURED = (int*)ptr; ptr += sizeof(int);
@@ -151,4 +160,38 @@ void SetupDLLBridge() {
     // TODO : Sometimes, there has been a spacer (8 bytes) observed between STRLEN_OUT and DLL_STRING_LOC in memory...
 
     strcpy(DLL_STRING, "Ok this is an interesting string");
+}
+
+
+// TODO : return bool, and add error handling in dllmain.cpp
+void SetupDLLBridge() {
+    std::wstring bridgeFile = ComputeBridgeFilePath();
+
+    while (!fileExistsTest(bridgeFile)) { // maybe break after some time if this doesn't work.......
+        Sleep(100);
+    } // TODO : print to console when file was found...
+    
+    unsigned int lowInt = readBridgeFileValue(bridgeFile);
+
+    // TODO : add error handling here
+    ScanForWatermark(lowInt); // this sets DLL_BRIDGE correctly
+
+    if (DLL_BRIDGE == NULL) {
+        // TODO : error handling
+    }
+
+    bindBridgeLayout();
+
+    if (_wremove(bridgeFile.c_str()) != 0) {
+        // TODO: Add some console logs
+#ifdef DESKTOP_DEBUG_FILE
+        MyOutputFile << "bridge file successfully deleted\n" << std::flush;
+#endif
+    }
+    else {
+        // TODO: Add some console logs
+#ifdef DESKTOP_DEBUG_FILE
+        MyOutputFile << "bridge file couldn't be deleted\n" << std::flush;
+#endif
+    }
 }
