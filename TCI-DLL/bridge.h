@@ -1,5 +1,9 @@
 #pragma once
 
+#include <Windows.h>
+
+extern BYTE* DLL_BRIDGE;
+
 extern int* DLL_DETOURED;
 extern int* DLL_IS_MAGIC_CALL;
 extern int* DLL_COMMAND;

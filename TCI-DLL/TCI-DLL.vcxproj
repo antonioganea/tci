@@ -200,6 +200,7 @@
     <ClInclude Include="Vector3f.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bridge.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="dll-lua.cpp" />
     <ClCompile Include="gui.cpp" />
