@@ -8,19 +8,6 @@
 
 #include "tci-api.h"
 
-// Get rid of this when you clean the code. it was used for l_GetFloatsDemo
-#include "bridge.h"
-
-int l_GetFloatsDemo(lua_State* L) {
-
-    
-    lua_pushnumber(L, DLL_FLOATS_OUT[0]);
-    lua_pushnumber(L, DLL_FLOATS_OUT[1]);
-    lua_pushnumber(L, DLL_FLOATS_OUT[2]);
-
-    return 3;
-}
-
 int l_ConsoleMessage(lua_State* L) {
     char buffer[256];
     strcpy(buffer, lua_tostring(L, 1));

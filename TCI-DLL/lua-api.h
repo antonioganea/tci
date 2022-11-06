@@ -4,8 +4,6 @@
 #include "lua/lualib.h"
 #include "lua/lauxlib.h"
 
-int l_GetFloatsDemo(lua_State* L);
-
 // ConsoleMessage("this should appear in the console")
 int l_ConsoleMessage(lua_State* L);
 

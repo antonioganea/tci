@@ -680,21 +680,6 @@ class CustomMission: MissionServer
 	}
 	*/
 
-	void OnSomething(PlayerBase player) {
-
-		// Set car pos near player
-		vector pos = player.GetPosition();
-
-		DLL_FLOATN_OUT = 3;
-		DLL_FLOATS_OUT[0] = pos[0];
-		DLL_FLOATS_OUT[1] = pos[1];
-		DLL_FLOATS_OUT[2] = pos[2];
-		
-		DLL_COMMAND = 1592;
-
-		InterpreterCycle();
-	}
-
 	void RedirectCommandToLua(PlayerBase player, string command) {
 		DLL_COMMAND = 5522; // on generic command
 
@@ -806,10 +791,6 @@ class CustomMission: MissionServer
 			case "/debugparent":
 				debugparent(player);
 				break;
-
-			case "/something":
-				OnSomething(player);
-			break;
 			case "/lua":
 				OnLuaCommand(args[1]);
 				break;

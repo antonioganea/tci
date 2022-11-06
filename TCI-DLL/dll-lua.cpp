@@ -144,9 +144,6 @@ void initLua(const char* path) {
     //lua_pushcfunction(state, l_SpawnVolga);
     //lua_setglobal(state, "SpawnOlga");
 
-    lua_pushcfunction(state, l_GetFloatsDemo);
-    lua_setglobal(state, "GetFloatsDemo");
-
     lua_pushcfunction(state, l_ConsoleMessage);
     lua_setglobal(state, "ConsoleMessage");
 
@@ -257,7 +254,6 @@ enum class DayZServerCommands {
     JustBooted,
     OnCommand = 2103,
     OnUpdatePass = 4912,
-    OnSomething = 1592,
     OnGenericCommand = 5522
 };
 
@@ -350,15 +346,6 @@ void LUA_INTERPRETER_UNEDITABLE() {
             LuaexecuteLine("ConsoleMessage('OnUpdatePass')");
             // ...
 
-            break;
-
-        case (int)DayZServerCommands::OnSomething:
-            //DLL_FLOATS_OUT[0];
-
-
-
-
-            LuaexecuteLine("x, y, z = GetFloatsDemo(); ConsoleMessage(x .. ' ' .. y .. ' ' .. z)");
             break;
 
         case (int)DayZServerCommands::OnGenericCommand:
