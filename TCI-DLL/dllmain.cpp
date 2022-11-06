@@ -487,56 +487,6 @@ bool Detour(void* toHook, void* ourFunct, int len) {
     return true;
 }
 
-
-bool DetourGeneric(void* toHook, void* ourFunct, int len) {
-    if (len < 14) {
-        return false;
-    }
-
-    DWORD curProtection;
-    VirtualProtect(toHook, len, PAGE_EXECUTE_READWRITE, &curProtection);
-
-    char stolenBytes[128];
-
-    memcpy(stolenBytes, toHook, len);
-    memset(toHook, 0x90, len);
-
-    // Detour
-    *(BYTE*)toHook = 0xFF;
-    *(((BYTE*)toHook) + 1) = 0x25;
-    *(((BYTE*)toHook) + 2) = 0x0;
-    *(((BYTE*)toHook) + 3) = 0x0;
-    *(((BYTE*)toHook) + 4) = 0x0;
-    *(((BYTE*)toHook) + 5) = 0x0;
-    *(uint64_t*)((uint64_t)toHook + 6) = (uint64_t)ourFunct;
-
-    DWORD temp;
-    VirtualProtect(toHook, len, curProtection, &temp);
-
-    // Retour
-    int retourLen = 14 + len;
-    VirtualProtect(ourFunct, retourLen, PAGE_EXECUTE_READWRITE, &curProtection);
-
-    memset(ourFunct, 0x90, retourLen);
-    memcpy(ourFunct, stolenBytes, len);
-    
-    // ourFunctRetour
-    void* ofRetour = (BYTE*)ourFunct + len;
-
-    *(BYTE*)ofRetour = 0xFF;
-    *(((BYTE*)ofRetour) + 1) = 0x25;
-    *(((BYTE*)ofRetour) + 2) = 0x0;
-    *(((BYTE*)ofRetour) + 3) = 0x0;
-    *(((BYTE*)ofRetour) + 4) = 0x0;
-    *(((BYTE*)ofRetour) + 5) = 0x0;
-    *(uint64_t*)((uint64_t)ofRetour + 6) = (uint64_t)toHook+14;
-
-    VirtualProtect(ourFunct, retourLen, curProtection, &temp);
-
-    return true;
-}
-
-
 // dummy function
 volatile void ourFunct() {
     std::cout << "DLL ourfunct" << std::endl;
@@ -940,7 +890,55 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 
 
+// ATTIC :
 
+bool DetourGeneric(void* toHook, void* ourFunct, int len) {
+    if (len < 14) {
+        return false;
+    }
+
+    DWORD curProtection;
+    VirtualProtect(toHook, len, PAGE_EXECUTE_READWRITE, &curProtection);
+
+    char stolenBytes[128];
+
+    memcpy(stolenBytes, toHook, len);
+    memset(toHook, 0x90, len);
+
+    // Detour
+    *(BYTE*)toHook = 0xFF;
+    *(((BYTE*)toHook) + 1) = 0x25;
+    *(((BYTE*)toHook) + 2) = 0x0;
+    *(((BYTE*)toHook) + 3) = 0x0;
+    *(((BYTE*)toHook) + 4) = 0x0;
+    *(((BYTE*)toHook) + 5) = 0x0;
+    *(uint64_t*)((uint64_t)toHook + 6) = (uint64_t)ourFunct;
+
+    DWORD temp;
+    VirtualProtect(toHook, len, curProtection, &temp);
+
+    // Retour
+    int retourLen = 14 + len;
+    VirtualProtect(ourFunct, retourLen, PAGE_EXECUTE_READWRITE, &curProtection);
+
+    memset(ourFunct, 0x90, retourLen);
+    memcpy(ourFunct, stolenBytes, len);
+
+    // ourFunctRetour
+    void* ofRetour = (BYTE*)ourFunct + len;
+
+    *(BYTE*)ofRetour = 0xFF;
+    *(((BYTE*)ofRetour) + 1) = 0x25;
+    *(((BYTE*)ofRetour) + 2) = 0x0;
+    *(((BYTE*)ofRetour) + 3) = 0x0;
+    *(((BYTE*)ofRetour) + 4) = 0x0;
+    *(((BYTE*)ofRetour) + 5) = 0x0;
+    *(uint64_t*)((uint64_t)ofRetour + 6) = (uint64_t)toHook + 14;
+
+    VirtualProtect(ourFunct, retourLen, curProtection, &temp);
+
+    return true;
+}
 
 
 /*
