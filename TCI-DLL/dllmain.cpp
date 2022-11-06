@@ -97,21 +97,6 @@ void LuaexecuteLine(const char* s);
 std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\DLL-Log-debugging.txt");
 #endif
 
-void AnnounceAll2() {
-#ifdef DESKTOP_DEBUG_FILE
-    MyOutputFile << "annoncer2\n" << std::flush;
-#endif
-    //DWORD* bridge = (DWORD*)DLL_BRIDGE;
-    //bridge[6] = 1002;
-    *DLL_COMMAND = 1002;
-}
-
-int l_AnnounceAll2(lua_State* L) {
-    AnnounceAll2();
-
-    return 0;
-}
-
 bool MockThreadSupport = false;
 std::mutex mockMutex;
 std::condition_variable mockcv;
