@@ -792,51 +792,6 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 }
 
 
-// UNUSED
-DWORD WINAPI HackThreadInjectionVictim(HMODULE hModule) {
-    /*
-    int hookLength = 6;
-    DWORD hookAddress = 0x332768;
-    jmpBackAddy = hookAddress + hookLength;
-
-    Hook((void*)hookAddress, ourFunct, hookLength);
-    */
-
-    // 7FF720A20000 - process base address
-    // 7FF720A32770 - funcA
-    // diff : 75632 dec, 0x12770 hex
-
-
-    //char stolenBytes[15] = { 0x40, 0x55, 0x57, 0x48, 0x81, 0xEC, 0xE8, 0x00, 0x00, 0x00, 0x48, 0x8D, 0x6C, 0x24, 0x20 };
-    //char jumpBytes[15] =   { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00, 0x10, 0x25, 0xB1, 0xB6, 0xFC, 0x7F, 0x00, 0x00, 0x90 };
-
-    std::cout << "Hello World from DLL!" << std::endl;
-    std::cout << ourFunct << std::endl;
-    DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct + 1));// *(DWORD*)(((void*)hookAddress) + 1);
-    std::cout << "Hook Address Jump : " << hookAddressJump << std::endl;
-    uint64_t ourFunctLocation = (uint64_t)ourFunct + (uint64_t)hookAddressJump + 5;
-    std::cout << "Landing address : " << ourFunctLocation << std::endl;
-
-    //std::cout << ((uint64_t)ourFunct - (uint64_t)hookAddress) - 6 << std::endl;
-    std::cout << "DLL Base address : " << (uint64_t)hModule << std::endl;
-    std::cout << "Process Base address : " << (uint64_t)GetModuleHandle(NULL) << std::endl;
-
-
-    const uint64_t relativeAddrFuncA = 0x12770;
-    uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
-
-    Detour((void*)hookAddress, (void*)ourFunctLocation, 15);
-
-    return 0;
-}
-
-
-
-
-
-
-
-
 #include "gui.h"
 
 DWORD WINAPI GuiThread(HMODULE hModule) {
@@ -938,6 +893,44 @@ bool DetourGeneric(void* toHook, void* ourFunct, int len) {
     VirtualProtect(ourFunct, retourLen, curProtection, &temp);
 
     return true;
+}
+
+// UNUSED
+DWORD WINAPI HackThreadInjectionVictim(HMODULE hModule) {
+    /*
+    int hookLength = 6;
+    DWORD hookAddress = 0x332768;
+    jmpBackAddy = hookAddress + hookLength;
+
+    Hook((void*)hookAddress, ourFunct, hookLength);
+    */
+
+    // 7FF720A20000 - process base address
+    // 7FF720A32770 - funcA
+    // diff : 75632 dec, 0x12770 hex
+
+
+    //char stolenBytes[15] = { 0x40, 0x55, 0x57, 0x48, 0x81, 0xEC, 0xE8, 0x00, 0x00, 0x00, 0x48, 0x8D, 0x6C, 0x24, 0x20 };
+    //char jumpBytes[15] =   { 0xFF, 0x25, 0x00, 0x00, 0x00, 0x00, 0x10, 0x25, 0xB1, 0xB6, 0xFC, 0x7F, 0x00, 0x00, 0x90 };
+
+    std::cout << "Hello World from DLL!" << std::endl;
+    std::cout << ourFunct << std::endl;
+    DWORD hookAddressJump = *((DWORD*)((BYTE*)ourFunct + 1));// *(DWORD*)(((void*)hookAddress) + 1);
+    std::cout << "Hook Address Jump : " << hookAddressJump << std::endl;
+    uint64_t ourFunctLocation = (uint64_t)ourFunct + (uint64_t)hookAddressJump + 5;
+    std::cout << "Landing address : " << ourFunctLocation << std::endl;
+
+    //std::cout << ((uint64_t)ourFunct - (uint64_t)hookAddress) - 6 << std::endl;
+    std::cout << "DLL Base address : " << (uint64_t)hModule << std::endl;
+    std::cout << "Process Base address : " << (uint64_t)GetModuleHandle(NULL) << std::endl;
+
+
+    const uint64_t relativeAddrFuncA = 0x12770;
+    uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
+
+    Detour((void*)hookAddress, (void*)ourFunctLocation, 15);
+
+    return 0;
 }
 
 
