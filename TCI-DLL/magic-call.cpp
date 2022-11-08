@@ -128,9 +128,6 @@ volatile void OnGetControl() {
 
         //popESCallContext();   // to be implemented
         //bridge[6] = tempCode;
-
-
-
     }
     else {
 #ifdef DESKTOP_DEBUG_FILE
@@ -158,127 +155,7 @@ volatile void OnGetControl() {
 
     ESFirstCall = (*DLL_COMMAND) == 0;
 
-
-    //MyOutputFile << "DDD\n" << std::flush;
-
-
-
-    //MyOutputFile << "FFF\n" << std::flush;
 #ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "FX-finale\n" << std::flush;
 #endif
-
-
-    /*
-    if (bridge[6] == 2103) {
-        MockThreadSupport = false;
-        MyOutputFile << "pre-thread\n" << std::flush;
-        std::thread newFunnyThread(simpleThread);
-        //newFunnyThread.join(); // If we don't join the thread, it crashes the game
-        newFunnyThread.detach(); // Detaching or joining works.
-
-        MyOutputFile << "post-thread - wait stage\n" << std::flush;
-
-        //std::unique_lock<std::mutex> lk(mockMutex);
-        //MyOutputFile << "setup6\n" << std::flush;
-        // ^^^ LAST THING TO BE PRINTED
-        //mockcv.wait(lk, [] {return (MockThreadSupport == true); });
-
-        //mockcv.wait(lk); // <--- the wait crashes the execution
-
-        while(MockThreadSupport==false){//busy waiting - spin lock
-        }
-
-        MyOutputFile << "post-thread - post wait\n" << std::flush;
-    }
-    */
-
-
-
-    // CURRENT PROBLEM *LATEST* : chekc if CV's work in threads .. and so on ..
-    /*
-    if (LUA_THREAD == NULL) {
-        MyOutputFile << "Lua thread first time setup from server control\n" << std::flush;
-        LUA_THREAD = setup(); // <--- as this doesn't work, THE LAUNCHING OF A THREAD SHOULD BE TESTED.
-        //LUA_THREAD->detach();
-        MyOutputFile << "Lua thread first time setup done\n" << std::flush;
-    }
-    */
-
-
-    /*
-    if (bridge[6] == 2103) {
-        // CURRENT STATUS PROBLEM
-        // This breaks execution :
-        //LuaexecuteLine("function smecherie() local a = 10; a = a + 10; return a; end local b = smecherie()");
-        //It might be because the Lua has to be invoked from another DLL - possible solution - try to compile as included lib...
-        // Another TEST solution - inject the Lua.DLL BEFORE injecting the TCI dll // Tested - Not working
-
-
-        MyOutputFile << "/lua executed\n" << std::flush;
-
-        lua_State* newLuaState = luaL_newstate(); // <- this is where it crashes. apparently it's all about running code from other DLL
-        MyOutputFile << "made new state\n" << std::flush;
-
-        //luaL_openlibs(newLuaState); // <-- this crashed, probably because of the I/O lib trying to open stdout stdin stderr
-        //MyOutputFile << "opened libs\n" << std::flush;
-
-        luaopen_math(newLuaState); // <-- this worked
-        MyOutputFile << "math lib\n" << std::flush;
-
-        lua_pushcfunction(newLuaState, l_AnnounceAll2);
-        lua_setglobal(newLuaState, "annoncer");
-
-        MyOutputFile << "annoncer - registered\n" << std::flush;
-
-        bridge[6] = 0;
-
-        int result = luaL_loadstring(newLuaState, "a = 10; annoncer();");
-        MyOutputFile << "loadstring worked\n" << std::flush;
-
-        switch (result) {
-        case LUA_ERRSYNTAX:
-            //puts("[Lua] Error executing line ( syntax ) !");
-            break;
-        case LUA_ERRMEM:
-            //puts("[Lua] Error executing line ( memory ) !");
-            break;
-        default: {
-            int res = lua_pcall(newLuaState, 0, LUA_MULTRET, 0);
-            if (res != LUA_OK) {
-                //print_error(state);
-                return;
-            }
-        }
-        }
-
-        //https://docs.microsoft.com/en-us/windows/win32/dlls/using-run-time-dynamic-linking?redirectedfrom=MSDN
-        //bridge[6] = 1002;
-    }
-    else {
-        bridge[6] = 0;
-    }
-    */
-
-    /*
-    MyOutputFile << "before goInLua\n" << std::flush;
-    // Current status problem : execution jams when calling /lua
-    goInLua();
-    MyOutputFile << "after goInLua\n" << std::flush;
-    */
-
-    /*
-    if (bridge[6] == 2103) {
-        bridge[6] = 1002;
-    }
-    else {
-        bridge[6] = 0;
-    }
-    */
-
-
-    //goInLua();
-
-
-
 }
