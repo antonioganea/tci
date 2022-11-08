@@ -14,10 +14,6 @@
 
 #include "lua-api.h"
 
-
-//int simBridge[1024];
-
-
 std::mutex m;
 std::condition_variable cv;
 
@@ -33,7 +29,6 @@ void goInLua() {
     }
 }
 
-
 bool isLuaPowered = true;
 
 void goOutOfLua() {
@@ -46,30 +41,6 @@ void goOutOfLua() {
         //while (inLua == false) {/* spinlock */}
     }
 }
-
-
-
-/*
-
-
-void ThreadA_Activity()
-{
-    std::cout << "Thread A started " << std::endl;
-
-    cv.notify_one();//notify to ThreadB that he can start doing his job
-
-    // wait for the Thread B
-    {
-        std::unique_lock<std::mutex> lk(m);
-        cv.wait(lk, [] {return false; });
-    }
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    std::cout << "end of Thread A" << std::endl;
-}
-
-*/
-
 
 #include "tci-api.h"
 
@@ -231,19 +202,19 @@ void print_error(lua_State* state) {
 void LuaexecuteLine(const char* s) {
     int result = luaL_loadstring(state, s);
     switch (result) {
-    case LUA_ERRSYNTAX:
-        puts("[Lua] Error executing line ( syntax ) !");
-        break;
-    case LUA_ERRMEM:
-        puts("[Lua] Error executing line ( memory ) !");
-        break;
-    default: {
-        int res = lua_pcall(state, 0, LUA_MULTRET, 0);
-        if (res != LUA_OK) {
-            print_error(state);
-            return;
+        case LUA_ERRSYNTAX:
+            puts("[Lua] Error executing line ( syntax ) !");
+            break;
+        case LUA_ERRMEM:
+            puts("[Lua] Error executing line ( memory ) !");
+            break;
+        default: {
+            int res = lua_pcall(state, 0, LUA_MULTRET, 0);
+            if (res != LUA_OK) {
+                print_error(state);
+                return;
+            }
         }
-    }
     }
 }
 
@@ -257,8 +228,6 @@ enum class DayZServerCommands {
     OnGenericCommand = 5522
 };
 
-bool justBooted = false; // unused
-
 #include "bridge.h"
 
 void LUA_INTERPRETER_UNEDITABLE() {
@@ -268,13 +237,21 @@ void LUA_INTERPRETER_UNEDITABLE() {
 #endif
 
     while (isLuaPowered) {
+        switch (*DLL_COMMAND)
+        {
+            case (int)DayZServerCommands::OnUpdate:
 
-        //DWORD* bridge = (DWORD*)DLL_BRIDGE;
+                break;
 
-        /*
-        if (justBooted) {
-            int res = luaL_dofile(state, bootPath);
-            switch (res) {
+            case (int)DayZServerCommands::OnKilled:
+
+                break;
+            case (int)DayZServerCommands::JustBooted: {
+
+                ConsoleMessage("[tci] executing doFile...");
+
+                int res = luaL_dofile(state, bootPath);
+                switch (res) {
                 case LUA_ERRSYNTAX:
                     //puts("[Lua] Error executing line ( syntax ) !");
                     break;
@@ -285,93 +262,55 @@ void LUA_INTERPRETER_UNEDITABLE() {
                     //int res = lua_pcall(state, 0, LUA_MULTRET, 0);
                     if (res != LUA_OK) {
                         print_error_console(state);
-                        return;
+                        break;
                     }
                 }
-            }
-
-            ConsoleMessage("[tci] doFile executed!");
-            MyOutputFile << "doFile done\n" << std::flush;
-
-            justBooted = false;
-        }
-        */
-
-        switch (*DLL_COMMAND)
-        {
-
-        case (int)DayZServerCommands::OnUpdate:
-
-            break;
-
-        case (int)DayZServerCommands::OnKilled:
-
-            break;
-        case (int)DayZServerCommands::JustBooted: {
-
-            ConsoleMessage("[tci] executing doFile...");
-
-            int res = luaL_dofile(state, bootPath);
-            switch (res) {
-            case LUA_ERRSYNTAX:
-                //puts("[Lua] Error executing line ( syntax ) !");
-                break;
-            case LUA_ERRMEM:
-                //puts("[Lua] Error executing line ( memory ) !");
-                break;
-            default: {
-                //int res = lua_pcall(state, 0, LUA_MULTRET, 0);
-                if (res != LUA_OK) {
-                    print_error_console(state);
-                    break;
                 }
+
+                ConsoleMessage("[tci] doFile executed!");
+    #ifdef DESKTOP_DEBUG_FILE
+                MyOutputFile << "doFile done\n" << std::flush;
+    #endif
+
+                break;
             }
-            }
 
-            ConsoleMessage("[tci] doFile executed!");
-#ifdef DESKTOP_DEBUG_FILE
-            MyOutputFile << "doFile done\n" << std::flush;
-#endif
+            case (int)DayZServerCommands::OnCommand:
+                //LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
+                LuaexecuteLine("BroadcastMessage(os.date('%X', os.time())); ConsoleMessage('someone executed /lua')");
 
-            break;
-        }
+                break;
 
-        case (int)DayZServerCommands::OnCommand:
-            //LuaexecuteLine("SpawnOlga();a = 5;SpawnOlga();b = 5");
-            LuaexecuteLine("BroadcastMessage(os.date('%X', os.time())); ConsoleMessage('someone executed /lua')");
+            case (int)DayZServerCommands::OnUpdatePass:
+                LuaexecuteLine("ConsoleMessage('OnUpdatePass')");
+                // ...
 
-            break;
+                break;
 
-        case (int)DayZServerCommands::OnUpdatePass:
-            LuaexecuteLine("ConsoleMessage('OnUpdatePass')");
-            // ...
+            case (int)DayZServerCommands::OnGenericCommand:
+    #ifdef DESKTOP_DEBUG_FILE
+                MyOutputFile << "OnGenericCommand\n" << std::flush;
+                MyOutputFile << std::hex << (long long)DLL_IN_STR1 << std::dec << '\n' << std::flush;
+                MyOutputFile << std::hex << (long long)(*DLL_IN_STR1) << std::dec << '\n' << std::flush;
+    #endif
+                if (CallCommandHandlers(*DLL_IN_STR1, DLL_INTS_OUT[0]) > 0) {
+    #ifdef DESKTOP_DEBUG_FILE
+                    MyOutputFile << "fa1\n" << std::flush;
+    #endif
+                }
+                else {
+    #ifdef DESKTOP_DEBUG_FILE
+                    MyOutputFile << "fa2\n" << std::flush;
+    #endif
+                    ConsoleMessage("Unknown command in interpreter.");
+                }
+                break;
 
-            break;
-
-        case (int)DayZServerCommands::OnGenericCommand:
-#ifdef DESKTOP_DEBUG_FILE
-            MyOutputFile << "OnGenericCommand\n" << std::flush;
-            MyOutputFile << std::hex << (long long)DLL_IN_STR1 << std::dec << '\n' << std::flush;
-            MyOutputFile << std::hex << (long long)(*DLL_IN_STR1) << std::dec << '\n' << std::flush;
-#endif
-            if (CallCommandHandlers(*DLL_IN_STR1, DLL_INTS_OUT[0]) > 0) {
-#ifdef DESKTOP_DEBUG_FILE
-                MyOutputFile << "fa1\n" << std::flush;
-#endif
-            }
-            else {
-#ifdef DESKTOP_DEBUG_FILE
-                MyOutputFile << "fa2\n" << std::flush;
-#endif
-                ConsoleMessage("Unknown command in interpreter.");
-            }
-            break;
-
-        default:
-#ifdef DESKTOP_DEBUG_FILE
-            MyOutputFile << "hit default in LUA THREAD. Something is WRONG\n" << std::flush;
-#endif
-            break;
+            default:
+    #ifdef DESKTOP_DEBUG_FILE
+                MyOutputFile << "hit default in LUA THREAD. Something is WRONG\n" << std::flush;
+    #endif
+                break;
 
         }
 
@@ -429,7 +368,6 @@ std::thread* setup(const char* path) {
 #endif
     //bridge[6] = (int)DayZServerCommands::JustBooted; // this should go through default / nothing
     *DLL_COMMAND = (int)DayZServerCommands::JustBooted;
-    justBooted = true;
 
 #ifdef DESKTOP_DEBUG_FILE
     MyOutputFile << "setup4\n" << std::flush;

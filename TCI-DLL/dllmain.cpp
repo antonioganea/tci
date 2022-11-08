@@ -266,3 +266,24 @@ DWORD WINAPI HackThread(HMODULE hModule)
     FreeLibraryAndExitThread(hModule, 0);
 }
 */
+
+/*
+
+
+void ThreadA_Activity()
+{
+    std::cout << "Thread A started " << std::endl;
+
+    cv.notify_one();//notify to ThreadB that he can start doing his job
+
+    // wait for the Thread B
+    {
+        std::unique_lock<std::mutex> lk(m);
+        cv.wait(lk, [] {return false; });
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::cout << "end of Thread A" << std::endl;
+}
+
+*/
