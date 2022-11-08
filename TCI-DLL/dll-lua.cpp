@@ -88,6 +88,54 @@ void openCustomLuaLibs(lua_State* L) {
     }
 }
 
+static const luaL_Reg luaApiFunctions[] = {
+  {"ConsoleMessage", l_ConsoleMessage},
+  {"BroadcastMessage", l_BroadcastMessage},
+  {"SendPlayerMessage", l_SendPlayerMessage},
+
+  {"SpawnCar", l_SpawnCar},
+  {"GetPlayerCar", l_GetPlayerCar},
+
+  {"GetPlayerCount", l_GetPlayerCount},
+
+  {"GetPlayerBySteamID", l_GetPlayerBySteamID},
+  {"GetPlayerSteamID", l_GetPlayerSteamID},
+
+  {"GetPlayerHealth", l_GetPlayerHealth},
+  {"GetPlayerMaxHealth", l_GetPlayerMaxHealth},
+  {"SetPlayerHealth", l_SetPlayerHealth},
+
+  {"GetPlayerBlood", l_GetPlayerBlood},
+  {"GetPlayerMaxBlood", l_GetPlayerMaxBlood},
+  {"SetPlayerBlood", l_SetPlayerBlood},
+
+  {"GetPlayerShock", l_GetPlayerShock},
+  {"GetPlayerMaxShock", l_GetPlayerMaxShock},
+  {"SetPlayerShock", l_SetPlayerShock},
+
+  {"KillPlayer", l_KillPlayer},
+
+  {"RegisterCommandHandler", l_RegisterCommandHandler},
+
+  {"GetPlayerPosition", l_GetPlayerPosition},
+  {"SetPlayerPosition", l_SetPlayerPosition},
+
+  {"GetCarFuel", l_GetCarFuel},
+  {"SetCarFuel", l_SetCarFuel},
+  {"GetCarFuelCapacity", l_GetCarFuelCapacity},
+
+  {"SpawnPlayerItem", l_SpawnPlayerItem},
+
+  {NULL, NULL}
+};
+
+void registerLuaApiFunctions(lua_State* L) {
+    const luaL_Reg* func;
+    for (func = luaApiFunctions; func->func; func++) {
+        lua_pushcfunction(state, func->func);
+        lua_setglobal(state, func->name);
+    }
+}
 
 char bootPath[512];
 
@@ -104,85 +152,7 @@ void initLua(const char* path) {
     //luaL_openlibs(state); <--- this crashes (maybe bcs of stdout stdin stderr - i/o lib )
     openCustomLuaLibs(state);
 
-    //luaopen_math(state);
-#ifdef DESKTOP_DEBUG_FILE
-    MyOutputFile << "lua math done\n" << std::flush;
-#endif
-
-    //lua_pushcfunction(state, l_RegisterAsServerObject);
-    //lua_setglobal(state, "RegisterAsServerObject");
-
-    //lua_pushcfunction(state, l_SpawnVolga);
-    //lua_setglobal(state, "SpawnOlga");
-
-    lua_pushcfunction(state, l_ConsoleMessage);
-    lua_setglobal(state, "ConsoleMessage");
-
-    lua_pushcfunction(state, l_BroadcastMessage);
-    lua_setglobal(state, "BroadcastMessage");
-
-    lua_pushcfunction(state, l_SendPlayerMessage);
-    lua_setglobal(state, "SendPlayerMessage");
-
-    lua_pushcfunction(state, l_SpawnCar);
-    lua_setglobal(state, "SpawnCar");
-
-    lua_pushcfunction(state, l_GetPlayerCar);
-    lua_setglobal(state, "GetPlayerCar");
-
-    lua_pushcfunction(state, l_GetPlayerCount);
-    lua_setglobal(state, "GetPlayerCount");
-
-    lua_pushcfunction(state, l_GetPlayerBySteamID);
-    lua_setglobal(state, "GetPlayerBySteamID");
-
-    lua_pushcfunction(state, l_GetPlayerSteamID);
-    lua_setglobal(state, "GetPlayerSteamID");
-
-
-    lua_pushcfunction(state, l_GetPlayerHealth);
-    lua_setglobal(state, "GetPlayerHealth");
-    lua_pushcfunction(state, l_GetPlayerMaxHealth);
-    lua_setglobal(state, "GetPlayerMaxHealth");
-    lua_pushcfunction(state, l_SetPlayerHealth);
-    lua_setglobal(state, "SetPlayerHealth");
-
-    lua_pushcfunction(state, l_GetPlayerBlood);
-    lua_setglobal(state, "GetPlayerBlood");
-    lua_pushcfunction(state, l_GetPlayerMaxBlood);
-    lua_setglobal(state, "GetPlayerMaxBlood");
-    lua_pushcfunction(state, l_SetPlayerBlood);
-    lua_setglobal(state, "SetPlayerBlood");
-
-    lua_pushcfunction(state, l_GetPlayerShock);
-    lua_setglobal(state, "GetPlayerShock");
-    lua_pushcfunction(state, l_GetPlayerMaxShock);
-    lua_setglobal(state, "GetPlayerMaxShock");
-    lua_pushcfunction(state, l_SetPlayerShock);
-    lua_setglobal(state, "SetPlayerShock");
-
-    lua_pushcfunction(state, l_KillPlayer);
-    lua_setglobal(state, "KillPlayer");
-
-
-    lua_pushcfunction(state, l_RegisterCommandHandler);
-    lua_setglobal(state, "RegisterCommandHandler");
-
-    lua_pushcfunction(state, l_GetPlayerPosition);
-    lua_setglobal(state, "GetPlayerPosition");
-
-    lua_pushcfunction(state, l_SetPlayerPosition);
-    lua_setglobal(state, "SetPlayerPosition");
-
-    lua_pushcfunction(state, l_GetCarFuel);
-    lua_setglobal(state, "GetCarFuel");
-    lua_pushcfunction(state, l_SetCarFuel);
-    lua_setglobal(state, "SetCarFuel");
-    lua_pushcfunction(state, l_GetCarFuelCapacity);
-    lua_setglobal(state, "GetCarFuelCapacity");
-
-    lua_pushcfunction(state, l_SpawnPlayerItem);
-    lua_setglobal(state, "SpawnPlayerItem");
+    registerLuaApiFunctions(state);
 
     strcpy_s(bootPath, path);
 
