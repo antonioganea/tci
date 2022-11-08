@@ -314,5 +314,8 @@
     <ClCompile Include="magic-call.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="attic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

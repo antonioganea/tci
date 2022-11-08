@@ -204,6 +204,7 @@
     <ClInclude Include="Vector3f.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="attic.cpp" />
     <ClCompile Include="bridge-layout.cpp" />
     <ClCompile Include="bridge.cpp" />
     <ClCompile Include="detour.cpp" />
