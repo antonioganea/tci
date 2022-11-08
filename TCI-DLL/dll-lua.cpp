@@ -374,37 +374,3 @@ void cleanup() {
     LUA_THREAD->join();
     delete LUA_THREAD;
 }
-
-/*
-int main2()
-{
-    LUA_THREAD = setup("C:\\Program Files (x86)\\Steam\\steamapps\\common\\DayZServer\\lua\\script.lua");
-
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
-    std::cout << "[[[[[Sloop]]]]]" << std::endl;
-    //std::this_thread::sleep_for(std::chrono::seconds(1));
-
-
-    DLL_BRIDGE[0] = (int)DayZServerCommands::OnCommand;
-    goInLua();
-
-    std::cout << "SKIB" << std::endl;
-    goInLua();
-
-    std::cout << "Frib" << std::endl;
-
-    // TODO : if we delete these two lines, it will stuck the lua thread...
-    // (make sure the calls are in a while(true) {notify()} loop)
-    // OUTDATED / STALE / OLD NOTE
-    //goInLua();
-    //std::cout << "Frib2" << std::endl;
-
-    // not a great solution:
-    //LUA_THREAD->detach();
-    //delete LUA_THREAD;
-
-    cleanup();
-
-    return 0;
-}
-*/
