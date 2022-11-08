@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="bridge-layout.h" />
     <ClInclude Include="bridge.h" />
+    <ClInclude Include="detour.h" />
     <ClInclude Include="dll-lua.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="lua\lundump.h" />
     <ClInclude Include="lua\lvm.h" />
     <ClInclude Include="lua\lzio.h" />
+    <ClInclude Include="magic-call.h" />
     <ClInclude Include="tci-api.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector3f.h" />
@@ -204,6 +206,7 @@
   <ItemGroup>
     <ClCompile Include="bridge-layout.cpp" />
     <ClCompile Include="bridge.cpp" />
+    <ClCompile Include="detour.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="dll-lua.cpp" />
     <ClCompile Include="gui.cpp" />
@@ -247,6 +250,7 @@
     <ClCompile Include="lua\lutf8lib.cpp" />
     <ClCompile Include="lua\lvm.cpp" />
     <ClCompile Include="lua\lzio.cpp" />
+    <ClCompile Include="magic-call.cpp" />
     <ClCompile Include="tci-api.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
