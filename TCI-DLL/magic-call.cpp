@@ -24,10 +24,6 @@ void LuaexecuteLine(const char* s);
 std::ofstream MyOutputFile("C:\\Users\\Antonio\\Desktop\\DLL-Log-debugging.txt");
 #endif
 
-bool MockThreadSupport = false;
-std::mutex mockMutex;
-std::condition_variable mockcv;
-
 int ESCALL_COMMAND;
 int watermark7 = 0;
 
