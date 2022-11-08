@@ -63,3 +63,45 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     }
     return TRUE;
 }
+
+
+/*
+TODO 
+
+MVP :
+
++ Update event, called from EnfusionScript
+
+After MVP :
++ Make standalone injector work no matter where your dll is located
+
++ events (killing, hitting, etc)
++ events registering
+
+=========================== CAR RELATED FUNCTIONS ============================
+//proto native EntityAI 	GetEntityByPersitentID (int b1, int b2, int b3, int b4)
+
+*USED* IsTransport()
+*USED* GetObjectByNetworkId()
+CAN'T USE GetNetworkID() // not working
+*USED* GetNetworkIDString() // works
+*USED* HasNetworkID ()
+*USED* bool 	IsInTransport ()
+*USED* proto native IEntity GetParent 	( )
+
+GetDrivingVehicle()
+GetVehicleSeat()
+proto native Human 	CrewMember (int posIdx)
+proto native int 	CrewSize ()
+=========================== ===================== ============================
+
++ Optimizations:
+    + BUG-Resistant modification : allow hot reloads only on frame update events ( to remove call preserving )
+    + retour before detour
+    + less registry-preserving instructions per control capturing
+    + take control with less frequent instruction than function calls
+    + Check if the gui thread is killed when the ?process? is killed ...
+    + in EnfusionScript's iterationCycle - prevent jams when not injected yet
+    + make lua code ERR_SYNTAX and ERR_MEM and errors in general more verbose.
+
+*/
