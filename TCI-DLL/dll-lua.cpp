@@ -149,7 +149,7 @@ void initLua(const char* path) {
 #endif
 
     // Make standard libraries available in the Lua object
-    //luaL_openlibs(state); <--- this crashes (maybe bcs of stdout stdin stderr - i/o lib )
+    // luaL_openlibs(state); <--- this crashes ( because of luaopen_package )
     openCustomLuaLibs(state);
 
     registerLuaApiFunctions(state);
