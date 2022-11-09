@@ -76,8 +76,6 @@ MVP :
 + Update event, called from EnfusionScript
 
 After MVP :
-+ Make standalone injector work no matter where your dll is located
-
 + events (killing, hitting, etc)
 + events registering
 
