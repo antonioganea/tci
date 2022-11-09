@@ -118,7 +118,7 @@ volatile void OnGetControl() {
         //pushESCallContext();   // to be implemented
 
 
-        LUA_THREAD = setup("C:\\Program Files (x86)\\Steam\\steamapps\\common\\DayZServer\\lua\\script.lua");
+        LUA_THREAD = setup("lua\\script.lua");
 
         // CURRENT STATUS :
         // If we call three broadcasts in a row, first one will be ignored because it is overwritten below ( bridge[6] = tempCode )
