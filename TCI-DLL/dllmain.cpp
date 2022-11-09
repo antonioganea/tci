@@ -104,4 +104,6 @@ proto native int 	CrewSize ()
     + in EnfusionScript's iterationCycle - prevent jams when not injected yet
     + make lua code ERR_SYNTAX and ERR_MEM and errors in general more verbose.
 
++ Known issues:
+    + if you hot reload and spam the 'debug' button, tci jams
 */
