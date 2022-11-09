@@ -19,8 +19,11 @@ DWORD WINAPI HackThread(HMODULE hModule) {
 
 #include "gui.h"
 
+const wchar_t* windowName = L"TCI";
+const wchar_t* className = L"TCI Menu Class";
+
 DWORD WINAPI GuiThread(HMODULE hModule) {
-    gui::CreateHWindow("TCI", "TCI Menu Class");
+    gui::CreateHWindow((const char*)windowName, (const char *)className);
     gui::CreateDevice();
     gui::CreateImGui();
 
