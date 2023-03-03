@@ -107,4 +107,6 @@ proto native int 	CrewSize ()
 
 + Known issues:
     + if you hot reload and spam the 'debug' button, tci jams
+    + testfile.txt might still exist from previous runs when you start the server+autoinjector.
+      something can be done to first delete that file if it exists, and then run the server.
 */
