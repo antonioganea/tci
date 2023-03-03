@@ -1,0 +1,1008 @@
+This is an example trace for DayZ 1.20.155814 used for TCI maintenance.
+
+The address you're looking for in this trace is DayZServer_x64.exe+2ABACB
+
+
+
+
+
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AB00C - add r15d,-02
+								DayZServer_x64.exe+2AB010 - cmp r15d,11
+								DayZServer_x64.exe+2AB014 - ja DayZServer_x64.exe+2AB3F1
+								DayZServer_x64.exe+2AB01A - movsxd  rax,r15d
+								DayZServer_x64.exe+2AB01D - mov ecx,[r8+rax*4+002ADD40]
+								DayZServer_x64.exe+2AB025 - add rcx,r8
+								DayZServer_x64.exe+2AB028 - jmp rcx
+								DayZServer_x64.exe+2AB5F7 - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AB5FC - mov ebx,[rax+04]
+								DayZServer_x64.exe+2AB5FF - mov eax,[rax+08]
+								DayZServer_x64.exe+2AB602 - shl rbx,05
+								DayZServer_x64.exe+2AB606 - add rbx,[r12+000000B8]
+								DayZServer_x64.exe+2AB60E - mov [rsp+60],eax
+								DayZServer_x64.exe+2AB612 - mov eax,[rbx+18]
+								DayZServer_x64.exe+2AB615 - test eax,eax
+								DayZServer_x64.exe+2AB617 - je DayZServer_x64.exe+2AB638
+								DayZServer_x64.exe+2AB619 - dec eax
+								DayZServer_x64.exe+2AB61B - lea rdx,[rax+rax*4]
+								DayZServer_x64.exe+2AB61F - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AB627 - lea rcx,[rax+rdx*8]
+								DayZServer_x64.exe+2AB62B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AB630 - mov r9,rax
+								DayZServer_x64.exe+2AB633 - xor r11d,r11d
+								DayZServer_x64.exe+2AB636 - jmp DayZServer_x64.exe+2AB63B
+								DayZServer_x64.exe+2AB63B - bt r13d,1E
+								DayZServer_x64.exe+2AB640 - jae DayZServer_x64.exe+2AB65B
+								DayZServer_x64.exe+2AB65B - movzx eax,word ptr [rbx+08]
+								DayZServer_x64.exe+2AB65F - mov r8,rdi
+								DayZServer_x64.exe+2AB662 - mov rdx,[rbx]
+								DayZServer_x64.exe+2AB665 - mov rcx,r14
+								DayZServer_x64.exe+2AB668 - mov [rsp+30],r11
+								DayZServer_x64.exe+2AB66D - mov [rsp+28],eax
+								DayZServer_x64.exe+2AB671 - mov rax,[rbx+10]
+								DayZServer_x64.exe+2AB675 - mov [rsp+20],rax
+								DayZServer_x64.exe+2AB67A - call DayZServer_x64.exe+2A8A70
+								DayZServer_x64.exe+2AB67F - mov [rsp+58],rax
+								DayZServer_x64.exe+2AB684 - test rax,rax
+								DayZServer_x64.exe+2AB687 - je DayZServer_x64.exe+2AB3DB
+								DayZServer_x64.exe+2AB68D - mov r13,[rax+08]
+								DayZServer_x64.exe+2AB691 - xor esi,esi
+								DayZServer_x64.exe+2AB693 - mov [rbp+00000160],rax
+								DayZServer_x64.exe+2AB69A - cmp [r13+54],sil
+								DayZServer_x64.exe+2AB69E - jna DayZServer_x64.exe+2AB717
+								DayZServer_x64.exe+2AB717 - lea rcx,[rbp+60]
+								DayZServer_x64.exe+2AB71B - mov r8,rdi
+								DayZServer_x64.exe+2AB71E - mov [rsp+20],rcx
+								DayZServer_x64.exe+2AB723 - lea r9,[rbp-20]
+								DayZServer_x64.exe+2AB727 - mov rcx,r14
+								DayZServer_x64.exe+2AB72A - mov rdx,rax
+								DayZServer_x64.exe+2AB72D - call DayZServer_x64.exe+2A8C30
+								DayZServer_x64.exe+2AB732 - mov r12d,[rsp+60]
+								DayZServer_x64.exe+2AB737 - xor r11d,r11d
+								DayZServer_x64.exe+2AB73A - mov r13,[rsp+58]
+								DayZServer_x64.exe+2AB73F - mov r15d,r11d
+								DayZServer_x64.exe+2AB742 - mov [r13+18],r12d
+								DayZServer_x64.exe+2AB746 - test r12d,r12d
+								DayZServer_x64.exe+2AB749 - je DayZServer_x64.exe+2ABAA4
+								DayZServer_x64.exe+2ABAA4 - mov rax,[r13+10]
+								DayZServer_x64.exe+2ABAA8 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2ABAAF - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2ABAB6 - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2ABABC - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2ABAC2 - test rax,rax
+								DayZServer_x64.exe+2ABAC5 - je DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2ABACB - mov rcx,[r14+000001B8] <-- TARGET
+								DayZServer_x64.exe+2ABAD2 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2ABAD9 - cmp [rcx],rax
+								DayZServer_x64.exe+2ABADC - je DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AB00C - add r15d,-02
+								DayZServer_x64.exe+2AB010 - cmp r15d,11
+								DayZServer_x64.exe+2AB014 - ja DayZServer_x64.exe+2AB3F1
+								DayZServer_x64.exe+2AB01A - movsxd  rax,r15d
+								DayZServer_x64.exe+2AB01D - mov ecx,[r8+rax*4+002ADD40]
+								DayZServer_x64.exe+2AB025 - add rcx,r8
+								DayZServer_x64.exe+2AB028 - jmp rcx
+								DayZServer_x64.exe+2AC374 - mov rdx,rdi
+								DayZServer_x64.exe+2AC377 - mov rcx,r14
+								DayZServer_x64.exe+2AC37A - call DayZServer_x64.exe+2AAA20
+								DayZServer_x64.exe+2AC37F - mov [rbp+00000160],rax
+								DayZServer_x64.exe+2AC386 - cmp [rdi+48],ebx
+								DayZServer_x64.exe+2AC389 - je DayZServer_x64.exe+2ADD0F
+								DayZServer_x64.exe+2AC38F - mov rsi,[rax]
+								DayZServer_x64.exe+2AC392 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AC399 - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AC39F - xor r11d,r11d
+								DayZServer_x64.exe+2AC3A2 - mov [rsp+50],rsi
+								DayZServer_x64.exe+2AC3A7 - jmp DayZServer_x64.exe+2AB3F6
+								DayZServer_x64.exe+2AB3F6 - mov eax,[rsi]
+								DayZServer_x64.exe+2AB3F8 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AB3FF - shr rax,07
+								DayZServer_x64.exe+2AB403 - movzx ecx,al
+								DayZServer_x64.exe+2AB406 - add rcx,[rsp+50]
+								DayZServer_x64.exe+2AB40B - mov [rsi],rcx
+								DayZServer_x64.exe+2AB40E - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AC3AC - cmp r15d,25
+								DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+								DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+								DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+								DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+								DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+								DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+								DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+								DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+								DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+								DayZServer_x64.exe+2AD093 - mov rsi,rax
+								DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
+								DayZServer_x64.exe+2AD09B - lea rdx,[rcx+rcx*4]
+								DayZServer_x64.exe+2AD09F - mov rcx,[rax+000000B0]
+								DayZServer_x64.exe+2AD0A6 - mov r13,[rcx+rdx*8+10]
+								DayZServer_x64.exe+2AD0AB - lea rcx,[rcx+rdx*8]
+								DayZServer_x64.exe+2AD0AF - call DayZServer_x64.exe+2AA560
+								DayZServer_x64.exe+2AD0B4 - mov rbx,rax
+								DayZServer_x64.exe+2AD0B7 - cmp r15d,3C
+								DayZServer_x64.exe+2AD0BB - jae DayZServer_x64.exe+2AD4E5
+								DayZServer_x64.exe+2AD0C1 - test rsi,rsi
+								DayZServer_x64.exe+2AD0C4 - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0CA - test rax,rax
+								DayZServer_x64.exe+2AD0CD - je DayZServer_x64.exe+2AD4B3
+								DayZServer_x64.exe+2AD0D3 - add r15d,-26
+								DayZServer_x64.exe+2AD0D7 - lea r8,[DayZServer_x64.exe]
+								DayZServer_x64.exe+2AD0DE - cmp r15d,15
+								DayZServer_x64.exe+2AD0E2 - ja DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD0E8 - movsxd  rcx,r15d
+								DayZServer_x64.exe+2AD0EB - mov eax,[r8+rcx*4+002ADDC8]
+								DayZServer_x64.exe+2AD0F3 - add rax,r8
+								DayZServer_x64.exe+2AD0F6 - jmp rax
+								DayZServer_x64.exe+2AD43A - movsxd  rdx,dword ptr [rsp+74]
+								DayZServer_x64.exe+2AD43F - mov rcx,[rbx]
+								DayZServer_x64.exe+2AD442 - mov eax,[rsi]
+								DayZServer_x64.exe+2AD444 - sar rdx,0F
+								DayZServer_x64.exe+2AD448 - mov [rcx+rdx*4],eax
+								DayZServer_x64.exe+2AD44B - jmp DayZServer_x64.exe+2AD48C
+								DayZServer_x64.exe+2AD48C - mov edx,[rbp+00000150]
+								DayZServer_x64.exe+2AD492 - xor r11d,r11d
+								DayZServer_x64.exe+2AD495 - mov rsi,[rbp+00000160]
+								DayZServer_x64.exe+2AD49C - mov rax,[rsp+50]
+								DayZServer_x64.exe+2AD4A1 - mov ebx,[rbp+00000168]
+								DayZServer_x64.exe+2AD4A7 - add rax,10
+								DayZServer_x64.exe+2AD4AB - mov [rsi],rax
+								DayZServer_x64.exe+2AD4AE - jmp DayZServer_x64.exe+2AAFC0
+								DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+								DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+								DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+								DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+								DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+								DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+								DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+								DayZServer_x64.exe+2AAFE3 - test eax,eax
+								DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+								DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+								DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+								DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+								DayZServer_x64.exe+2AAFFE - and r15d,7F
+								DayZServer_x64.exe+2AB002 - cmp r15d,14
+								DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+								DayZServer_x64.exe+2AB00C - add r15d,-02
+								DayZServer_x64.exe+2AB010 - cmp r15d,11
+								DayZServer_x64.exe+2AB014 - ja DayZServer_x64.exe+2AB3F1
+								DayZServer_x64.exe+2AB01A - movsxd  rax,r15d
+								DayZServer_x64.exe+2AB01D - mov ecx,[r8+rax*4+002ADD40]
+								DayZServer_x64.exe+2AB025 - add rcx,r8
+								DayZServer_x64.exe+2AB028 - jmp rcx
+								DayZServer_x64.exe+2AC374 - mov rdx,rdi
+								DayZServer_x64.exe+2AC377 - mov rcx,r14
+								DayZServer_x64.exe+2AC37A - call DayZServer_x64.exe+2AAA20
+								DayZServer_x64.exe+2AC37F - mov [rbp+00000160],rax
+								DayZServer_x64.exe+2AC386 - cmp [rdi+48],ebx
+								DayZServer_x64.exe+2AC389 - je DayZServer_x64.exe+2ADD0F
+								DayZServer_x64.exe+2ADD0F - movaps xmm7,[rsp+000001F0]
+								DayZServer_x64.exe+2ADD17 - lea r11,[rsp+00000210]
+								DayZServer_x64.exe+2ADD1F - mov rbx,[r11+48]
+								DayZServer_x64.exe+2ADD23 - movaps xmm8,[r11-30]
+								DayZServer_x64.exe+2ADD28 - movaps xmm6,[rsp+00000200]
+								DayZServer_x64.exe+2ADD30 - mov rsp,r11
+								DayZServer_x64.exe+2ADD33 - pop r15
+								DayZServer_x64.exe+2ADD35 - pop r14
+								DayZServer_x64.exe+2ADD37 - pop r13
+								DayZServer_x64.exe+2ADD39 - pop r12
+								DayZServer_x64.exe+2ADD3B - pop rdi
+								DayZServer_x64.exe+2ADD3C - pop rsi
+								DayZServer_x64.exe+2ADD3D - pop rbp
+								DayZServer_x64.exe+2ADD3E - ret 
+							DayZServer_x64.exe+297E24 - mov rax,[rbx+00000088]
+							DayZServer_x64.exe+297E2B - mov rcx,[rax+000001B8]
+							DayZServer_x64.exe+297E32 - cmp [rcx],rsi
+							DayZServer_x64.exe+297E35 - je DayZServer_x64.exe+297E41
+							DayZServer_x64.exe+297E41 - mov rbx,[rsp+50]
+							DayZServer_x64.exe+297E46 - mov rbp,[rsp+58]
+							DayZServer_x64.exe+297E4B - mov rsi,[rsp+60]
+							DayZServer_x64.exe+297E50 - mov [rax+000001C8],rdi
+							DayZServer_x64.exe+297E57 - mov rdi,[rsp+68]
+							DayZServer_x64.exe+297E5C - add rsp,30
+							DayZServer_x64.exe+297E60 - pop r15
+							DayZServer_x64.exe+297E62 - pop r14
+							DayZServer_x64.exe+297E64 - pop r12
+							DayZServer_x64.exe+297E66 - ret 
+						DayZServer_x64.exe+22EA02 - mov rax,[rbx+08]
+						DayZServer_x64.exe+22EA06 - mov rax,[rax]
+						DayZServer_x64.exe+22EA09 - jmp DayZServer_x64.exe+22EA2E
+						DayZServer_x64.exe+22EA2E - mov rbx,[rsp+58]
+						DayZServer_x64.exe+22EA33 - mov rbp,[rsp+60]
+						DayZServer_x64.exe+22EA38 - add rsp,30
+						DayZServer_x64.exe+22EA3C - pop r14
+						DayZServer_x64.exe+22EA3E - pop rdi
+						DayZServer_x64.exe+22EA3F - pop rsi
+						DayZServer_x64.exe+22EA40 - ret 
+					DayZServer_x64.exe+3F3DDA - mov rbp,[rsp+78]
+					DayZServer_x64.exe+3F3DDF - mov rbx,[rsp+70]
+					DayZServer_x64.exe+3F3DE4 - test rax,rax
+					DayZServer_x64.exe+3F3DE7 - jne DayZServer_x64.exe+3F3DF0
+					DayZServer_x64.exe+3F3DF0 - add rsp,60
+					DayZServer_x64.exe+3F3DF4 - pop rsi
+					DayZServer_x64.exe+3F3DF5 - ret 
+				DayZServer_x64.exe+3F4984 - jmp DayZServer_x64.exe+3F498D
+				DayZServer_x64.exe+3F498D - mov rax,[rdi+28]
+				DayZServer_x64.exe+3F4991 - mov r8d,[rdi+34]
+				DayZServer_x64.exe+3F4995 - shl r8,04
+				DayZServer_x64.exe+3F4999 - lea rdx,[r8+rax]
+				DayZServer_x64.exe+3F499D - add rax,-10
+				DayZServer_x64.exe+3F49A1 - lea rcx,[rdx-10]
+				DayZServer_x64.exe+3F49A5 - sub r8,rcx
+				DayZServer_x64.exe+3F49A8 - add r8,rax
+				DayZServer_x64.exe+3F49AB - sar r8,04
+				DayZServer_x64.exe+3F49AF - mov r8d,r8d
+				DayZServer_x64.exe+3F49B2 - shl r8,04
+				DayZServer_x64.exe+3F49B6 - call DayZServer_x64.exe+A43CD8
+				DayZServer_x64.exe+3F49BB - dec [rdi+34]
+				DayZServer_x64.exe+3F49BE - cmp byte ptr [rbx+00000108],00
+				DayZServer_x64.exe+3F49C5 - jne DayZServer_x64.exe+3F49EB
+				DayZServer_x64.exe+3F49C7 - mov eax,[rbx+00000104]
+				DayZServer_x64.exe+3F49CD - test eax,eax
+				DayZServer_x64.exe+3F49CF - js DayZServer_x64.exe+3F49EB
+				DayZServer_x64.exe+3F49D1 - mov edx,00000001
+				DayZServer_x64.exe+3F49D6 - mov r8,rbx
+				DayZServer_x64.exe+3F49D9 - cmp eax,edx
+				DayZServer_x64.exe+3F49DB - mov rcx,rdi
+				DayZServer_x64.exe+3F49DE - cmovg edx,eax
+				DayZServer_x64.exe+3F49E1 - add edx,[rdi+38]
+				DayZServer_x64.exe+3F49E4 - call DayZServer_x64.exe+3F3C90
+				DayZServer_x64.exe+3F49E9 - jmp DayZServer_x64.exe+3F49F8
+				DayZServer_x64.exe+3F49F8 - cmp dword ptr [rdi+34],00
+				DayZServer_x64.exe+3F49FC - jne DayZServer_x64.exe+3F4930
+				DayZServer_x64.exe+3F4930 - mov rcx,[rdi+28]
+				DayZServer_x64.exe+3F4934 - mov edx,[rdi+34]
+				DayZServer_x64.exe+3F4937 - mov eax,[rdi+38]
+				DayZServer_x64.exe+3F493A - add rdx,rdx
+				DayZServer_x64.exe+3F493D - mov rbx,[rcx+rdx*8-08]
+				DayZServer_x64.exe+3F4942 - cmp [rcx+rdx*8-10],eax
+				DayZServer_x64.exe+3F4946 - ja DayZServer_x64.exe+3F4A02
+				DayZServer_x64.exe+3F4A02 - mov rbx,[rsp+30]
+				DayZServer_x64.exe+3F4A07 - add rsp,20
+				DayZServer_x64.exe+3F4A0B - pop rdi
+				DayZServer_x64.exe+3F4A0C - ret 
+			DayZServer_x64.exe+8F3A85 - mov rsp,rbp
+			DayZServer_x64.exe+8F3A88 - add rsp,50
+			DayZServer_x64.exe+8F3A8C - pop rbx
+			DayZServer_x64.exe+8F3A8D - pop r15
+			DayZServer_x64.exe+8F3A8F - pop r14
+			DayZServer_x64.exe+8F3A91 - pop r13
+			DayZServer_x64.exe+8F3A93 - pop r12
+			DayZServer_x64.exe+8F3A95 - pop rdi
+			DayZServer_x64.exe+8F3A96 - pop r11
+			DayZServer_x64.exe+8F3A98 - pop rsi
+			DayZServer_x64.exe+8F3A99 - pop rbp
+			DayZServer_x64.exe+8F3A9A - ret 
+		DayZServer_x64.exe+2AA481 - movzx ecx,byte ptr [rdi+14]
+		DayZServer_x64.exe+2AA485 - mov r15,[rsp+00000120]
+		DayZServer_x64.exe+2AA48D - mov rsi,[rsp+00000148]
+		DayZServer_x64.exe+2AA495 - mov rbp,[rsp+00000140]
+		DayZServer_x64.exe+2AA49D - shr cl,06
+		DayZServer_x64.exe+2AA4A0 - test cl,01
+		DayZServer_x64.exe+2AA4A3 - jne DayZServer_x64.exe+2AA4E1
+		DayZServer_x64.exe+2AA4A5 - cmp ebx,02
+		DayZServer_x64.exe+2AA4A8 - jne DayZServer_x64.exe+2AA4B6
+		DayZServer_x64.exe+2AA4B6 - cmp ebx,05
+		DayZServer_x64.exe+2AA4B9 - je DayZServer_x64.exe+2AA4E1
+		DayZServer_x64.exe+2AA4BB - cmp ebx,06
+		DayZServer_x64.exe+2AA4BE - je DayZServer_x64.exe+2AA4E1
+		DayZServer_x64.exe+2AA4C0 - cmp ebx,0B
+		DayZServer_x64.exe+2AA4C3 - je DayZServer_x64.exe+2AA4E1
+		DayZServer_x64.exe+2AA4C5 - cmp ebx,04
+		DayZServer_x64.exe+2AA4C8 - je DayZServer_x64.exe+2AA4E4
+		DayZServer_x64.exe+2AA4CA - cmp ebx,03
+		DayZServer_x64.exe+2AA4CD - jne DayZServer_x64.exe+2AA4E4
+		DayZServer_x64.exe+2AA4E4 - add rsp,00000128
+		DayZServer_x64.exe+2AA4EB - pop rdi
+		DayZServer_x64.exe+2AA4EC - pop rbx
+		DayZServer_x64.exe+2AA4ED - ret 
+	DayZServer_x64.exe+2AA935 - mov rcx,[rbx]
+	DayZServer_x64.exe+2AA938 - mov eax,[rcx+10]
+	DayZServer_x64.exe+2AA93B - and eax,FFFF0000
+	DayZServer_x64.exe+2AA940 - cmp eax,00020000
+	DayZServer_x64.exe+2AA945 - jne DayZServer_x64.exe+2AA965
+	DayZServer_x64.exe+2AA965 - mov rcx,[rbx]
+	DayZServer_x64.exe+2AA968 - mov eax,[rcx+10]
+	DayZServer_x64.exe+2AA96B - and eax,FFFF0000
+	DayZServer_x64.exe+2AA970 - cmp eax,00050000
+	DayZServer_x64.exe+2AA975 - jne DayZServer_x64.exe+2AA987
+	DayZServer_x64.exe+2AA987 - mov rax,[rsi+000001B8]
+	DayZServer_x64.exe+2AA98E - cmp [rax],rdi
+	DayZServer_x64.exe+2AA991 - je DayZServer_x64.exe+2AA996
+	DayZServer_x64.exe+2AA996 - mov r14,[rsp+00000128]
+	DayZServer_x64.exe+2AA99E - mov r12,[rsp+00000160]
+	DayZServer_x64.exe+2AA9A6 - mov rdi,[rsp+00000158]
+	DayZServer_x64.exe+2AA9AE - mov r15,[rsp+00000120]
+	DayZServer_x64.exe+2AA9B6 - mov rbx,[rsp+00000150]
+	DayZServer_x64.exe+2AA9BE - add rsp,00000130
+	DayZServer_x64.exe+2AA9C5 - pop r13
+	DayZServer_x64.exe+2AA9C7 - pop rsi
+	DayZServer_x64.exe+2AA9C8 - pop rbp
+	DayZServer_x64.exe+2AA9C9 - ret 
+DayZServer_x64.exe+2AB132 - mov edx,[rbp+00000150]
+DayZServer_x64.exe+2AB138 - lea r8,[DayZServer_x64.exe]
+DayZServer_x64.exe+2AB13F - mov ebx,[rbp+00000168]
+DayZServer_x64.exe+2AB145 - xor r11d,r11d
+DayZServer_x64.exe+2AB148 - jmp DayZServer_x64.exe+2AB3F6
+DayZServer_x64.exe+2AB3F6 - mov eax,[rsi]
+DayZServer_x64.exe+2AB3F8 - mov rsi,[rbp+00000160]
+DayZServer_x64.exe+2AB3FF - shr rax,07
+DayZServer_x64.exe+2AB403 - movzx ecx,al
+DayZServer_x64.exe+2AB406 - add rcx,[rsp+50]
+DayZServer_x64.exe+2AB40B - mov [rsi],rcx
+DayZServer_x64.exe+2AB40E - jmp DayZServer_x64.exe+2AAFC0
+DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+DayZServer_x64.exe+2AAFE3 - test eax,eax
+DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+DayZServer_x64.exe+2AAFFE - and r15d,7F
+DayZServer_x64.exe+2AB002 - cmp r15d,14
+DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+DayZServer_x64.exe+2AC3AC - cmp r15d,25
+DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+DayZServer_x64.exe+2AC3B6 - add r15d,-15
+DayZServer_x64.exe+2AC3BA - cmp r15d,0F
+DayZServer_x64.exe+2AC3BE - ja DayZServer_x64.exe+2AD04B
+DayZServer_x64.exe+2AC3C4 - movsxd  rax,r15d
+DayZServer_x64.exe+2AC3C7 - mov ecx,[r8+rax*4+002ADD88]
+DayZServer_x64.exe+2AC3CF - add rcx,r8
+DayZServer_x64.exe+2AC3D2 - jmp rcx
+DayZServer_x64.exe+2AC55A - mov rax,[rsp+50]
+DayZServer_x64.exe+2AC55F - sar r13d,0F
+DayZServer_x64.exe+2AC563 - mov eax,[rax+04]
+DayZServer_x64.exe+2AC566 - lea rcx,[rax+rax*4]
+DayZServer_x64.exe+2AC56A - mov rax,[r12+000000B0]
+DayZServer_x64.exe+2AC572 - mov rbx,[rax+rcx*8+10]
+DayZServer_x64.exe+2AC577 - lea rcx,[rax+rcx*8]
+DayZServer_x64.exe+2AC57B - call DayZServer_x64.exe+2AA560
+DayZServer_x64.exe+2AC580 - mov rsi,rax
+DayZServer_x64.exe+2AC583 - test rax,rax
+DayZServer_x64.exe+2AC586 - je DayZServer_x64.exe+2AC633
+DayZServer_x64.exe+2AC58C - movzx eax,word ptr [rbx+14]
+DayZServer_x64.exe+2AC590 - mov ecx,00000200
+DayZServer_x64.exe+2AC595 - test cx,ax
+DayZServer_x64.exe+2AC598 - je DayZServer_x64.exe+2AC5D5
+DayZServer_x64.exe+2AC59A - test r13d,r13d
+DayZServer_x64.exe+2AC59D - je DayZServer_x64.exe+2AC5C9
+DayZServer_x64.exe+2AC5C9 - xor edx,edx
+DayZServer_x64.exe+2AC5CB - mov rcx,rsi
+DayZServer_x64.exe+2AC5CE - call DayZServer_x64.exe+22A2A0
+DayZServer_x64.exe+2AC5D3 - jmp DayZServer_x64.exe+2AC633
+DayZServer_x64.exe+2AC633 - mov rcx,[rbp+00000160]
+DayZServer_x64.exe+2AC63A - lea r8,[DayZServer_x64.exe]
+DayZServer_x64.exe+2AC641 - mov edx,[rbp+00000150]
+DayZServer_x64.exe+2AC647 - xor r11d,r11d
+DayZServer_x64.exe+2AC64A - mov ebx,[rbp+00000168]
+DayZServer_x64.exe+2AC650 - mov rsi,[rcx]
+DayZServer_x64.exe+2AC653 - lea rax,[rsi+08]
+DayZServer_x64.exe+2AC657 - mov rsi,rcx
+DayZServer_x64.exe+2AC65A - mov [rcx],rax
+DayZServer_x64.exe+2AC65D - jmp DayZServer_x64.exe+2AAFC0
+DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+DayZServer_x64.exe+2AAFE3 - test eax,eax
+DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+DayZServer_x64.exe+2AAFFE - and r15d,7F
+DayZServer_x64.exe+2AB002 - cmp r15d,14
+DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+DayZServer_x64.exe+2AB00C - add r15d,-02
+DayZServer_x64.exe+2AB010 - cmp r15d,11
+DayZServer_x64.exe+2AB014 - ja DayZServer_x64.exe+2AB3F1
+DayZServer_x64.exe+2AB01A - movsxd  rax,r15d
+DayZServer_x64.exe+2AB01D - mov ecx,[r8+rax*4+002ADD40]
+DayZServer_x64.exe+2AB025 - add rcx,r8
+DayZServer_x64.exe+2AB028 - jmp rcx
+DayZServer_x64.exe+2AB5F7 - mov rax,[rsp+50]
+DayZServer_x64.exe+2AB5FC - mov ebx,[rax+04]
+DayZServer_x64.exe+2AB5FF - mov eax,[rax+08]
+DayZServer_x64.exe+2AB602 - shl rbx,05
+DayZServer_x64.exe+2AB606 - add rbx,[r12+000000B8]
+DayZServer_x64.exe+2AB60E - mov [rsp+60],eax
+DayZServer_x64.exe+2AB612 - mov eax,[rbx+18]
+DayZServer_x64.exe+2AB615 - test eax,eax
+DayZServer_x64.exe+2AB617 - je DayZServer_x64.exe+2AB638
+DayZServer_x64.exe+2AB619 - dec eax
+DayZServer_x64.exe+2AB61B - lea rdx,[rax+rax*4]
+DayZServer_x64.exe+2AB61F - mov rax,[r12+000000B0]
+DayZServer_x64.exe+2AB627 - lea rcx,[rax+rdx*8]
+DayZServer_x64.exe+2AB62B - call DayZServer_x64.exe+2AA560
+DayZServer_x64.exe+2AB630 - mov r9,rax
+DayZServer_x64.exe+2AB633 - xor r11d,r11d
+DayZServer_x64.exe+2AB636 - jmp DayZServer_x64.exe+2AB63B
+DayZServer_x64.exe+2AB63B - bt r13d,1E
+DayZServer_x64.exe+2AB640 - jae DayZServer_x64.exe+2AB65B
+DayZServer_x64.exe+2AB65B - movzx eax,word ptr [rbx+08]
+DayZServer_x64.exe+2AB65F - mov r8,rdi
+DayZServer_x64.exe+2AB662 - mov rdx,[rbx]
+DayZServer_x64.exe+2AB665 - mov rcx,r14
+DayZServer_x64.exe+2AB668 - mov [rsp+30],r11
+DayZServer_x64.exe+2AB66D - mov [rsp+28],eax
+DayZServer_x64.exe+2AB671 - mov rax,[rbx+10]
+DayZServer_x64.exe+2AB675 - mov [rsp+20],rax
+DayZServer_x64.exe+2AB67A - call DayZServer_x64.exe+2A8A70
+DayZServer_x64.exe+2AB67F - mov [rsp+58],rax
+DayZServer_x64.exe+2AB684 - test rax,rax
+DayZServer_x64.exe+2AB687 - je DayZServer_x64.exe+2AB3DB
+DayZServer_x64.exe+2AB68D - mov r13,[rax+08]
+DayZServer_x64.exe+2AB691 - xor esi,esi
+DayZServer_x64.exe+2AB693 - mov [rbp+00000160],rax
+DayZServer_x64.exe+2AB69A - cmp [r13+54],sil
+DayZServer_x64.exe+2AB69E - jna DayZServer_x64.exe+2AB717
+DayZServer_x64.exe+2AB6A0 - mov rax,[rsp+50]
+DayZServer_x64.exe+2AB6A5 - mov eax,[rax+rsi*4+0C]
+DayZServer_x64.exe+2AB6A9 - lea rcx,[rax+rax*4]
+DayZServer_x64.exe+2AB6AD - mov rax,[r12+000000B0]
+DayZServer_x64.exe+2AB6B5 - lea rcx,[rax+rcx*8]
+DayZServer_x64.exe+2AB6B9 - mov rax,[rcx+10]
+DayZServer_x64.exe+2AB6BD - mov [rbp+rsi*8+60],rax
+DayZServer_x64.exe+2AB6C2 - call DayZServer_x64.exe+2AA560
+DayZServer_x64.exe+2AB6C7 - mov r15,rax
+DayZServer_x64.exe+2AB6CA - test rax,rax
+DayZServer_x64.exe+2AB6CD - je DayZServer_x64.exe+2AB732
+DayZServer_x64.exe+2AB6CF - mov rcx,[r13+20]
+DayZServer_x64.exe+2AB6D3 - mov eax,00004000
+DayZServer_x64.exe+2AB6D8 - mov rdx,[rcx+rsi*8]
+DayZServer_x64.exe+2AB6DC - test [rdx+14],ax
+DayZServer_x64.exe+2AB6E0 - je DayZServer_x64.exe+2AB702
+DayZServer_x64.exe+2AB702 - mov [rbp+rsi*8-20],r15
+DayZServer_x64.exe+2AB707 - inc esi
+DayZServer_x64.exe+2AB709 - movzx eax,byte ptr [r13+54]
+DayZServer_x64.exe+2AB70E - cmp esi,eax
+DayZServer_x64.exe+2AB710 - jb DayZServer_x64.exe+2AB6A0
+DayZServer_x64.exe+2AB712 - mov rax,[rsp+58]
+DayZServer_x64.exe+2AB717 - lea rcx,[rbp+60]
+DayZServer_x64.exe+2AB71B - mov r8,rdi
+DayZServer_x64.exe+2AB71E - mov [rsp+20],rcx
+DayZServer_x64.exe+2AB723 - lea r9,[rbp-20]
+DayZServer_x64.exe+2AB727 - mov rcx,r14
+DayZServer_x64.exe+2AB72A - mov rdx,rax
+DayZServer_x64.exe+2AB72D - call DayZServer_x64.exe+2A8C30
+DayZServer_x64.exe+2AB732 - mov r12d,[rsp+60]
+DayZServer_x64.exe+2AB737 - xor r11d,r11d
+DayZServer_x64.exe+2AB73A - mov r13,[rsp+58]
+DayZServer_x64.exe+2AB73F - mov r15d,r11d
+DayZServer_x64.exe+2AB742 - mov [r13+18],r12d
+DayZServer_x64.exe+2AB746 - test r12d,r12d
+DayZServer_x64.exe+2AB749 - je DayZServer_x64.exe+2ABAA4
+DayZServer_x64.exe+2ABAA4 - mov rax,[r13+10]
+DayZServer_x64.exe+2ABAA8 - lea r8,[DayZServer_x64.exe]
+DayZServer_x64.exe+2ABAAF - mov rsi,[rbp+00000160]
+DayZServer_x64.exe+2ABAB6 - mov edx,[rbp+00000150]
+DayZServer_x64.exe+2ABABC - mov ebx,[rbp+00000168]
+DayZServer_x64.exe+2ABAC2 - test rax,rax
+DayZServer_x64.exe+2ABAC5 - je DayZServer_x64.exe+2AAFC0
+DayZServer_x64.exe+2ABACB - mov rcx,[r14+000001B8]
+DayZServer_x64.exe+2ABAD2 - lea r8,[DayZServer_x64.exe]
+DayZServer_x64.exe+2ABAD9 - cmp [rcx],rax
+DayZServer_x64.exe+2ABADC - je DayZServer_x64.exe+2AAFC0
+DayZServer_x64.exe+2AAFC0 - inc [r14+000000E0]
+DayZServer_x64.exe+2AAFC7 - mov rax,[rsi+08]
+DayZServer_x64.exe+2AAFCB - mov r15,[rsi]
+DayZServer_x64.exe+2AAFCE - mov [rsp+50],r15
+DayZServer_x64.exe+2AAFD3 - mov r12,[rax+58]
+DayZServer_x64.exe+2AAFD7 - mov eax,[r14+00000290]
+DayZServer_x64.exe+2AAFDE - mov [rsp+58],r12
+DayZServer_x64.exe+2AAFE3 - test eax,eax
+DayZServer_x64.exe+2AAFE5 - je DayZServer_x64.exe+2AAFF3
+DayZServer_x64.exe+2AAFF3 - movsxd  r13,dword ptr [r15]
+DayZServer_x64.exe+2AAFF6 - mov r15d,r13d
+DayZServer_x64.exe+2AAFF9 - mov [rsp+74],r13d
+DayZServer_x64.exe+2AAFFE - and r15d,7F
+DayZServer_x64.exe+2AB002 - cmp r15d,14
+DayZServer_x64.exe+2AB006 - jae DayZServer_x64.exe+2AC3AC
+DayZServer_x64.exe+2AC3AC - cmp r15d,25
+DayZServer_x64.exe+2AC3B0 - jae DayZServer_x64.exe+2AD069
+DayZServer_x64.exe+2AD069 - mov rbx,[rsp+50]
+DayZServer_x64.exe+2AD06E - mov eax,[rbx+04]
+DayZServer_x64.exe+2AD071 - lea rcx,[rax+rax*4]
+DayZServer_x64.exe+2AD075 - mov rax,[r12+000000B0]
+DayZServer_x64.exe+2AD07D - mov r12,[rax+rcx*8+10]
+DayZServer_x64.exe+2AD082 - mov [rsp+68],r12
+DayZServer_x64.exe+2AD087 - lea rcx,[rax+rcx*8]
+DayZServer_x64.exe+2AD08B - call DayZServer_x64.exe+2AA560
+DayZServer_x64.exe+2AD090 - mov ecx,[rbx+08]
+DayZServer_x64.exe+2AD093 - mov rsi,rax
+DayZServer_x64.exe+2AD096 - mov rax,[rsp+58]
