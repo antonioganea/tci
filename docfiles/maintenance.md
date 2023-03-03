@@ -38,7 +38,7 @@ const uint64_t relativeAddrFuncA = 0x2ABACB; // for DayZ 1.20.155814
 10. Save the trace :
 ![Save Trace](maintenance/save-trace.png)
 11. Open it with a text editor like VSCode. (It might complain about the file being binary, but open it with the text editor anyway).
-12. I have prepared a trace you can compare against. Download it from [here](/maintenance/tutorial-trace.cetrace) and open it up in the left hand side and have your trace on the right hand side.
+12. I have prepared a trace you can compare against. Download it from [here](maintenance/tutorial-trace.cetrace) and open it up in the left hand side and have your trace on the right hand side.
 13. In the downloaded trace, press CTRL+F to look for the address marked at the beginning of that file.
 ![Find in Trace](maintenance/address-find.png)
 14. Go to the first occurence of that address and locate the line in the trace and instruction on the right side.
