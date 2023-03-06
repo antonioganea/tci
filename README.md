@@ -76,7 +76,7 @@ It is designed to not complicate writing EnfusionScript code, and you can do it 
 [Click here for the API](docfiles/api.md).
 
 ## How to install?
-Coming soon.
+[Click here for the install instructions](docfiles/hti.md).
 
 ## How does it work?
 [Check this doc here](docfiles/hdiw.md).
