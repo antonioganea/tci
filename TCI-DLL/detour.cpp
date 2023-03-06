@@ -172,9 +172,10 @@ void CreateDetour() {
     //DayZServer_x64.exe+2A8130 <- DayZ 1.18
     //0x2A770B <- DayZ 1.19 first version
     //0x2A797B <- DayZ 1.20 (?)
-    //0x2ABACB -< DayZ 1.20.155814
+    //0x2ABACB <- DayZ 1.20.155814
+    //0x2AC36B <- DayZ 1.20.155844
 
-    const uint64_t relativeAddrFuncA = 0x2ABACB;
+    const uint64_t relativeAddrFuncA = 0x2AC36B;
     uint64_t hookAddress = (uint64_t)GetModuleHandle(NULL) + relativeAddrFuncA;
 
 #ifdef DESKTOP_DEBUG_FILE
