@@ -91,7 +91,9 @@ It is designed to not complicate writing EnfusionScript code, and you can do it 
 [Join our Discord here](https://discord.gg/3vs8S27kyV).
 
 ## How can I contribute?
-Right now I still have to clean the code. You can contribute by giving this repository a star on GitHub, joining the Discord server and trying out the tool by writing some Lua scripts.
+The more people will be interested in this project, the more I will work on it, so you can contribute a lot by giving this repository a star ⭐ on GitHub, joining the Discord server and trying out the tool by writing some Lua scripts.
+
+[![Stargazers repo roster for antonioganea/tci](https://reporoster.com/stars/antonioganea/tci)](https://github.com/h4570/antonioganea/tci)
 
 ## Credits
 
