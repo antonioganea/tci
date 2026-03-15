@@ -32,21 +32,10 @@ DLL_WATERMARK[3] = -1380158861;
 in EnfusionScript.
 ```
 
-The EnfusionScript part of TCI creates a file in the `$profile:` directory on init.
+Historically, finding this watermark was done by having EnfusionScript write the lower 4 bytes of the memory address in a file, and then scanning the game's memory to find it. To avoid working with files which could cause problems (reading an old file, having to wait for the file to be created), the system has been modified to work with a more complicated injection hack.
 
-The file contains the **lowest 32 bits** of the pointer to the `DLL_WATERMARK` array. (Because ES truncates values to 32 bits by default).
-
-The aforementioned C++ thread waits for that file to exist on disk, then reads it, and deletes it. Then, it proceeds to scan the entire memory range for the **higher 32 bits** and checking for the watermark.
-
-```
-Trying to find the full address HHHH HHHH LLLL LLLL, it scans through:
-
-0000 0001 LLLL LLLL
-0000 0002 LLLL LLLL
-0000 0003 LLLL LLLL
-...
-FFFF FFFF LLLL LLLL
-```
+In EnfusionScript, some ~1024 bytes before the watermark, there is a DLL_FLIP_NUMBER integer that flips every second between two magic values.
+The ES VM's "write value to int variable" operation is hooked, and the number is flipped by ES, the dll checks for its surroundings to identify the watermark.
 
 Once the watermark pattern is found somewhere, the bridge is set. TCI can now write data to that location in memory and it coincides with EnfusionScript memory.
 
@@ -54,11 +43,7 @@ Once the watermark pattern is found somewhere, the bridge is set. TCI can now wr
 
 After the data bridge is set, TCI proceeds to create a detour in the server code that redirects code execution to the C++ `OnGetControl` function. The detour is created at a specific point in the server's code. See [the story](story.md) later for how that was discovered.
 
-In this process, a `volatile` dummy function called `ourFunct` is used for manually writing some `jmp` assembly that preserves context.
-
-⚠️ Do not modify or delete the `ourFunct` function ⚠️
-
-It is used as a *code cave* and must be left in the code, even if apparently nothing calls it. This is why it is marked as volatile. 
+We're essentially creating a mid-function hook inside the EnfusionScript's Virtual Machine main switch, that decodes and interprets the ES opcodes. I've located the exact switch case where ES function calling is handled. For the hooking itself I used [SafetyHook](https://github.com/cursey/safetyhook).
 
 In the data bridge, there is a reserved int called `DLL_IS_MAGIC_CALL` that is set to the magic value of 54 if the intercepted EnfusionScript function call is a 'magic call'.
 
@@ -96,7 +81,7 @@ C++ :
 
 TCI spawns a Lua thread for interpreting Lua and context-preservation purposes. When Lua has to call a function in ES, it yields (it interrupts its own thread and waits for it to be resumed). When the Lua script is reloaded, the thread is terminated and a fresh one is created.
 
-The Lua thread waits for the main thread with a [condition variable](https://en.cppreference.com/w/cpp/thread/condition_variable), and the main thread waits for Lua with a busy-wait *while loop*. (It doesn't work with a condition variable for some reason).
+The Lua thread and the EnfusionScript thread alternate. At any given time, only one runs while the other waits with a [condition variable](https://en.cppreference.com/w/cpp/thread/condition_variable).
 
 ## What happens on a chat command event
 
@@ -114,13 +99,13 @@ This later calls `InterpreterCycle`. This is the function that, in a while-loop,
 
 ### C++ part
 
-Each time `MagicCall` in init.c is called, the C++ `OnGetControl` function is called. The latter calls the necessary Lua functions on the Lua thread and busy-waits for responses.
+Each time `MagicCall` in init.c is called, the C++ `OnGetControl` function is called. The latter calls the necessary Lua functions on the Lua thread and waits for responses.
 
 For control yields to or from Lua there are two functions (declared in `dll-lua.h`) :
-+ `void goInLua();` - called in the main thread, it busy-waits the Lua thread.
-+ `void goOutOfLua();` - called in the Lua thread, it condition-variable waits the main thread.
++ `void goInLua();` - called in the ES thread, it waits the Lua thread.
++ `void goOutOfLua();` - called in the Lua thread, it waits the ES thread.
 
-Both of these hold the thread they're run in busy until the other thread responds. (So really, even if the main thread and Lua thread are two distinct actual *multi-thread* threads, the code is run sequentially. The threads' sole purpose is to preserve the context between yields).
+Both of these hold the thread they're run in waiting until the other thread responds. (So really, even if the ES thread and Lua thread are two distinct actual *multi-thread* threads, the code is run sequentially. The threads' sole purpose is to preserve the context between yields).
 
 ### Function calls between TCI and the rest
 

@@ -6,7 +6,7 @@
 
 ## Instructions
 
-1) First, go to [releases](https://github.com/antonioganea/tci/releases) and download the latest release (TCI.zip). Make sure it matches the current DayZ version displayed in-game, otherwise it won't work.
+1) First, go to [releases](https://github.com/antonioganea/tci/releases) and download the latest release (TCI.zip).
 
 2) Navigate to the folder where the server is located. A default install location looks something like this : `C:\Program Files (x86)\Steam\steamapps\common\DayZServer`. However, your install location might vary.
 
@@ -31,15 +31,6 @@ For convenience, you can create a shortcut for `start-injected.bat` on your desk
 ## Why should I trust the injector with elevated privilleges?
 You don't have to trust it. The source code is in the repository and it can be read in a couple of minutes because it is under 100 lines of code. You can compile it for yourself or use any other injector.
 
-Alternatively, you can even use Cheat Engine to inject it (that also uses elevated privilleges). Open CE, attach it to the server process, open the Memory Viewer, go to Tools > Inject DLL, choose the file TCI-DLL.dll and it will ask if "you want to execute a function of the dll". Hit yes.
-
-It is recommended to inject the server after this kind of log appears in the console:
-
-`12:00:00 [CE][Hive] :: Init sequence finished.`
-
 The injector is just there for convenience and correct timing.
 
-## There's no version available for the current DayZ. What do I do?
-You can email me ( address in my [GitHub profile](https://github.com/antonioganea/), make sure you're logged in to see it ).
-
-Or, for advanced users, check the [Regular Maintenance Guide](maintenance.md) and recompile the DLL yourself with the correct injection address.
+Alternatively, you can manually use Cheat Engine to inject it (that also uses elevated privilleges). Open CE, attach it to the server process, open the Memory Viewer, go to Tools > Inject DLL, choose the file TCI-DLL.dll and it will ask if "you want to execute a function of the dll". Hit yes.

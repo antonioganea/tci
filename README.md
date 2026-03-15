@@ -91,9 +91,6 @@ It is designed to not complicate writing EnfusionScript code, and you can do it 
 ## How was it made?
 [Click here for the story](docfiles/story.md).
 
-## Maintenance Guide
-[Click here for the maintenance guide](docfiles/maintenance.md).
-
 ## Discord server
 [Join our Discord here](https://discord.gg/3vs8S27kyV).
 

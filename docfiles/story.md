@@ -216,4 +216,10 @@ I then implemented a simple GUI with imgui. It features a hot reload button for 
 
 After "finishing" a somewhat stable version, I decided to finally publish the code for people to use and enjoy. I postponed this for two months because I wanted to write the docs, make videos presenting the tool and explaining how it works, making a discord server, etc.
 
+Fast forward to March 2026, I decided to modernize the system by :
++ introducing pattern-scanning to automatically find the injection point for the main hook
++ adding SafetyHook as a dependency for a more stable way of injecting
++ locating the data bridge not by reading a file, but by code-injecting into the ES VM operation that writes to an int ( and finding the flipping number )
++ fixing the cv.notify_one() logic to prevent the threads from jamming
+
 And that's the story... so far :D

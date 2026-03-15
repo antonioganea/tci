@@ -1,5 +1,8 @@
 # 🛠️ Regular Maintenance Guide 🛠️
 
+## ⚠️ THIS GUIDE IS OBSOLETE BUT STILL HERE FOR HISTORICAL PURPOSES ⚠️
+This guide explained how to find & update the injection point of the DLL main hook into the DayZ Server. That is no longer needed because it is now injected by pattern/signature scanning.
+
 ## The problem
 Each time DayZ Server gets updated, TCI needs to be updated in order to inject correctly.
 
