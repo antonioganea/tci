@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Game Server (DLL Debug)",
+            "type": "cppvsdbg",       // Use "cppdbg" if using GDB/LLDB
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "symbolSearchPath": "${workspaceFolder}/build/Debug",
+            "sourceFileMap": {
+                // Map build paths to source paths if needed
+                "C:/path/used/at/build/time": "${workspaceFolder}"
+            }
+        }
+    ]
+}

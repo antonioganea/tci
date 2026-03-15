@@ -31,6 +31,13 @@ Also :
 
 The project is in its **early alpha**. Expect glitches.
 
+## Download Source
+```
+git clone https://github.com/antonioganea/tci.git
+cd tci
+git submodule update --init --recursive
+```
+
 ## Script examples
 
 ```

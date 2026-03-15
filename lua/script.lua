@@ -24,6 +24,17 @@ function cutGas(playerID)
 end
 RegisterCommandHandler("/cutGas", cutGas)
 
+local updateCount = 0
+
+function onUpdate()
+	updateCount = updateCount + 1
+	if updateCount == 1000 then
+		ConsoleMessage("update loop")
+		updateCount = 0
+	end
+end
+--RegisterEventHandler("update", onUpdate)
+
 function locker(playerID)
 	--BroadcastMessage("LOCKER COMMAND")
 	
@@ -54,6 +65,16 @@ function locker(playerID)
 	end
 end
 RegisterCommandHandler("/locker", locker)
+
+function MedicKit(playerID)
+	SpawnPlayerItem(playerID, "SurgicalGloves_LightBlue", 1, true)
+	SpawnPlayerItem(playerID, "SurgicalMask", 1, true)
+	SpawnPlayerItem(playerID, "MedicalScrubsHat_Green", 1, true)
+	SpawnPlayerItem(playerID, "MedicalScrubsPants_Green", 1, true)
+	SpawnPlayerItem(playerID, "MedicalScrubsShirt_Green", 1, true)
+	SpawnPlayerItem(playerID, "NBCBootsGray", 1, false)
+end
+RegisterCommandHandler("/medic", MedicKit)
 
 --[[
 function getPlayers(playerID)

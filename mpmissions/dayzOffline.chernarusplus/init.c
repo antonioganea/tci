@@ -96,8 +96,6 @@ class CustomMission: MissionServer
 	string DLL_OUTBOUND_STR3 = "something3";
 	string DLL_OUTBOUND_STR4 = "something4";
 
-	int crappyVariable = 1000;
-
 	void MagicCall_Internal() {
 		DLL_IS_MAGIC_CALL = 0;
 	}
@@ -204,8 +202,6 @@ class CustomMission: MissionServer
 			if (DLL_COMMAND == 1002) { // BroadcastMessage
 				luaResponse = DLL_INBOUND_STRING.Substring(0, DLL_STRLEN_IN[0]);
 				SendGlobalMessage("Broadcast : " + luaResponse);
-
-				crappyVariable = 2000;
 
 				//SendGlobalMessage("This is a message for everyone - EnfusionScript-Lua interface");
 			}
@@ -473,10 +469,9 @@ class CustomMission: MissionServer
 		m_WorldData.UpdateBaseEnvTemperature(timeslice); // re-calculate base enviro temperature
 		
 
-		// This should only be called if TCI is injected, otherwise it will jam
-		//if (crappyVariable == 2000) { // change this with something better
-		//	OnServerUpdatePass();
-		//}
+		if (DLL_DETOURED == 1) {
+			OnServerUpdatePass();
+		}
 
 		if (DLL_TRIGGER_DEBUG_CALL == 12) {
 			DLL_TRIGGER_DEBUG_CALL = 100;

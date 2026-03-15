@@ -1,1 +1,0 @@
-This is Lua 5.4.4, released on 13 Jan 2022.
