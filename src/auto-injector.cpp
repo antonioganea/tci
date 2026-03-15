@@ -44,7 +44,7 @@ int main() {
 	DWORD procId = 0;
 
 	std::wstring dllPathU = ExePath();
-	dllPathU += L"\\TCI-DLL.dll";
+	dllPathU += L"\\TCI_DLL.dll";
 
 	using convert_type = std::codecvt_utf8<wchar_t>;
 	std::wstring_convert<convert_type, wchar_t> converter;
