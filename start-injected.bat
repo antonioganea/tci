@@ -32,7 +32,7 @@ echo (%time%) %serverName% started.
 
 ::Launch parameters (edit end: -config=|-port=|-profiles=|-doLogs|-adminLog|-netLog|-freezeCheck|-filePatching|-BEpath=|-cpuCount=)
 start "DayZ_Server" "DayZServer_x64.exe" -config=%serverConfig% -port=%serverPort% -cpuCount=%serverCPU% -dologs -adminlog -netlog -freezecheck
-start .\injector\Auto-Injector.exe
+start .\injector\AutoInjector.exe
 
 ::Time in seconds before kill server process time + 40 to match server shutdown time
 timeout 86440
