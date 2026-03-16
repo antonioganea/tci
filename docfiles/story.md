@@ -222,4 +222,6 @@ Fast forward to March 2026, I decided to modernize the system by :
 + locating the data bridge not by reading a file, but by code-injecting into the ES VM operation that writes to an int ( and finding the flipping number )
 + fixing the cv.notify_one() logic to prevent the threads from jamming
 
+After that, I decided to switch from threads to [fibers](https://learn.microsoft.com/en-us/windows/win32/procthread/using-fibers) to simplify the code.
+
 And that's the story... so far :D

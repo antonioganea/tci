@@ -77,11 +77,11 @@ C++ :
 + the GUI thread for the TCI console (ran by `TCI.dll`)
 + the EnfusionScript thread that executes the init.c code (ran by `DayZServer_x64.exe`)
 
-## Lua thread
+## Lua Fiber
 
-TCI spawns a Lua thread for interpreting Lua and context-preservation purposes. When Lua has to call a function in ES, it yields (it interrupts its own thread and waits for it to be resumed). When the Lua script is reloaded, the thread is terminated and a fresh one is created.
+TCI spawns a Lua [fiber](https://learn.microsoft.com/en-us/windows/win32/procthread/using-fibers) for interpreting Lua and context-preservation purposes. When Lua has to call a function in ES, it yields (it interrupts its own fiber and waits for it to be resumed). If the Lua script is hot-reloaded, the fiber is terminated and a fresh one is created.
 
-The Lua thread and the EnfusionScript thread alternate. At any given time, only one runs while the other waits with a [condition variable](https://en.cppreference.com/w/cpp/thread/condition_variable).
+The Lua fiber and the EnfusionScript fiber alternate. The switching is done with [SwitchToFiber](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-switchtofiber).
 
 ## What happens on a chat command event
 
@@ -99,13 +99,13 @@ This later calls `InterpreterCycle`. This is the function that, in a while-loop,
 
 ### C++ part
 
-Each time `MagicCall` in init.c is called, the C++ `OnGetControl` function is called. The latter calls the necessary Lua functions on the Lua thread and waits for responses.
+Each time `MagicCall` in init.c is called, the C++ `OnGetControl` function is called. The latter calls the necessary Lua functions on the Lua fiber and waits for responses.
 
 For control yields to or from Lua there are two functions (declared in `dll-lua.h`) :
-+ `void goInLua();` - called in the ES thread, it waits the Lua thread.
-+ `void goOutOfLua();` - called in the Lua thread, it waits the ES thread.
++ `void goInLua();` - called in the ES fiber, it waits the Lua fiber.
++ `void goOutOfLua();` - called in the Lua fiber, it waits the ES fiber.
 
-Both of these hold the thread they're run in waiting until the other thread responds. (So really, even if the ES thread and Lua thread are two distinct actual *multi-thread* threads, the code is run sequentially. The threads' sole purpose is to preserve the context between yields).
+The fibers' sole purpose is to preserve the context between yields.
 
 ### Function calls between TCI and the rest
 

@@ -114,3 +114,45 @@ int CallCommandHandlers(std::string command, int playerID);
 void CallUpdateHandler();
 
 void ResetHandlers();
+
+static const luaL_Reg luaApiFunctions[] = {
+  {"ConsoleMessage", l_ConsoleMessage},
+  {"BroadcastMessage", l_BroadcastMessage},
+  {"SendPlayerMessage", l_SendPlayerMessage},
+
+  {"SpawnCar", l_SpawnCar},
+  {"GetPlayerCar", l_GetPlayerCar},
+
+  {"GetPlayerCount", l_GetPlayerCount},
+
+  {"GetPlayerBySteamID", l_GetPlayerBySteamID},
+  {"GetPlayerSteamID", l_GetPlayerSteamID},
+
+  {"GetPlayerHealth", l_GetPlayerHealth},
+  {"GetPlayerMaxHealth", l_GetPlayerMaxHealth},
+  {"SetPlayerHealth", l_SetPlayerHealth},
+
+  {"GetPlayerBlood", l_GetPlayerBlood},
+  {"GetPlayerMaxBlood", l_GetPlayerMaxBlood},
+  {"SetPlayerBlood", l_SetPlayerBlood},
+
+  {"GetPlayerShock", l_GetPlayerShock},
+  {"GetPlayerMaxShock", l_GetPlayerMaxShock},
+  {"SetPlayerShock", l_SetPlayerShock},
+
+  {"KillPlayer", l_KillPlayer},
+
+  {"RegisterCommandHandler", l_RegisterCommandHandler},
+  {"RegisterEventHandler", l_RegisterEventHandler},
+
+  {"GetPlayerPosition", l_GetPlayerPosition},
+  {"SetPlayerPosition", l_SetPlayerPosition},
+
+  {"GetCarFuel", l_GetCarFuel},
+  {"SetCarFuel", l_SetCarFuel},
+  {"GetCarFuelCapacity", l_GetCarFuelCapacity},
+
+  {"SpawnPlayerItem", l_SpawnPlayerItem},
+
+  {NULL, NULL}
+};

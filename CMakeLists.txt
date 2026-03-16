@@ -102,6 +102,7 @@ add_library(TCI_DLL SHARED
     src/dllmain.cpp
     src/gui.cpp
     src/lua-api.cpp
+    src/lua-state.cpp
     src/magic-call.cpp
     src/pattern.cpp
     src/tci-api.cpp

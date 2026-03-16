@@ -106,60 +106,21 @@ class CustomMission: MissionServer
 	}
 
 	void PAYLOAD_INJECT(){
+		DLL_WATERMARK[0] = -508871935;
+		DLL_WATERMARK[1] = -223363917;
+		DLL_WATERMARK[2] = -1742332957;
+		DLL_WATERMARK[3] = -1380158861;
+
 		DLL_FLIP_NUMBER = 262987437; // FACDEAD
 		DLL_BRIDGE_BYTES[0] = 171;//0xAB;
 		DLL_BRIDGE_BYTES[1] = 188;//0xBC;
 		DLL_BRIDGE_BYTES[2] = 205;//0xCD;
 		DLL_BRIDGE_BYTES[3] = 222;//0xDE;
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.PAYLOAD_FLIP, 1000, true);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.REGULAR_API_TESTING, 3000, true);
 
-		/*
-		cout << (int)0xE1AB3B01 << endl;
-		cout << (int)0xF2AFBCB3 << endl;
-		cout << (int)0x98261BE3 << endl;
-		cout << (int)0xADBC7273 << endl;
-		*/
-
-		DLL_WATERMARK[0] = -508871935;
-		DLL_WATERMARK[1] = -223363917;
-		DLL_WATERMARK[2] = -1742332957;
-		DLL_WATERMARK[3] = -1380158861;
-
-
-
-
-	     //DLL_DETOURED = 1;
-		 //DLL_IS_MAGIC_CALL = 2;
-		 //DLL_COMMAND = 3;
-		 //DLL_TRIGGER_DEBUG_CALL = 4;
-
-		 //DLL_INTN_IN = 6;
-		 //DLL_INTN_OUT = 7;
-
-		 //DLL_INTS_IN[0] = 8;
-		 //DLL_INTS_OUT[0] = 9;
-
-		 //DLL_FLOATN_IN = 10;
-		 //DLL_FLOATN_OUT = 11;
-
-		 //DLL_FLOATS_IN[0] = 12;
-		 //DLL_FLOATS_OUT[0] = 13;
-
-		 //DLL_STRN_IN = 14;
-		 //DLL_STRN_OUT = 15;
-		 //DLL_STRLEN_IN[0] = 16;
-		 //DLL_STRLEN_OUT[0] = 17;
-
-		FileHandle file = OpenFile("$profile:testfile.txt", FileMode.WRITE);
-		FPrintln(file, DLL_WATERMARK);
-		CloseFile(file);
-	}
-
-	void REGULAR_API_TESTING() {
-		//MagicCall();
-		//DLL_STRING = DLL_STRING + "X";
-
+		//FileHandle file = OpenFile("$profile:testfile.txt", FileMode.WRITE);
+		//FPrintln(file, DLL_WATERMARK);
+		//CloseFile(file);
 	}
 
 	void PAYLOAD_FLIP(){
@@ -193,9 +154,7 @@ class CustomMission: MissionServer
 
 	void InterpreterCycle() {
 		while (DLL_COMMAND != 0) {
-			//SendGlobalMessage("IC1");
 			MagicCall();
-			//SendGlobalMessage("IC2");
 
 			string luaResponse;
 
@@ -457,12 +416,10 @@ class CustomMission: MissionServer
 	}
 
 	
-	override void OnUpdate(float timeslice) // Has been observed jamming. ( uncertain cause ) // MIGHT NOT BE THREAD-SAFE. // might also
-	// be linked to WRITING DDD FFF at each frame by mistake ( the writing was commented at this point .. )
+	override void OnUpdate(float timeslice)
 	{
 		//super.OnUpdate(timeslice);
 
-		
 		UpdateDummyScheduler();
 		TickScheduler(timeslice);
 		UpdateLogoutPlayers();
