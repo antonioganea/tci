@@ -14,10 +14,11 @@
 SafetyMidHook bridge_hook;
 
 std::string bridge_hook_signature = 
-"49 8b 94 24 b0 00 00 00 48 8b 44 24 48 8b 40 08 48 "
-"8d 0c 80 48 8d 0c ca e8 ?? ?? ?? ?? 48 8b 54 24 48 "
-"4c 8d 0d ?? ?? ?? ?? 44 8b 44 24 40 45 33 db 48 85 "
-"c0 0f 84 ?? ?? ?? ?? 8b 4a 04 89 08";
+"41 8b 4c 24 08 48 c1 e1 05 49 03 ca ?? ?? ?? ?? ?? "
+"?? 49 8b d4 ?? ?? ?? ?? ?? 4c 8b 54 24 50 48 8b c8 "
+"?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? "
+"?? ?? ?? ?? 48 8b 54 24 ?? 48 85 c9 ?? ?? ?? ?? ?? "
+"?? 41 8b 44 24 04 89 01";
 
 
 void SetupDataBridge()
@@ -35,7 +36,7 @@ void SetupDataBridge()
     console.AddLog("Found BRIDGE_HOOK at %p", BRIDGE_HOOK - (uint64_t)GetModuleHandle(NULL));
 
     // This finds the exact injection point for mov [rax], ecx
-    uint64_t HOOK_POINT = Pattern::PatternScanStartingAt(BRIDGE_HOOK, 100, "89 08");
+    uint64_t HOOK_POINT = Pattern::PatternScanStartingAt(BRIDGE_HOOK, 100, "89 01");
 
     if (HOOK_POINT == 0)
     {
@@ -51,14 +52,14 @@ void SetupDataBridge()
 
     bridge_hook = safetyhook::create_mid(HOOK_POINT, [] (safetyhook::Context& ctx)
     {
-        // This will happen just before mov [rax], ecx
+        // This will happen just before mov [rcx], eax
 
-        uintptr_t address = ctx.rax;
+        uintptr_t address = ctx.rcx;
         int number = *((int*)address);
 
         if (number == 262987437 || number == 262987439)
         {
-            console.AddLog("Found mov [rax], ecx | rax=%p rcx=%p | number at address %p", address, ctx.rcx, (uint64_t)number);
+            console.AddLog("Found mov [rcx], eax | rax=%p rcx=%p | number at address %p", ctx.rax, ctx.rcx, (uint64_t)number);
 
             uint64_t WATERMARK_ADDRESS = Pattern::PatternScanStartingAt(address+1024, 200,
                 "01 3B AB E1 B3 BC AF F2 E3 1B 26 98 73 72 BC AD");
@@ -90,29 +91,95 @@ void SetupDataBridge()
 }
 
 /*
-switchD_1402c23e8::caseD_b                      XREF[1]:     1402c23e8(j)  
-       1402c318b 49 8b 94        MOV        RDX,qword ptr [R12 + 0xb0]
-                 24 b0 00 
-                 00 00
-       1402c3193 48 8b 44        MOV        RAX,qword ptr [RSP + local_610]
-                 24 48
-       1402c3198 8b 40 08        MOV        EAX,dword ptr [RAX + 0x8]
-       1402c319b 48 8d 0c 80     LEA        RCX,[RAX + RAX*0x4]
-       1402c319f 48 8d 0c ca     LEA        RCX,[RDX + RCX*0x8]
-       1402c31a3 e8 28 e8        CALL       FUN_1402c19d0                                    undefined FUN_1402c19d0()
+reconstructed (claude opus 5.5) :
+
+        case OP_LOAD_IMM: {
+            uint32_t *dst = (uint32_t *)VarAddr(module, ip[2], ip);
+            if (dst)
+                *dst = ip[1];
+            break;
+        }
+
+decompiled (ghidra) :
+
+      case 0xb:
+        lVar29 = (ulonglong)puVar41[2] * 0x20 + lVar18;
+        if (*(char *)(lVar29 + 0x1c) == '\0') {
+          puVar15 = (uint *)(**(longlong **)(lVar29 + 8) +
+                            (ulonglong)*(ushort *)(lVar29 + 0x1a) * 0x28);
+        }
+        else {
+          puVar15 = (uint *)FUN_1402df890(lVar29,puVar41);
+          lVar18 = lStack_a08;
+        }
+        lVar29 = lStack_a18;
+        if (puVar15 != (uint *)0x0) {
+          *puVar15 = puVar41[1];
+        }
+        break;
+
+signature:
+
+41 8b 4c   
+24 08
+48 c1 e1 05
+49 03 ca   
+?? ?? ?? ??
+?? ??      
+49 8b d4   
+?? ?? ??   
+?? ??
+4c 8b 54   
+24 50
+48 8b c8   
+?? ??      
+           
+?? ?? ?? ??
+?? ?? ?? ??
+?? ?? ?? ??
+?? ?? ??   
+?? ?? ?? ??
+           
+48 8b 54   
+24 ??
+48 85 c9   
+?? ?? ??   
+?? ?? ??
+41 8b 44   
+24 04
+89 01      
+
+source :
+
+                             switchD_1402e02ef::caseD_b                      XREF[1]:     1402e02ef(j)  
+       1402e171d 41 8b 4c        MOV        ECX,dword ptr [R12 + 0x8]
+                 24 08
+       1402e1722 48 c1 e1 05     SHL        RCX,0x5
+       1402e1726 49 03 ca        ADD        RCX,R10
+       1402e1729 80 79 1c 00     CMP        byte ptr [RCX + 0x1c],0x0
+       1402e172d 74 12           JZ         LAB_1402e1741
+       1402e172f 49 8b d4        MOV        RDX,R12
+       1402e1732 e8 59 e1        CALL       FUN_1402df890                                    undefined FUN_1402df890()
                  ff ff
-       1402c31a8 48 8b 54        MOV        RDX,qword ptr [RSP + local_610]
-                 24 48
-       1402c31ad 4c 8d 0d        LEA        R9,[IMAGE_DOS_HEADER_140000000]
-                 4c ce d3 ff
-       1402c31b4 44 8b 44        MOV        R8D,dword ptr [RSP + local_618]
+       1402e1737 4c 8b 54        MOV        R10,qword ptr [RSP + 0x50]
+                 24 50
+       1402e173c 48 8b c8        MOV        RCX,RAX
+       1402e173f eb 13           JMP        LAB_1402e1754
+                             LAB_1402e1741                                   XREF[1]:     1402e172d(j)  
+       1402e1741 0f b7 41 1a     MOVZX      EAX,word ptr [RCX + 0x1a]
+       1402e1745 48 8d 14 80     LEA        RDX,[RAX + RAX*0x4]
+       1402e1749 48 8b 41 08     MOV        RAX,qword ptr [RCX + 0x8]
+       1402e174d 48 8b 08        MOV        RCX,qword ptr [RAX]
+       1402e1750 48 8d 0c d1     LEA        RCX,[RCX + RDX*0x8]
+                             LAB_1402e1754                                   XREF[1]:     1402e173f(j)  
+       1402e1754 48 8b 54        MOV        RDX,qword ptr [RSP + 0x40]
                  24 40
-       1402c31b9 45 33 db        XOR        R11D,R11D
-       1402c31bc 48 85 c0        TEST       RAX,RAX
-       1402c31bf 0f 84 85        JZ         LAB_1402c254a
-                 f3 ff ff
-       1402c31c5 8b 4a 04        MOV        ECX,dword ptr [RDX + 0x4]
-       1402c31c8 89 08           MOV        dword ptr [RAX],ECX                           <- RAX is the address, ECX is the data
+       1402e1759 48 85 c9        TEST       RCX,RCX
+       1402e175c 0f 84 51        JZ         switchD_1402e02ef::caseD_a
+                 ed ff ff
+       1402e1762 41 8b 44        MOV        EAX,dword ptr [R12 + 0x4]
+                 24 04
+       1402e1767 89 01           MOV        dword ptr [RCX],EAX                     <- RCX is the address, EAX is the data
 */
 
 void SetupDataBridge_SLOW()
