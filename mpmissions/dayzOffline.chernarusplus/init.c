@@ -986,7 +986,7 @@ class CustomMission: MissionServer
 			default:
 				SendPlayerMessage(player, "Redirecting to lua!");
 				//SendPlayerMessage(player, helpMsg);
-				RedirectCommandToLua(player, args[0]);
+				RedirectCommandToLua(player, command);
 				return false;
 		}
 		
