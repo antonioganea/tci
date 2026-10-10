@@ -3,6 +3,7 @@ project(TCI)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Windows-only project
 if(NOT WIN32)
@@ -92,7 +93,7 @@ file(GLOB LUA_SRC
     # "deps/lua/onelua.c"
 )
 
-set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_BUILD_TYPE Debug)
 
 add_library(TCI_DLL SHARED
     src/bridge-layout.cpp
@@ -106,6 +107,7 @@ add_library(TCI_DLL SHARED
     src/magic-call.cpp
     src/pattern.cpp
     src/tci-api.cpp
+    src/extensions-api.cpp
     src/utils.cpp
     ${LUA_SRC}
     ${IMGUI_SRC}
@@ -116,10 +118,12 @@ target_compile_options(TCI_DLL PRIVATE $<$<CONFIG:Debug>:/Zi>) # MSVC
 
 target_link_libraries(TCI_DLL PRIVATE safetyhook)
 
-target_include_directories(TCI_DLL PRIVATE
-    deps/imgui
-    deps
-    src
+target_include_directories(TCI_DLL
+    PUBLIC
+        include
+    PRIVATE
+        deps/imgui
+        deps
 )
 
 target_link_libraries(TCI_DLL PRIVATE
@@ -127,3 +131,15 @@ target_link_libraries(TCI_DLL PRIVATE
 )
 
 add_executable(AutoInjector src/auto-injector.cpp)
+target_link_libraries(AutoInjector PRIVATE TCI_DLL)
+
+add_custom_command(TARGET TCI_DLL POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_SOURCE_DIR}/sdk/lib"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_LINKER_FILE:TCI_DLL>"
+        "${CMAKE_CURRENT_SOURCE_DIR}/sdk/lib/TCI_DLL.lib"
+    COMMENT "Copying TCI_DLL.lib to SDK lib directory..."
+)
+
+set(TCI_BUILD_EXAMPLES ON CACHE BOOL "" FORCE)
+add_subdirectory(sdk)
