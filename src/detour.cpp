@@ -1,15 +1,11 @@
-#include "detour.h"
-
+#include <TCICore/detour.h>
+#include <TCICore/magic-call.h>
+#include <TCICore/gui.h>
+#include <TCICore/pattern.h>
+#include <TCICore/bridge-layout.h>
 #include <Windows.h>
 #include <cstdint>
 #include <iostream>
-
-#include "magic-call.h"
-#include "gui.h"
-#include "pattern.h"
-
-#include "bridge-layout.h"
-
 #include <safetyhook.hpp>
 
 SafetyMidHook enfusion_script_vm_hook;
@@ -176,7 +172,7 @@ bool Detour(void* toHook, void* ourFunct, int len) {
 
     //MyOutputFile << "Detour 8\n" << std::flush;
 
-    char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB8, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
+    unsigned char dayzStolenBytes[] = { 0x49, 0x8B, 0x8E, 0xB8, 0x01, 0x00, 0x00, 0x48, 0x39, 0x01 };
     // NOTE : There was a lea instruction that doesn't get rewritten in the retour function
     // because the address used by it is relative so it wouldn't copy well over.
     // and it is 32 bit so it wouldn't work anyway ( because the jump is over too big of a distance )

@@ -1,7 +1,5 @@
-
-#include <iostream>
-
 #include <Windows.h>
+#include <atomic>
 
 extern "C"
 {
@@ -10,13 +8,11 @@ extern "C"
 #include "lua/lauxlib.h"
 }
 
-#include <fstream>
-
-#include "bridge.h"
-#include "lua-api.h"
-#include "tci-api.h"
-#include "dll-lua.h"
-#include "lua-state.h"
+#include <TCICore/bridge.h>
+#include <TCICore/lua-api.h>
+#include <TCICore/tci-api.h>
+#include <TCICore/dll-lua.h>
+#include <TCICore/lua-state.h>
 
 void LUA_INTERPRETER_FIBER()
 {

@@ -108,6 +108,15 @@ int l_RegisterEventHandler(lua_State* L);
 // CallLater(1000, callback, repeated?=false, param1, param2, param3 ..)
 int l_CallLater(lua_State* L);
 
+// LoadExtension(extName)
+int l_LoadExtension(lua_State *L);
+
+// FreeExtension(extName)
+int l_FreeExtension(lua_State *L);
+
+// CallExtension(extName, funcName, param1, param2, param3 ..)
+int l_CallExtension(lua_State *L);
+
 #include <string>
 int CallCommandHandlers(std::string command, int playerID);
 
@@ -153,6 +162,10 @@ static const luaL_Reg luaApiFunctions[] = {
   {"GetCarFuelCapacity", l_GetCarFuelCapacity},
 
   {"SpawnPlayerItem", l_SpawnPlayerItem},
+
+  {"LoadExtension", l_LoadExtension},
+  {"FreeExtension", l_FreeExtension},
+  {"CallExtension", l_CallExtension},
 
   {NULL, NULL}
 };

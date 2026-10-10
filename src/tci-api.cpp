@@ -1,14 +1,9 @@
-#include "tci-api.h"
-
-
-#include <Windows.h>
+#include <TCICore/tci-api.h>
+#include <TCICore/dll-lua.h>
+#include <TCICore/gui.h>
+#include <TCICore/bridge.h>
 #include <iostream>
-#include <fstream>
-
-#include "dll-lua.h"
-#include "gui.h"
-
-#include "bridge.h"
+#include <libloaderapi.h>
 
 extern char** DLL_STRING_LOC;
 extern char* DLL_STRING;
@@ -44,7 +39,7 @@ void AnnounceAll() {
     */
 }
 
-void BroadcastMessage(char* str) {
+void BroadcastMessage(const char* str) {
     //DWORD* bridge = (DWORD*)DLL_BRIDGE;
 
     strcpy(DLL_STRING, str);
@@ -56,7 +51,7 @@ void BroadcastMessage(char* str) {
     goOutOfLua();
 }
 
-void SendPlayerMessage(int playerID, char* str) {
+void SendPlayerMessage(int playerID, const char* str) {
     strcpy(DLL_STRING, str);
 
     DLL_STRLEN_IN[0] = strlen(str);
@@ -72,7 +67,7 @@ void SendPlayerMessage(int playerID, char* str) {
 extern TCIAppConsole console;
 
 void ConsoleMessage(const char* str) {
-    console.AddLog(str);
+    console.AddLog("%s", str);
 }
 
 Vector3f GetPlayerPosition(int playerID) {
@@ -334,4 +329,3 @@ void SpawnPlayerItem(int playerID, const char* item, int quantity, bool inHand) 
 
     goOutOfLua();
 }
-

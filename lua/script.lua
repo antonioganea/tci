@@ -84,6 +84,24 @@ end
 RegisterCommandHandler("/getPlayers", getPlayers)
 ]]
 
+function LoadExt(playerid, extName)
+	ConsoleMessage("Loading extension: " .. extName)
+	LoadExtension(extName)
+end
+RegisterCommandHandler("/load_ext", LoadExt)
+
+function FreeExt(playerid, extName)
+	ConsoleMessage("Free extension: " .. extName)
+	FreeExtension(extName)
+end
+RegisterCommandHandler("/free_ext", FreeExt)
+
+function CallExt(playerid, extName, funcName, ...)
+	ConsoleMessage("Calling extension: " .. extName .. ". FuncName: " .. funcName)
+	CallExtension(extName, funcName, ...)
+end
+RegisterCommandHandler("/call_ext", CallExt)
+
 function com1(playerID)
 	BroadcastMessage("com1 works! playerID " .. playerID)
 	ConsoleMessage("com1 ran by " .. playerID)

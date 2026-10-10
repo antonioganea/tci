@@ -1,4 +1,4 @@
-#include "pattern.h"
+#include <TCICore/pattern.h>
 #include <vector>
 #include <Psapi.h>
 
