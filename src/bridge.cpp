@@ -1,15 +1,11 @@
-#include "bridge.h"
-
+#include <TCICore/bridge.h>
+#include <TCICore/gui.h>
+#include <TCICore/pattern.h>
+#include <TCICore/detour.h>
 #include <KnownFolders.h>
 #include <shlobj.h>
-
-#include "gui.h"
-
 #include <fstream>
-#include "pattern.h"
-
 #include <safetyhook.hpp>
-#include "detour.h"
 
 SafetyMidHook bridge_hook;
 

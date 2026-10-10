@@ -1,12 +1,7 @@
-#include "lua-api.h"
-
-//#include "lua.h"
-//#include "lualib.h"
-//#include "lauxlib.h"
-
-#include <iostream>
-
-#include "tci-api.h"
+#include <TCICore/lua-api.h>
+#include <TCICore/tci-api.h>
+#include <TCICore/extensions-api.h>
+#include "lua/lua.h"
 
 int l_ConsoleMessage(lua_State* L) {
     char buffer[256];
@@ -293,19 +288,105 @@ int l_CallLater(lua_State* L) {
     return 0;
 }
 
+// LoadExtension(extName)
+int l_LoadExtension(lua_State *L) {
+    if (lua_gettop(L) != 1) return 0;
+
+    const char *arg1 = lua_tostring(L, 1);
+
+    LoadExtension(arg1);
+    return 0;
+}
+
+// FreeExtension(extName)
+int l_FreeExtension(lua_State *L) {
+    if (lua_gettop(L) != 1) return 0;
+
+    const char *arg1 = lua_tostring(L, 1);
+
+    FreeExtension(arg1);
+    return 0;
+}
+
+// CallExtension(extName, funcName, param1, param2, param3 ..)
+int l_CallExtension(lua_State *L) {
+    int argc = lua_gettop(L);
+
+    if (argc < 2) return 0;
+
+    const char *arg1 = lua_tostring(L, 1);
+    const char *arg2 = lua_tostring(L, 2);
+
+    if (argc == 2) {
+        CallExtension(arg1, arg2, 0, nullptr);
+        return 0;
+    }
+
+    int extArgc = argc - 2;
+    const char *argv_stack[64 + 1];
+    if (argc > 64) return 0;
+
+    for (int i = 0; i < argc; i++) {
+        int lidx = i + 3;
+
+        argv_stack[i] = lua_tostring(L, lidx);
+    }
+    argv_stack[argc] = nullptr;
+
+    CallExtension(arg1, arg2, extArgc, argv_stack);
+    return 0;
+}
+
 extern lua_State* state;
 
-int CallCommandHandlers(std::string command, int playerID) {
+#include <regex>
 
+std::vector<std::string> ParseCommandArgs(std::string command) {
+    std::vector<std::string> args;
+
+    std::regex arg_regex(R"([^\s"]+|"[^"]*")");
+
+    auto wb = std::sregex_iterator(command.begin(), command.end(), arg_regex);
+    auto we = std::sregex_iterator();
+
+    for (std::sregex_iterator i = wb; i != we; i++) {
+        std::string match = i->str();
+
+        if (match.size() >= 2 && match.front() == '"' && match.back() == '"') {
+            match = match.substr(1, match.size() - 2);
+        }
+
+        args.push_back(match);
+    }
+
+    return args;
+}
+
+int CallCommandHandlers(std::string command, int playerID) {
     int calls = 0;
 
-    std::vector<int>& handlers = commandHandlers[command];
+    std::vector<std::string> args = ParseCommandArgs(command);
+    if (args.empty()) return 0;
+
+    std::vector<int>& handlers = commandHandlers[args[0]];
 
     for (std::vector<int>::iterator it = handlers.begin(); it != handlers.end(); it++) {
         lua_rawgeti(state, LUA_REGISTRYINDEX, *it);
         lua_pushinteger(state, playerID);
-        if (lua_pcall(state, 1, 0, 0) != 0){
-            //error TODO - implement
+        int argsCount = 1;
+
+        for (size_t i = 1; i < args.size(); i++) {
+            lua_pushstring(state, args[i].c_str());
+            argsCount++;
+        }
+
+        if (lua_pcall(state, argsCount, 0, 0) != 0) {
+            const char *errMsg = lua_tostring(state, -1);
+            if (errMsg) {
+                ConsoleMessage((std::string("Lua Error: ") + errMsg).c_str());
+            }
+
+            lua_pop(state, 1);
         }
         calls++;
     }
@@ -321,7 +402,12 @@ void CallUpdateHandler()
     {
         lua_rawgeti(state, LUA_REGISTRYINDEX, updateHandler);
         if (lua_pcall(state, 0, 0, 0) != 0){
-            //error TODO - implement
+            const char *errMsg = lua_tostring(state, -1);
+            if (errMsg) {
+                ConsoleMessage((std::string("Lua Error: ") + errMsg).c_str());
+            }
+
+            lua_pop(state, 1);
         }
     }
 }

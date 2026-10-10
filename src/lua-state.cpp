@@ -5,8 +5,8 @@ extern "C"
 #include "lua/lauxlib.h"
 }
 
-#include "lua-api.h"
-#include "tci-api.h"
+#include <TCICore/lua-api.h>
+#include <TCICore/tci-api.h>
 
 void print_error_console(lua_State* state) {
     // The error message is on top of the stack.

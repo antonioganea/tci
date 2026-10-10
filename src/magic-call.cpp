@@ -1,20 +1,15 @@
-#include "magic-call.h"
-
-#include <mutex>
-
-#include "bridge.h"
-#include "utils.h"
-
-#include "dll-lua.h"
+#include <TCICore/magic-call.h>
+#include <TCICore/bridge.h>
+#include <TCICore/utils.h>
+#include <TCICore/dll-lua.h>
+#include <TCICore/gui.h>
+#include <set>
+#include <thread>
 
 bool initializedLua = false;
 bool SHOULD_LUA_HOTLOAD = false;
 
 bool ESFirstCall = true; // signifies that OnGetControl is the first passthrough in an ES magic call cycle
-
-#include <iostream>
-#include <set>
-#include "gui.h"
 
 std::set<int> threadsVisisted;
 void VisitedThreadsLogic();
