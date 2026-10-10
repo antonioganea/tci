@@ -1,15 +1,13 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 
-#include <iostream>
-#include <fstream>
 #include <Windows.h>
 #include <thread>
-
-#include "bridge.h"
-#include "detour.h"
-#include "utils.h"
-
-#include "gui.h"
+#include <errhandlingapi.h>
+#include <TCICore/bridge.h>
+#include <TCICore/detour.h>
+#include <TCICore/utils.h>
+#include <TCICore/gui.h>
+#include <TCICore/extensions-api.h>
 
 void AllocateConsole()
 {
@@ -59,6 +57,8 @@ DWORD WINAPI GuiThread(HMODULE hModule) {
     return 0;
 }
 
+PVOID g_ExtensionExceptionHandler = nullptr;
+
 BOOL APIENTRY DllMain(HMODULE hModule,
     DWORD  ul_reason_for_call,
     LPVOID lpReserved
@@ -67,14 +67,22 @@ BOOL APIENTRY DllMain(HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
+        // g_ExtensionExceptionHandler = AddVectoredExceptionHandler(1, OnExtensionExcept);
+
         CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)HackThread, hModule, 0, nullptr));
         CloseHandle(CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)GuiThread, hModule, 0, nullptr));
         break;
+
     case DLL_THREAD_ATTACH:
         break;
     case DLL_THREAD_DETACH:
         break;
+
     case DLL_PROCESS_DETACH:
+        // if (g_ExtensionExceptionHandler) {
+        //     RemoveVectoredExceptionHandler(g_ExtensionExceptionHandler);
+        //     g_ExtensionExceptionHandler = nullptr; 
+        // }
         // Unsure if this is needed.
         //cleanup();
         break;

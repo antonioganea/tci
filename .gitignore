@@ -1,5 +1,6 @@
 # Custom rules
 build/
+lib/
 addons/
 battleye/
 bliss/
