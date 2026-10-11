@@ -224,4 +224,6 @@ Fast forward to March 2026, I decided to modernize the system by :
 
 After that, I decided to switch from threads to [fibers](https://learn.microsoft.com/en-us/windows/win32/procthread/using-fibers) to simplify the code.
 
+Fast forward to October 2026, I got contacted by [bjfssd757](https://github.com/bjfssd757/) who proposed some modifications such as expanding TCI as an SDK that allows C++ scripting via dll hot reloading, improvements at the text-chat command-handling system (proper command parsing), and an extension system that would allow calling functions from dlls at runtime. However, because I did not have the availability at that time to work on these new systems alongside him and I wasn't ready to vouch for the safety and design of the new features, I encourajed him to fork this project and I am really glad he did. Here's a link to [Slava's Convenience Injector](https://github.com/bjfssd757/sci).
+
 And that's the story... so far :D

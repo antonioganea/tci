@@ -20,7 +20,11 @@ set serverLocation="C:\Program Files (x86)\Steam\steamapps\common\DayZServer"
 ```
 (If you have a custom install location, you need to change this line accordingly. Otherwise, for the default install location under `C:`, no action is required during this step.)
 
-6) That's all.
+6) IMPORTANT! Marking yourself as admin : Navigate to `C:\Users\{YOUR_USERNAME_HERE}\AppData\Local\DayZ` and locate the admins.txt file. You need to add your SteamID64 on a separate line. Save the file and reboot the server. (It's a one-time setup). This will allow you to run text-chat commands.
+
+7) That's all.
+
+If you have trouble installing it, don't shy away from contacting me on [Discord](https://discord.gg/3vs8S27kyV).
 
 ## Running the server
 

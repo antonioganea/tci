@@ -95,9 +95,15 @@ It is designed to not complicate writing EnfusionScript code, and you can do it 
 [Join our Discord here](https://discord.gg/3vs8S27kyV).
 
 ## How can I contribute?
-The more people will be interested in this project, the more I will work on it, so you can contribute a lot by giving this repository a star ⭐ on GitHub, joining the Discord server and trying out the tool by writing some Lua scripts.
+If you want, you can :
++ leave a [star](https://github.com/antonioganea/tci/stargazers) ⭐ on GitHub.
++ join the [Discord](https://discord.gg/3vs8S27kyV) server.
++ try out the tool by writing some Lua scripts.
++ contact me on [Discord](https://discord.gg/3vs8S27kyV) if the injector breaks or you need help installing it.
 
-[![Stargazers repo roster for antonioganea/tci](https://reporoster.com/stars/antonioganea/tci)](https://github.com/antonioganea/tci/stargazers)
+⚠️ Until further notice, I won't be adding new features to the project. At most I will try to keep it functional as newer DayZ builds might change injection signatures and offsets. ⚠️
+
+Luckily, a generous contributor made a fork that might be more active and I recommend checking it out - [Slava's Convenience Injector](https://github.com/bjfssd757/sci).
 
 ## Credits
 
