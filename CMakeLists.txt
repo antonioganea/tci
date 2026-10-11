@@ -141,5 +141,5 @@ add_custom_command(TARGET TCI_DLL POST_BUILD
     COMMENT "Copying TCI_DLL.lib to SDK lib directory..."
 )
 
-set(TCI_BUILD_EXAMPLES ON CACHE BOOL "" FORCE)
+set(TCI_BUILD_EXAMPLES ON CACHE BOOL "")
 add_subdirectory(sdk)
