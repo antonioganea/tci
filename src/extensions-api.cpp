@@ -6,6 +6,8 @@
 #include <vector>
 #include <setjmp.h>
 
+static inline DWORD SafetyCallFunc(ExtensionFunctionType func, const char *funcName, int argc, const char **argv);
+
 static thread_local jmp_buf g_ExtensionJumpBuffer;
 static thread_local bool g_InExtensionCall = false;
 thread_local CrashExtensionContext g_CrashExtensionContext;
@@ -74,12 +76,7 @@ void CallExtension(const char *extName, const char *funcName, int argc, const ch
                 return;
             }
 
-            __try {
-                func(funcName, argc, argv);
-            }
-            __except (EXCEPTION_EXECUTE_HANDLER) {
-                DWORD errCode = GetExceptionCode();
-
+            if (DWORD errCode = SafetyCallFunc(func, funcName, argc, argv); errCode != 0) {
                 ConsoleMessage((std::string("Extension Critical Error: Name: ")
                     + extName + " ; Func: "
                     + funcName + " ; Code: "
@@ -93,4 +90,14 @@ void CallExtension(const char *extName, const char *funcName, int argc, const ch
     }
 
     ConsoleMessage("Failed to find DLL in cache. Please, load it before calling");
+}
+
+static inline DWORD SafetyCallFunc(ExtensionFunctionType func, const char *funcName, int argc, const char **argv) {
+    __try {
+        func(funcName, argc, argv);
+        return 0;
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER) {
+        return GetExceptionCode();
+    }
 }
